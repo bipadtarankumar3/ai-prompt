@@ -464,6 +464,15 @@ body {
   background: rgba(15, 23, 42, 0.06) !important;
   border-color: rgba(15, 23, 42, 0.15) !important;
 }
+.light #bg-effect-toggle {
+  color: #334155 !important;
+  background: rgba(15, 23, 42, 0.03) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+.light #bg-effect-toggle:hover {
+  background: rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
 
 /* Hero Section in Light Mode */
 .light .hero-bg {

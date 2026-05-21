@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Moon, Sun, Menu, X } from 'lucide-react';
+import { Zap, Moon, Sun, Menu, X, Atom, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useBackground } from './BackgroundProvider';
 
 const LINKS = [
   { label: 'Generator', href: '/generator' },
@@ -15,11 +16,22 @@ const LINKS = [
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
+  const { backgroundEffect, setBackgroundEffect } = useBackground();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const [hash, setHash] = useState('');
+
+  const toggleBackground = () => {
+    if (backgroundEffect === 'atom') {
+      setBackgroundEffect('bubble');
+    } else if (backgroundEffect === 'bubble') {
+      setBackgroundEffect('none');
+    } else {
+      setBackgroundEffect('atom');
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -86,23 +98,53 @@ export default function Navbar() {
         {/* Actions */}
         <div className="flex items-center gap-2 flex-shrink-0">
           {mounted && (
-            <button
-              id="theme-toggle"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              aria-label="Toggle theme"
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-white/50 hover:text-white bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 transition-all cursor-pointer"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {theme === 'dark'
-                  ? <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Sun size={16} className="text-amber-400" />
+            <>
+              {/* Background Animation Toggle */}
+              <button
+                id="bg-effect-toggle"
+                onClick={toggleBackground}
+                aria-label={`Toggle background animation. Current: ${backgroundEffect}`}
+                title={`Background effect: ${backgroundEffect}`}
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-white/50 hover:text-white bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 transition-all cursor-pointer"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {backgroundEffect === 'atom' && (
+                    <motion.div key="atom" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ duration: 0.15 }}>
+                      <Atom size={16} className="text-amber-400" />
                     </motion.div>
-                  : <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Moon size={16} className="text-violet-400" />
+                  )}
+                  {backgroundEffect === 'bubble' && (
+                    <motion.div key="bubble" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ duration: 0.15 }}>
+                      <Sparkles size={16} className="text-orange-400" />
                     </motion.div>
-                }
-              </AnimatePresence>
-            </button>
+                  )}
+                  {backgroundEffect === 'none' && (
+                    <motion.div key="none" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ duration: 0.15 }}>
+                      <Zap size={16} className="text-slate-500" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
+
+              {/* Theme Toggle */}
+              <button
+                id="theme-toggle"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                aria-label="Toggle theme"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-white/50 hover:text-white bg-white/5 hover:bg-white/10 border border-white/8 hover:border-white/15 transition-all cursor-pointer"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {theme === 'dark'
+                    ? <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                        <Sun size={16} className="text-amber-400" />
+                      </motion.div>
+                    : <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                        <Moon size={16} className="text-violet-400" />
+                      </motion.div>
+                  }
+                </AnimatePresence>
+              </button>
+            </>
           )}
  
           <Link href="/generator" id="navbar-cta"
