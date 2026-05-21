@@ -85,8 +85,8 @@ export default function RootLayout({ children }) {
             toastOptions={{
               duration: 3500,
               style: {
-                background: 'rgba(30, 27, 75, 0.95)',
-                border: '1px solid rgba(124, 58, 237, 0.3)',
+                background: 'rgba(8, 8, 15, 0.95)',
+                border: '1px solid rgba(245, 158, 11, 0.3)',
                 color: '#f4f4f5',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '12px',
@@ -94,10 +94,10 @@ export default function RootLayout({ children }) {
                 fontSize: '14px',
               },
               success: {
-                iconTheme: { primary: '#a855f7', secondary: '#1e1b4b' },
+                iconTheme: { primary: '#f59e0b', secondary: '#451a03' },
               },
               error: {
-                iconTheme: { primary: '#f87171', secondary: '#1e1b4b' },
+                iconTheme: { primary: '#f87171', secondary: '#451a03' },
               },
             }}
           />

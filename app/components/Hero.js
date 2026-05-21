@@ -10,9 +10,9 @@ export default function Hero() {
 
       {/* Blurred gradient orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-violet-700/20 blur-[120px]" />
-        <div className="absolute top-1/2 -right-32 w-[400px] h-[400px] rounded-full bg-indigo-600/15 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 w-[350px] h-[350px] rounded-full bg-purple-600/10 blur-[90px]" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-amber-600/15 blur-[120px]" />
+        <div className="absolute top-1/2 -right-32 w-[400px] h-[400px] rounded-full bg-orange-500/12 blur-[100px]" />
+        <div className="absolute bottom-0 left-1/4 w-[350px] h-[350px] rounded-full bg-amber-500/10 blur-[90px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-center lg:text-left">
@@ -106,7 +106,10 @@ export default function Hero() {
         </div>
 
         {/* Right Column - Mockup Preview */}
-        <div className="lg:col-span-5 w-full flex items-center justify-center">
+        <div className="lg:col-span-5 w-full flex items-center justify-center relative">
+          {/* Radial amber/orange glow behind the mockup image section */}
+          <div className="absolute -inset-10 bg-gradient-to-tr from-amber-500/10 to-orange-500/15 rounded-full blur-[80px] opacity-75 pointer-events-none" />
+
           <motion.div
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
@@ -114,7 +117,7 @@ export default function Hero() {
             className="relative w-full max-w-lg lg:max-w-none rounded-2xl border border-white/10 bg-white/5 p-1.5 backdrop-blur-sm float-mockup"
           >
             {/* Decorative light border/glow inside */}
-            <div className="absolute -inset-px rounded-2xl bg-gradient-to-tr from-violet-500/20 via-transparent to-indigo-500/20 opacity-100 pointer-events-none" />
+            <div className="absolute -inset-px rounded-2xl bg-gradient-to-tr from-amber-500/20 via-transparent to-orange-500/20 opacity-100 pointer-events-none" />
             <div className="relative overflow-hidden rounded-xl border border-white/5 bg-[#08080f]/80 mockup-wrapper">
               <img
                 src="/dashboard_mockup.png"

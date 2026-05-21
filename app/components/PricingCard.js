@@ -37,8 +37,8 @@ const PLANS = [
     description: 'For creators who need the best results',
     badge: '🔥 Most Popular',
     gradient: 'from-purple-950/40 to-indigo-950/40',
-    borderColor: 'border-purple-500/30 hover:border-purple-500/50 shadow-[0_0_40px_rgba(139,92,246,0.1)]',
-    iconBg: 'bg-gradient-to-br from-purple-500 to-indigo-600 text-white',
+    borderColor: 'border-amber-500/30 hover:border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.1)]',
+    iconBg: 'bg-gradient-to-br from-orange-500 to-amber-600 text-white',
     features: [
       'Unlimited AI generations',
       'GPT-4o (OpenAI) access',
@@ -84,7 +84,7 @@ export default function PricingCard() {
   return (
     <section id="pricing" className="py-24 px-4 relative overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(124,58,237,0.08),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(245,158,11,0.08),transparent_50%)] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
@@ -137,7 +137,7 @@ export default function PricingCard() {
               {/* Popular badge */}
               {plan.badge && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold shadow-[0_0_20px_rgba(139,92,246,0.4)] whitespace-nowrap">
+                  <span className="px-4 py-1.5 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 text-white text-xs font-bold shadow-[0_0_20px_rgba(245,158,11,0.4)] whitespace-nowrap">
                     {plan.badge}
                   </span>
                 </div>
@@ -169,8 +169,8 @@ export default function PricingCard() {
                 <ul className="space-y-4 mb-8">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-3 text-sm text-white/70">
-                      <div className="w-4 h-4 rounded-full bg-purple-500/10 flex items-center justify-center border border-purple-500/20 flex-shrink-0">
-                        <Check className="w-2.5 h-2.5 text-purple-400" strokeWidth={3} />
+                      <div className="w-4 h-4 rounded-full bg-amber-500/10 flex items-center justify-center border border-amber-500/20 flex-shrink-0">
+                        <Check className="w-2.5 h-2.5 text-amber-400" strokeWidth={3} />
                       </div>
                       <span className="leading-tight">{feature}</span>
                     </li>
@@ -184,7 +184,7 @@ export default function PricingCard() {
                 id={`pricing-cta-${plan.id}`}
                 className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-sm transition-all duration-300 ${
                   plan.highlighted
-                    ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] hover:scale-[1.02]'
+                    ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)] hover:scale-[1.02]'
                     : 'bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
               >

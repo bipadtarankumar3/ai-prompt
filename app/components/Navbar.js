@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Moon, Sun, Menu, X } from 'lucide-react';
 import Link from 'next/link';
@@ -17,6 +18,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const [hash, setHash] = useState('');
 
   useEffect(() => {
     setMounted(true);
@@ -24,6 +27,22 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setHash(window.location.hash);
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [pathname]);
+
+  const isActive = (href) => {
+    if (href.startsWith('/#')) {
+      const linkHash = href.split('#')[1];
+      return pathname === '/' && hash === `#${linkHash}`;
+    }
+    return pathname === href;
+  };
 
   return (
     <motion.header
@@ -46,12 +65,22 @@ export default function Navbar() {
  
         {/* Desktop nav */}
         <nav className="!hidden md:!flex items-center gap-1">
-          {LINKS.map(l => (
-            <Link key={l.label} href={l.href}
-              className="px-4 py-2 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all duration-200">
-              {l.label}
-            </Link>
-          ))}
+          {LINKS.map(l => {
+            const active = isActive(l.href);
+            return (
+              <Link
+                key={l.label}
+                href={l.href}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  active
+                    ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 font-semibold'
+                    : 'text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/5'
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
  
         {/* Actions */}
@@ -100,13 +129,23 @@ export default function Navbar() {
             className="md:hidden overflow-hidden border-t border-slate-200/60 dark:border-white/6 bg-white dark:bg-[#08080f]/95 backdrop-blur-xl shadow-lg dark:shadow-none"
           >
             <div className="flex flex-col gap-1 p-4">
-              {LINKS.map(l => (
-                <Link key={l.label} href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="px-4 py-3 rounded-xl text-sm font-medium text-slate-650 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                  {l.label}
-                </Link>
-              ))}
+              {LINKS.map(l => {
+                const active = isActive(l.href);
+                return (
+                  <Link
+                    key={l.label}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                      active
+                        ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 font-semibold'
+                        : 'text-slate-650 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/5'
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
               <Link href="/generator" onClick={() => setOpen(false)}
                 className="btn-primary mt-2 justify-center py-3 text-sm rounded-xl flex">
                 <Zap size={14} fill="currentColor" />
