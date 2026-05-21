@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow API routes from indexing
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://promptbeast.ai/sitemap.xml
