@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Zap, Sparkles, ArrowRight, Star } from 'lucide-react';
+import AiNeuralCore from './AiNeuralCore';
 
 const TAGS = ['ChatGPT','Midjourney','SEO','Coding','Marketing','YouTube','Blogging','Business','AI Art','Copywriting'];
 
@@ -105,29 +106,15 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Right Column - Mockup Preview */}
-        <div className="lg:col-span-5 w-full flex items-center justify-center relative">
-          {/* Radial amber/orange glow behind the mockup image section */}
-          <div className="absolute -inset-10 bg-gradient-to-tr from-amber-500/10 to-orange-500/15 rounded-full blur-[80px] opacity-75 pointer-events-none" />
-
+        {/* Right Column - AI Synaptic Core Animation */}
+        <div className="lg:col-span-5 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[450px]">
           <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative w-full max-w-lg lg:max-w-none rounded-2xl border border-white/10 bg-white/5 p-1.5 backdrop-blur-sm float-mockup"
+            className="flex items-center justify-center w-full"
           >
-            {/* Decorative light border/glow inside */}
-            <div className="absolute -inset-px rounded-2xl bg-gradient-to-tr from-amber-500/20 via-transparent to-orange-500/20 opacity-100 pointer-events-none" />
-            <div className="relative overflow-hidden rounded-xl border border-white/5 bg-[#08080f]/80 mockup-wrapper">
-              <img
-                src="/dashboard_mockup.png"
-                alt="Prompt Beast Workspace Preview"
-                className="w-full h-auto object-cover opacity-95 hover:opacity-100 transition-opacity duration-300 shadow-inner"
-                loading="eager"
-              />
-              {/* Fade to background on the bottom to blend in */}
-              <div className="absolute inset-x-0 bottom-0 h-1/6 bg-gradient-to-t from-[#08080f] to-transparent pointer-events-none opacity-80 mockup-fade" />
-            </div>
+            <AiNeuralCore />
           </motion.div>
         </div>
 
