@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Moon, Sun, Menu, X, Atom, Sparkles } from 'lucide-react';
+import { Zap, Moon, Sun, Menu, X, Atom, Sparkles, LayoutGrid, Compass, CreditCard, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useBackground } from './BackgroundProvider';
 
@@ -12,6 +12,13 @@ const LINKS = [
   { label: 'Templates', href: '/templates' },
   { label: 'Features', href: '/#features' },
   { label: 'Pricing', href: '/pricing' },
+];
+
+const MOBILE_LINKS = [
+  { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
+  { label: 'Templates', href: '/templates', icon: LayoutGrid, desc: 'Ready-to-use prompt library', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
+  { label: 'Features', href: '/#features', icon: Compass, desc: 'Explore what PromptBeast can do', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
+  { label: 'Pricing', href: '/pricing', icon: CreditCard, desc: 'Simple, transparent pricing plans', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
 ];
 
 export default function Navbar() {
@@ -160,40 +167,100 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Backdrop overlay */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+            className="md:hidden fixed inset-0 top-[64px] bg-slate-950/40 dark:bg-black/60 backdrop-blur-sm z-40"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="md:hidden overflow-hidden border-t border-slate-200/60 dark:border-white/6 bg-white dark:bg-[#08080f]/95 backdrop-blur-xl shadow-lg dark:shadow-none"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="md:hidden absolute top-[72px] left-4 right-4 z-50 overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/95 dark:bg-[#0c0c14]/95 backdrop-blur-xl shadow-2xl p-3.5 flex flex-col gap-1"
           >
-            <div className="flex flex-col gap-1 p-4">
-              {LINKS.map(l => {
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.05,
+                    delayChildren: 0.02,
+                  }
+                }
+              }}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col gap-1"
+            >
+              {MOBILE_LINKS.map(l => {
                 const active = isActive(l.href);
                 return (
-                  <Link
+                  <motion.div
                     key={l.label}
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                      active
-                        ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 font-semibold'
-                        : 'text-slate-650 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/5'
-                    }`}
+                    variants={{
+                      hidden: { opacity: 0, y: -10 },
+                      show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+                    }}
                   >
-                    {l.label}
-                  </Link>
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center gap-3.5 p-3 rounded-xl transition-all duration-200 border border-transparent ${
+                        active
+                          ? 'bg-amber-500/10 dark:bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400 font-semibold'
+                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${l.bg}`}>
+                        <l.icon size={18} className={l.color} />
+                      </div>
+                      <div className="flex-grow min-w-0">
+                        <div className="font-semibold text-sm leading-tight flex items-center gap-1.5">
+                          {l.label}
+                          {active && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          )}
+                        </div>
+                        <div className="text-xs text-slate-400 dark:text-slate-500 truncate mt-0.5">
+                          {l.desc}
+                        </div>
+                      </div>
+                      <ChevronRight size={14} className="text-slate-400 dark:text-slate-600 flex-shrink-0" />
+                    </Link>
+                  </motion.div>
                 );
               })}
-              <Link href="/generator" onClick={() => setOpen(false)}
-                className="btn-primary mt-2 justify-center py-3 text-sm rounded-xl flex">
-                <Zap size={14} fill="currentColor" />
-                Start Generating Free
-              </Link>
-            </div>
+
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: -10 },
+                  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+                }}
+                className="mt-2 pt-2 border-t border-slate-100 dark:border-white/5"
+              >
+                <Link
+                  href="/generator"
+                  onClick={() => setOpen(false)}
+                  className="btn-primary w-full justify-center py-3 text-sm rounded-xl flex shadow-lg shadow-orange-500/20"
+                >
+                  <Zap size={14} fill="currentColor" />
+                  Start Generating Free
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
