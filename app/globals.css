@@ -1168,3 +1168,103 @@ a:hover svg.lucide-zap {
 .light [class~="shadow-black/25"] { box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important; }
 .light [class~="shadow-black/40"] { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important; }
 .light [class~="shadow-black/50"] { box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1) !important; }
+
+/* ── Generator Page — Identity Header ───────────────────────── */
+.generator-headline { line-height: 1.15; }
+
+/* Input card subtle glow */
+.generator-input-card {
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.08), 0 8px 32px rgba(139, 92, 246, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+.generator-input-card:focus-within {
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.2), 0 8px 40px rgba(139, 92, 246, 0.12);
+}
+
+/* ── Generator — Light Mode ──────────────────────────────────── */
+.light .generator-headline .gradient-text {
+  background: linear-gradient(135deg, #d97706 0%, #ea580c 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.light .generator-input-card {
+  box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.1), 0 4px 24px rgba(217, 119, 6, 0.05) !important;
+}
+.light .generator-input-card:focus-within {
+  box-shadow: 0 0 0 1.5px rgba(217, 119, 6, 0.25), 0 8px 32px rgba(217, 119, 6, 0.1) !important;
+}
+/* Accent gradient lines */
+.light [class*="via-purple-500/40"],
+.light [class*="from-purple-500/20"] {
+  opacity: 0.5;
+}
+/* "Model Live" badge */
+.light [class~="bg-emerald-500/10"] { background: rgba(16, 185, 129, 0.07) !important; }
+.light [class~="border-emerald-500/20"] { border-color: rgba(16, 185, 129, 0.18) !important; }
+/* Provider badge */
+.light [class~="bg-purple-500/10"] { background: rgba(217, 119, 6, 0.07) !important; }
+.light [class~="border-purple-500/20"] { border-color: rgba(217, 119, 6, 0.18) !important; }
+/* Sparkles icon box in card header */
+.light .generator-input-card [class~="bg-purple-500/15"] {
+  background: rgba(217, 119, 6, 0.08) !important;
+}
+.light .generator-input-card [class~="border-purple-500/20"] {
+  border-color: rgba(217, 119, 6, 0.15) !important;
+}
+
+/* ── ChatGPT Layout Play Area — Themes & Overrides ──────────── */
+
+/* Sidebar theme */
+.light .generator-sidebar {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #334155 !important;
+}
+.light .generator-sidebar span,
+.light .generator-sidebar p {
+  color: #475569 !important;
+}
+.light .generator-sidebar button:not([class*="bg-violet-600"]) {
+  background-color: rgba(15, 23, 42, 0.03) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #334155 !important;
+}
+.light .generator-sidebar button:hover:not([class*="bg-violet-600"]) {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+.light .generator-sidebar div[class*="border-white/5"] {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .generator-sidebar div[class*="bg-white/"] {
+  background-color: rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Textarea input theme */
+.light .generator-chat-textarea {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+.light .generator-chat-textarea::placeholder {
+  color: #94a3b8 !important;
+}
+.light .generator-chat-textarea:focus {
+  border-color: rgba(217, 119, 6, 0.5) !important;
+  box-shadow: 0 10px 25px rgba(217, 119, 6, 0.08) !important;
+}
+
+/* User Message bubble */
+.light [class*="bg-white/5"][class*="rounded-tr-none"] {
+  background-color: #e2e8f0 !important;
+  border-color: rgba(15, 23, 42, 0.06) !important;
+  color: #1e293b !important;
+}
+
+/* Keyboard keys */
+.light kbd {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #475569 !important;
+}
+
