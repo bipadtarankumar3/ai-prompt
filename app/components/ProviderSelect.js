@@ -14,25 +14,25 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {/* Provider cards */}
       <div className="grid grid-cols-2 gap-2">
         {PROVIDERS.map(p => (
           <button key={p.id} type="button" id={`prov-${p.id}`}
             onClick={() => onProviderChange(p.id)}
-            className={`p-4 rounded-2xl border text-left transition-all duration-200
+            className={`p-3 rounded-xl border text-left transition-all duration-200
               ${provider === p.id
                 ? 'border-violet-500/55 bg-violet-600/10 shadow-lg shadow-violet-950/30'
                 : 'border-white/8 bg-white/3 hover:border-white/14 hover:bg-white/5'}`}
           >
-            <div className="flex items-center justify-between mb-1.5">
-              <span className={`text-sm font-bold ${provider === p.id ? 'text-white' : 'text-white/65'}`}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-bold text-white/85">
                 {p.label}
               </span>
-              {provider === p.id && <span className="w-2 h-2 rounded-full bg-violet-400" />}
+              {provider === p.id && <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />}
             </div>
-            <span className="text-xs text-white/35 block mb-1">{p.sub}</span>
-            <span className="text-[11px] font-semibold" style={{ color: p.color }}>{p.badge}</span>
+            <span className="text-[10px] text-white/40 block mb-1">{p.sub}</span>
+            <span className="text-[10px] font-semibold" style={{ color: p.color }}>{p.badge}</span>
           </button>
         ))}
       </div>
@@ -42,13 +42,13 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
         <div className="relative">
           <button type="button" id="hf-model-btn"
             onClick={() => setOpen(!open)}
-            className="input flex items-center justify-between text-sm font-medium cursor-pointer"
+            className="input flex items-center justify-between text-xs font-medium cursor-pointer py-2"
           >
-            <span className="flex items-center gap-2.5">
+            <span className="flex items-center gap-2">
               <span>🤗</span>
               <span>{selected.label}</span>
             </span>
-            <ChevronDown size={16}
+            <ChevronDown size={14}
               className={`text-violet-400 transition-transform duration-200 flex-shrink-0 ${open ? 'rotate-180' : ''}`}
             />
           </button>
@@ -59,11 +59,11 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
                 {HF_MODELS.map(m => (
                   <button key={m.id} type="button"
                     onClick={() => { onModelChange(m.id); setOpen(false); }}
-                    className={`w-full text-left px-4 py-3 flex flex-col gap-0.5 transition-colors hover:bg-white/5
+                    className={`w-full text-left px-3 py-2 flex flex-col gap-0.5 transition-colors hover:bg-white/5
                       ${hfModel === m.id ? 'bg-violet-600/10' : ''}`}
                   >
-                    <span className="text-sm font-medium text-white/85">{m.label}</span>
-                    <span className="text-xs text-white/30 font-mono truncate">{m.id}</span>
+                    <span className="text-xs font-medium text-white/85">{m.label}</span>
+                    <span className="text-[10px] text-white/30 font-mono truncate">{m.id}</span>
                   </button>
                 ))}
               </div>

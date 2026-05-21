@@ -89,6 +89,10 @@ body {
 .light ::-webkit-scrollbar-thumb { background: #fdba74; }
 .light ::-webkit-scrollbar-thumb:hover { background: #fb923c; }
 
+/* Hide scrollbar utility */
+.scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
 /* ── Selection ────────────────────────────────────────────────── */
 ::selection { background: rgba(245, 158, 11, 0.35); color: #fff; }
 
@@ -633,10 +637,70 @@ body {
   box-shadow: 0 10px 40px rgba(245, 158, 11, 0.08) !important;
 }
 
-/* Modal history panel */
-.light [class~="bg-slate-950/95"] {
-  background: rgba(255, 255, 255, 0.98) !important;
-  border-left-color: rgba(15, 23, 42, 0.08) !important;
+/* ── History Panel — Light Mode ──────────────────────────────── */
+/* Panel background */
+.light [class~="bg-slate-950/95"],
+.light .history-panel {
+  background: rgba(248, 250, 252, 0.98) !important;
+  border-color: rgba(15, 23, 42, 0.09) !important;
+  box-shadow: -8px 0 40px rgba(15, 23, 42, 0.08) !important;
+}
+/* Bottom-sheet top border */
+.light .history-panel.rounded-t-2xl {
+  box-shadow: 0 -8px 40px rgba(15, 23, 42, 0.08) !important;
+}
+/* Drag handle */
+.light .history-drag-handle {
+  background: rgba(15, 23, 42, 0.12) !important;
+}
+/* Panel header border */
+.light .history-panel [class~="border-b"] {
+  border-bottom-color: rgba(15, 23, 42, 0.07) !important;
+}
+/* History icon box */
+.light .history-panel [class~="bg-purple-500/10"] {
+  background: rgba(217, 119, 6, 0.08) !important;
+}
+/* Count badge */
+.light .history-panel [class~="bg-white/5"] {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+/* Card items */
+.light .history-panel [class~="bg-white/2"],
+.light .history-panel [class~="bg-white/3"] {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
+}
+.light .history-panel [class~="border-white/6"] {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+/* Selected card */
+.light .history-panel [class~="bg-purple-500/8"],
+.light .history-panel [class~="border-purple-500/40"] {
+  background: rgba(217, 119, 6, 0.06) !important;
+  border-color: rgba(217, 119, 6, 0.35) !important;
+}
+/* Tone badge inside cards */
+.light .history-panel [class~="bg-white/5"] {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.07) !important;
+}
+/* Card separator line */
+.light .history-panel [class~="border-white/5"] {
+  border-color: rgba(15, 23, 42, 0.07) !important;
+}
+/* Close button */
+.light .history-panel [class~="bg-white/5"].rounded-lg,
+.light #history-close-btn {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+/* Empty state icon box */
+.light .history-panel [class~="bg-white/3"] {
+  background: rgba(15, 23, 42, 0.03) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
 }
 
 /* Secondary Buttons */
@@ -974,5 +1038,44 @@ a:hover svg.lucide-zap {
 }
 
 
+/* ── Popover Confirm — Base (Dark) ───────────────────────────── */
+.popover-confirm {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.popover-confirm > div:first-child {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
 
-
+/* ── Popover Confirm — Light Mode ────────────────────────────── */
+.light .popover-confirm {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+}
+/* Arrow */
+.light .popover-confirm > div:first-child {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+/* Cancel button */
+.light .popover-confirm button:first-child {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #475569 !important;
+}
+.light .popover-confirm button:first-child:hover {
+  background: rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+/* Delete button */
+.light .popover-confirm button:last-child {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+  color: #dc2626 !important;
+}
+.light .popover-confirm button:last-child:hover {
+  background: rgba(239, 68, 68, 0.14) !important;
+}

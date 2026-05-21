@@ -74,20 +74,20 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-full">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 h-full">
 
       {/* ── Mode Tabs ─────────────────────────────────────── */}
       <div>
-        <p className="text-xs font-semibold text-white/35 uppercase tracking-widest mb-3">Mode</p>
-        <div className="flex gap-2">
+        <p className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-1.5">Mode</p>
+        <div className="flex gap-1">
           {MODES.map(({ id, label, Icon }) => (
             <button key={id} type="button" id={`mode-${id}`}
               onClick={() => setMode(id)}
-              className={`flex items-center gap-2 flex-1 justify-center py-2.5 rounded-xl text-sm font-semibold border transition-all duration-200
+              className={`flex items-center gap-1 flex-1 justify-center py-1.5 rounded-md text-[11px] font-semibold border transition-all duration-200
                 ${mode === id
-                  ? 'bg-violet-600 border-violet-500 text-white shadow-lg shadow-violet-900/40'
+                  ? 'bg-violet-600 border-violet-500 text-white shadow-md shadow-violet-900/30'
                   : 'border-white/8 bg-white/3 text-white/50 hover:border-white/15 hover:text-white/80'}`}>
-              <Icon size={14} />
+              <Icon size={11} />
               {label}
             </button>
           ))}
@@ -96,13 +96,13 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
 
       {/* ── Textarea ──────────────────────────────────────── */}
       <div>
-        <label htmlFor="prompt-input" className="text-xs font-semibold text-white/35 uppercase tracking-widest block mb-3">
+        <label htmlFor="prompt-input" className="text-[10px] font-semibold text-white/30 uppercase tracking-widest block mb-1.5">
           {mode === 'generate' ? 'Your Idea' : mode === 'improve' ? 'Prompt to Improve' : 'Prompt to Rewrite'}
         </label>
         <div className="relative">
           <textarea
             id="prompt-input"
-            rows={5}
+            rows={3}
             maxLength={MAX}
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -113,11 +113,11 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
                 ? 'Paste your existing prompt here to make it better…'
                 : 'Paste your prompt here to rewrite it in a fresh way…'
             }
-            className="input text-sm leading-relaxed"
-            style={{ minHeight: 130 }}
+            className="input text-xs leading-relaxed"
+            style={{ minHeight: 80 }}
           />
-          <span className={`absolute bottom-3 right-4 text-[11px] font-mono tabular-nums
-            ${input.length > MAX * 0.85 ? 'text-amber-400' : 'text-white/20'}`}>
+          <span className={`absolute bottom-2 right-2.5 text-[9px] font-mono tabular-nums
+            ${input.length > MAX * 0.85 ? 'text-amber-400' : 'text-white/15'}`}>
             {input.length}/{MAX}
           </span>
         </div>
@@ -125,13 +125,14 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
 
       {/* ── Category ──────────────────────────────────────── */}
       <div>
-        <p className="text-xs font-semibold text-white/35 uppercase tracking-widest mb-3">Category</p>
-        <div className="grid grid-cols-4 gap-2">
+        <p className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-1.5">Category</p>
+        {/* Scrollable row on mobile, 4-col grid on sm+ */}
+        <div className="flex sm:grid sm:grid-cols-4 gap-1 overflow-x-auto pb-0.5 scrollbar-none">
           {CATEGORIES.map(({ id, emoji }) => (
             <button key={id} type="button" id={`cat-${id.toLowerCase()}`}
               onClick={() => setCategory(id)}
-              className={`chip flex-col py-3 gap-1 text-xs font-semibold justify-center ${category === id ? 'active' : ''}`}>
-              <span className="text-xl">{emoji}</span>
+              className={`chip flex-col py-1.5 gap-0.5 text-[10px] font-semibold justify-center min-w-[60px] sm:min-w-0 shrink-0 ${category === id ? 'active' : ''}`}>
+              <span className="text-sm leading-tight">{emoji}</span>
               {id}
             </button>
           ))}
@@ -140,12 +141,12 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
 
       {/* ── Tone ──────────────────────────────────────────── */}
       <div>
-        <p className="text-xs font-semibold text-white/35 uppercase tracking-widest mb-3">Tone</p>
-        <div className="flex flex-wrap gap-2">
+        <p className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-1.5">Tone</p>
+        <div className="flex flex-wrap gap-1">
           {TONES.map(({ id, emoji }) => (
             <button key={id} type="button" id={`tone-${id.toLowerCase()}`}
               onClick={() => setTone(id)}
-              className={`chip ${tone === id ? 'active' : ''}`}>
+              className={`chip text-[10px] py-1 px-2 ${tone === id ? 'active' : ''}`}>
               {emoji} {id}
             </button>
           ))}
@@ -154,7 +155,7 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
 
       {/* ── Provider ──────────────────────────────────────── */}
       <div className="relative z-20">
-        <p className="text-xs font-semibold text-white/35 uppercase tracking-widest mb-3">AI Provider</p>
+        <p className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-1.5">AI Provider</p>
         <ProviderSelect provider={provider} hfModel={hfModel} onProviderChange={setProvider} onModelChange={setHfModel} />
       </div>
 
@@ -169,11 +170,11 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.12 }}
-          className="btn-primary w-full justify-center py-4 text-base rounded-2xl mt-auto disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="btn-primary w-full justify-center py-2.5 text-xs rounded-lg mt-auto disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           {loading ? (
             <>
-              <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+              <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
               </svg>
@@ -181,7 +182,7 @@ export default function PromptBox({ onResult, onLoading, initialPrompt = '' }) {
             </>
           ) : (
             <>
-              <Zap size={18} fill="currentColor" />
+              <Zap size={13} fill="currentColor" />
               {mode === 'generate' ? 'Generate Prompt' : mode === 'improve' ? 'Improve Prompt' : 'Rewrite Prompt'}
             </>
           )}
