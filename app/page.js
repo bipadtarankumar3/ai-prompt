@@ -43,8 +43,8 @@ export default function Home() {
             className="glass-card text-center p-12 md:p-16 relative overflow-hidden glow-purple-strong"
           >
             {/* Background glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/15 via-indigo-600/10 to-transparent" />
-            <div className="absolute pointer-events-none" style={{ width: '300px', height: '300px', background: 'radial-gradient(circle, #7c3aed, transparent)', top: '-100px', left: '50%', transform: 'translateX(-50%)', opacity: 0.2 }} />
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-600/15 via-orange-600/10 to-transparent" />
+            <div className="absolute pointer-events-none" style={{ width: '300px', height: '300px', background: 'radial-gradient(circle, #f59e0b, transparent)', top: '-100px', left: '50%', transform: 'translateX(-50%)', opacity: 0.2 }} />
 
             <div className="relative z-10">
               <span className="badge badge-purple mb-5">

@@ -39,7 +39,7 @@ export default function CareersPage() {
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">
         {/* Glow */}
-        <div className="absolute top-20 right-10 w-[500px] h-[300px] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-20 right-10 w-[500px] h-[300px] rounded-full bg-amber-600/10 blur-[120px] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto relative">
           {/* Header */}
@@ -53,8 +53,8 @@ export default function CareersPage() {
 
           {/* Intro text */}
           <div className="glass-card p-6 md:p-8 mb-12 flex flex-col md:flex-row gap-6 items-center">
-            <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
-              <Star className="w-6 h-6 text-purple-400" />
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+              <Star className="w-6 h-6 text-amber-400" />
             </div>
             <div>
               <h2 className="text-base font-bold text-white mb-1.5" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
@@ -77,24 +77,24 @@ export default function CareersPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="glass-card p-6 hover:border-purple-500/30 transition-all duration-300 card-hover group flex flex-col md:flex-row justify-between gap-6"
+                className="glass-card p-6 hover:border-amber-500/30 transition-all duration-300 card-hover group flex flex-col md:flex-row justify-between gap-6"
               >
                 <div className="space-y-3 flex-1">
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-xs font-bold text-purple-300 px-2 py-0.5 rounded-md border border-purple-500/10 bg-purple-500/5">
+                    <span className="text-xs font-bold text-amber-300 px-2 py-0.5 rounded-md border border-amber-500/10 bg-amber-500/5">
                       {job.dept}
                     </span>
                     <span className="text-xs text-white/30 flex items-center gap-1">
-                      <MapPin size={12} className="text-purple-400" />
+                      <MapPin size={12} className="text-amber-400" />
                       {job.location}
                     </span>
                     <span className="text-xs text-white/30 flex items-center gap-1">
-                      <Clock size={12} className="text-purple-400" />
+                      <Clock size={12} className="text-amber-400" />
                       {job.type}
                     </span>
                   </div>
 
-                  <h4 className="text-base font-bold text-white group-hover:text-purple-300 transition-colors" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
+                  <h4 className="text-base font-bold text-white group-hover:text-amber-300 transition-colors" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
                     {job.title}
                   </h4>
 

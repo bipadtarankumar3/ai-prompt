@@ -21,7 +21,7 @@ const BLOG_POSTS = [
     title: 'How to Write AI Prompts That Rank #1 on Google',
     excerpt: 'Discover the prompt structures behind writing SEO-optimized blogs, headings hierarchy, meta tags, and structured formats.',
     category: 'SEO & Content',
-    categoryColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+    categoryColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
     date: 'May 10, 2026',
     author: 'Alex Carter',
     readTime: '5 min read'
@@ -45,7 +45,7 @@ export default function BlogPage() {
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">
         {/* Ambient glow */}
-        <div className="absolute top-40 right-10 w-[450px] h-[300px] rounded-full bg-violet-600/10 blur-[100px] pointer-events-none" />
+        <div className="absolute top-40 right-10 w-[450px] h-[300px] rounded-full bg-amber-600/10 blur-[100px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto relative">
           {/* Header */}
@@ -83,12 +83,12 @@ export default function BlogPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="glass-card flex flex-col h-full hover:border-purple-500/30 transition-all duration-300 card-hover group"
+                className="glass-card flex flex-col h-full hover:border-amber-500/30 transition-all duration-300 card-hover group"
               >
                 {/* Visual placeholder header */}
-                <div className="h-44 w-full bg-gradient-to-br from-purple-950/40 to-indigo-950/20 border-b border-white/5 relative overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_-10%,rgba(124,58,237,0.1),transparent_40%)]" />
-                  <BookOpen className="w-12 h-12 text-purple-500/40 group-hover:scale-110 group-hover:text-purple-400/60 transition-all duration-300" />
+                <div className="h-44 w-full bg-gradient-to-br from-amber-950/40 to-orange-950/20 border-b border-white/5 relative overflow-hidden flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_-10%,rgba(245,158,11,0.1),transparent_40%)]" />
+                  <BookOpen className="w-12 h-12 text-amber-500/40 group-hover:scale-110 group-hover:text-amber-400/60 transition-all duration-300" />
                 </div>
 
                 {/* Content body */}
@@ -101,7 +101,7 @@ export default function BlogPage() {
                     <span className="text-xs text-white/35 font-medium">{post.readTime}</span>
                   </div>
 
-                  <h2 className="text-base font-bold text-white mb-3 leading-snug group-hover:text-purple-300 transition-colors">
+                  <h2 className="text-base font-bold text-white mb-3 leading-snug group-hover:text-amber-300 transition-colors">
                     {post.title}
                   </h2>
 
@@ -112,13 +112,13 @@ export default function BlogPage() {
                   {/* Footer metadata */}
                   <div className="border-t border-white/5 pt-4 flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-xs">
-                        <User size={10} className="text-purple-400" />
+                      <div className="w-6 h-6 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xs">
+                        <User size={10} className="text-amber-400" />
                       </div>
                       <span className="text-xs font-semibold text-white/60">{post.author}</span>
                     </div>
                     
-                    <span className="text-xs font-bold text-purple-400 flex items-center gap-1 group-hover:translate-x-1.5 transition-transform duration-200">
+                    <span className="text-xs font-bold text-amber-400 flex items-center gap-1 group-hover:translate-x-1.5 transition-transform duration-200">
                       Read <ArrowRight size={12} />
                     </span>
                   </div>
