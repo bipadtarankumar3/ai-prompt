@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Zap, Sparkles, ArrowRight, Star } from 'lucide-react';
+import Link from 'next/link';
 import AiNeuralCore from './AiNeuralCore';
 
 const TAGS = ['ChatGPT','Midjourney','SEO','Coding','Marketing','YouTube','Blogging','Business','AI Art','Copywriting'];
@@ -55,16 +56,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
             className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12 w-full max-w-md lg:max-w-none"
           >
-            <a href="#generator" id="hero-primary-cta"
+            <Link href="/generator" id="hero-primary-cta"
               className="btn-primary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl glow-md">
               <Zap size={18} fill="currentColor" />
               Start Generating Free
-            </a>
-            <a href="#templates" id="hero-templates-cta"
+            </Link>
+            <Link href="/templates" id="hero-templates-cta"
               className="btn-secondary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl">
               Browse Templates
               <ArrowRight size={16} />
-            </a>
+            </Link>
           </motion.div>
 
           {/* Stats */}

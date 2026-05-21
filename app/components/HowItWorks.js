@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 const STEPS = [
   { n: '01', icon: '💭', title: 'Describe Your Idea', desc: 'Type a rough topic, paste an existing prompt, or pick one of our templates. No expertise needed.' },
@@ -50,10 +51,10 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           transition={{ delay: 0.4 }} className="text-center mt-12"
         >
-          <a href="#generator" id="hiw-cta" className="btn-primary inline-flex px-8 py-4 text-base rounded-2xl">
+          <Link href="/generator" id="hiw-cta" className="btn-primary inline-flex px-8 py-4 text-base rounded-2xl">
             Try It Free — No Sign-up
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>
