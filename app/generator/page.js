@@ -238,7 +238,7 @@ export default function GeneratorPage() {
     <main>
       <Navbar />
       <Suspense fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#08080f]">
+        <div className="min-h-screen flex items-center justify-center hero-bg">
           <div className="flex flex-col items-center gap-4">
             <svg className="animate-spin w-8 h-8 text-purple-500" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>

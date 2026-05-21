@@ -32,7 +32,7 @@ function TemplateCard({ template, onUse }) {
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${template.tagColor}`}>
               {template.category}
             </span>
-            <h3 className="text-base font-bold text-white mt-1.5 tracking-wide" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
+            <h3 className="text-base font-bold text-white/90 mt-1.5 tracking-wide" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
               {template.title}
             </h3>
           </div>
@@ -43,7 +43,7 @@ function TemplateCard({ template, onUse }) {
       <p className="text-xs text-white/50 leading-relaxed min-h-[32px]">{template.description}</p>
 
       {/* Prompt preview */}
-      <div className="flex-1 bg-black/35 rounded-xl p-3.5 border border-white/5 relative group-hover:border-white/10 transition-colors">
+      <div className="flex-1 bg-white/4 rounded-xl p-3.5 border border-white/5 relative group-hover:border-white/10 transition-colors">
         <p className="text-[11px] text-white/35 font-mono leading-relaxed line-clamp-3 select-none">
           {template.prompt}
         </p>

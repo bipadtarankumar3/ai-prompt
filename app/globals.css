@@ -1079,3 +1079,92 @@ a:hover svg.lucide-zap {
 .light .popover-confirm button:last-child:hover {
   background: rgba(239, 68, 68, 0.14) !important;
 }
+
+/* ── API Reference — Code Block ──────────────────────────────── */
+.api-code-block {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── API Reference — Code Sandbox ────────────────────────────── */
+.api-sandbox {
+  background: #0b0b14;
+  border-color: rgba(255, 255, 255, 0.07);
+}
+.api-sandbox-header {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.api-sandbox-tabs {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.api-sandbox-code { background: #08080f; }
+
+/* ── API Reference — Light Mode ─────────────────────────────── */
+.light .api-code-block {
+  background: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+.light .api-sandbox {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 8px 40px rgba(15, 23, 42, 0.08) !important;
+}
+.light .api-sandbox-header {
+  background: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.07) !important;
+}
+.light .api-sandbox-tabs {
+  background: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.07) !important;
+}
+.light .api-sandbox-code { background: #f8fafc !important; }
+.light .api-sandbox pre,
+.light .api-sandbox code { color: #334155 !important; }
+
+/* ── TemplateCard — Light Mode ───────────────────────────────── */
+/* Prompt preview box */
+.light [class~="bg-white/4"] {
+  background: rgba(15, 23, 42, 0.03) !important;
+}
+.light [class~="hover:bg-white/4"]:hover {
+  background: rgba(15, 23, 42, 0.05) !important;
+}
+/* bg-white/6 */
+.light [class~="bg-white/6"] {
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* ── Generator Loading Spinner — Light Mode ──────────────────── */
+.light .hero-bg p { color: #64748b !important; }
+
+/* ── OutputBox — Light Mode ──────────────────────────────────── */
+/* Empty state container */
+.light [class~="bg-white/2"] {
+  background: rgba(15, 23, 42, 0.02) !important;
+}
+
+/* ── Docs / Legal pages inline code ─────────────────────────── */
+.light code:not([class]) {
+  background: rgba(15, 23, 42, 0.06) !important;
+  color: #1e293b !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+/* ── bg-black/* utility overrides ────────────────────────────── */
+.light [class~="bg-black/10"] { background: rgba(15, 23, 42, 0.03) !important; }
+.light [class~="bg-black/20"] { background: rgba(15, 23, 42, 0.04) !important; }
+.light [class~="bg-black/30"] { background: rgba(15, 23, 42, 0.05) !important; }
+.light [class~="bg-black/35"] { background: rgba(15, 23, 42, 0.05) !important; }
+.light [class~="bg-black/40"] { background: rgba(15, 23, 42, 0.06) !important; }
+.light [class~="bg-black/50"] { background: rgba(15, 23, 42, 0.07) !important; }
+.light [class~="bg-black/60"] { background: rgba(15, 23, 42, 0.08) !important; }
+.light [class~="bg-black/70"] { background: rgba(15, 23, 42, 0.12) !important; }
+.light [class~="bg-black/80"] { background: rgba(15, 23, 42, 0.08) !important; }
+
+/* ── Shadow overrides ────────────────────────────────────────── */
+.light [class~="shadow-black/25"] { box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important; }
+.light [class~="shadow-black/40"] { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important; }
+.light [class~="shadow-black/50"] { box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1) !important; }
