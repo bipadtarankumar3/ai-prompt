@@ -1,5 +1,5 @@
 import { Inter, Space_Grotesk } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from './components/ThemeProvider';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 

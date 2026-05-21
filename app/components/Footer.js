@@ -113,7 +113,7 @@ export default function Footer() {
                 <div className="space-y-1">
                   <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Synapses Generated</span>
                   <div className="text-sm font-mono font-bold text-white tracking-wider">
-                    {synapses.toLocaleString()}
+                    {synapses.toLocaleString('en-US')}
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -125,7 +125,7 @@ export default function Footer() {
                 <div className="space-y-1 col-span-2 border-t border-white/5 pt-2 flex items-center justify-between">
                   <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Active Synthesizer Nodes</span>
                   <div className="text-xs font-mono font-semibold text-amber-400">
-                    {activeNodes.toLocaleString()} online
+                    {activeNodes.toLocaleString('en-US')} online
                   </div>
                 </div>
               </div>
