@@ -47,7 +47,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/logo.png',
         width: 1200,
         height: 630,
         alt: 'Revoxera AI AI Prompt Generator',
@@ -58,7 +58,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Revoxera AI — AI Prompt Generator',
     description: 'Generate optimized AI prompts in seconds.',
-    images: ['/og-image.png'],
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
@@ -66,7 +66,7 @@ export const metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
   icons: {
-    icon: '/icon.png',
+    icon: '/logo.png',
   },
 };
 
