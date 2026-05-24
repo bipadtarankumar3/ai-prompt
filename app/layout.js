@@ -2,6 +2,7 @@ import { Inter, Space_Grotesk } from 'next/font/google';
 import { ThemeProvider } from './components/ThemeProvider';
 import { BackgroundProvider } from './components/BackgroundProvider';
 import AppBackground from './components/AppBackground';
+import FloatingChatButton from './components/FloatingChatButton';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
@@ -84,6 +85,7 @@ export default function RootLayout({ children }) {
           >
             <AppBackground />
             {children}
+            <FloatingChatButton />
             <Toaster
               position="bottom-right"
               toastOptions={{
