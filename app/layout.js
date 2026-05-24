@@ -5,6 +5,8 @@ import AppBackground from './components/AppBackground';
 import FloatingChatButton from './components/FloatingChatButton';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -75,6 +77,8 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
+      
+      
       <body>
         <BackgroundProvider>
           <ThemeProvider
@@ -109,6 +113,7 @@ export default function RootLayout({ children }) {
             />
           </ThemeProvider>
         </BackgroundProvider>
+        <GoogleAnalytics gaId="G-MQEWLCWPRN" />
       </body>
     </html>
   );
