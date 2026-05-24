@@ -121,7 +121,7 @@ export async function POST(request) {
       result: result.text,
       tokensUsed: result.tokensUsed,
       provider,
-      model: provider === 'openai' ? 'gpt-4o-mini' : (provider === 'gemini' ? 'gemini-1.5-flash-latest' : (hfModel || 'Qwen/Qwen2.5-7B-Instruct')),
+      model: provider === 'openai' ? (process.env.OPENAI_MODEL || 'gpt-4o-mini') : (provider === 'gemini' ? (process.env.GEMINI_MODEL || 'gemini-2.5-flash') : (hfModel || 'Qwen/Qwen2.5-7B-Instruct')),
     });
   } catch (error) {
     console.error('[/api/generate] Error:', error);

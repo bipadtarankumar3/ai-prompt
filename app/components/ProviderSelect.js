@@ -9,15 +9,20 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
   const selected = HF_MODELS.find(m => m.id === hfModel) || HF_MODELS[0];
 
   const PROVIDERS = [
-    { id: 'openai',      label: 'OpenAI',        sub: 'GPT-4o Mini',        color: '#10a37f', badge: '⚡ Recommended' },
-    { id: 'gemini',      label: 'Gemini',        sub: 'Gemini 1.5 Flash',   color: '#34a853', badge: '🔥 Fast & Free' },
+    { id: 'openai',      label: 'OpenAI',        sub: process.env.NEXT_PUBLIC_OPENAI_MODEL_NAME || 'GPT-4o Mini',        color: '#10a37f', badge: '⚡ Recommended' },
+    { id: 'gemini',      label: 'Gemini',        sub: process.env.NEXT_PUBLIC_GEMINI_MODEL_NAME || 'Gemini 2.5 Flash',   color: '#34a853', badge: '🔥 Fast & Free' },
     { id: 'huggingface', label: 'Hugging Face',  sub: 'Open-source models', color: '#ff9d00', badge: '🤗 Free tier'   },
-  ];
+  ].filter(p => {
+    if (p.id === 'openai' && process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false') return false;
+    if (p.id === 'gemini' && process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false') return false;
+    if (p.id === 'huggingface' && process.env.NEXT_PUBLIC_ENABLE_HF === 'false') return false;
+    return true;
+  });
 
   return (
     <div className="space-y-2">
       {/* Provider cards */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${PROVIDERS.length}, minmax(0, 1fr))` }}>
         {PROVIDERS.map(p => (
           <button key={p.id} type="button" id={`prov-${p.id}`}
             onClick={() => onProviderChange(p.id)}

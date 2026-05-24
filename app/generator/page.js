@@ -974,9 +974,9 @@ function GeneratorSection() {
                   placeholder={thread.length === 0
                     ? 'Describe your prompt idea... (e.g., "A viral Twitter thread on AI trends")'
                     : 'Refine this prompt... (e.g., "make it shorter" or "add more technical terms")'}
-                  rows={1}
+                  rows={2}
                   disabled={loading || streamingIdx !== null}
-                  className="flex-1 bg-transparent border-0 ring-0 focus:ring-0 focus:outline-none resize-none text-sm leading-relaxed text-slate-900 dark:text-[#e8e8e8] placeholder-slate-400/80 dark:placeholder-[#5a5a5a] min-h-[40px] max-h-[200px] overflow-y-auto scrollbar-none py-0.5 font-[450] tracking-[0.01em]"
+                  className="flex-1 bg-transparent border-0 ring-0 focus:ring-0 focus:outline-none resize-none text-sm leading-relaxed text-slate-900 dark:text-[#e8e8e8] placeholder-slate-400/80 dark:placeholder-[#5a5a5a] min-h-[56px] max-h-[200px] overflow-y-auto scrollbar-none py-0.5 font-[450] tracking-[0.01em]"
                 />
                 {/* Clear input button */}
                 <AnimatePresence>
@@ -998,13 +998,13 @@ function GeneratorSection() {
               </div>
 
               {/* Bottom controls row */}
-              <div className="flex items-center justify-between px-3 pb-3 pt-1.5 gap-2">
+              <div className="flex items-end justify-between px-3 pb-3 pt-1.5 gap-2">
 
                 {/* Selector pills */}
-                <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                  <CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} />
-                  <CustomSelector value={category} options={CATEGORIES} onChange={setCategory} />
-                  <CustomSelector value={tone} options={TONES} onChange={setTone} />
+                <div className="flex items-center gap-1.5 flex-nowrap overflow-x-auto scrollbar-none flex-1 min-w-0 pb-1 -mb-1">
+                  <div className="flex-shrink-0"><CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} /></div>
+                  <div className="flex-shrink-0"><CustomSelector value={category} options={CATEGORIES} onChange={setCategory} /></div>
+                  <div className="flex-shrink-0"><CustomSelector value={tone} options={TONES} onChange={setTone} /></div>
                 </div>
 
                 {/* Right side: char count + send button */}

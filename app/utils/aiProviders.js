@@ -9,10 +9,10 @@
 /**
  * Generate text using OpenAI's Chat Completion API.
  * @param {Array<{role: string, content: string}>} messages
- * @param {string} model - defaults to gpt-4o-mini for cost efficiency
+ * @param {string} model - defaults to gpt-4o-mini
  * @returns {Promise<{text: string, tokensUsed: number}>}
  */
-export async function generateWithOpenAI(messages, model = 'gpt-4o-mini') {
+export async function generateWithOpenAI(messages, model = process.env.OPENAI_MODEL || 'gpt-4o-mini') {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY is not set in environment variables.');
 
@@ -170,10 +170,10 @@ Make it specific, clear, and immediately usable. Return only the final prompt.`;
 /**
  * Generate text using Google Gemini API.
  * @param {Array<{role: string, content: string}>} messages
- * @param {string} model - defaults to gemini-1.5-flash-latest
+ * @param {string} model - defaults to gemini-2.5-flash
  * @returns {Promise<{text: string, tokensUsed: number}>}
  */
-export async function generateWithGemini(messages, model = 'gemini-1.5-flash-latest') {
+export async function generateWithGemini(messages, model = process.env.GEMINI_MODEL || 'gemini-2.5-flash') {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY is not set in environment variables.');
 
