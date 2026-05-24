@@ -12,6 +12,7 @@ const LINKS = [
   { label: 'Templates', href: '/templates' },
   { label: 'Features', href: '/#features' },
   { label: 'Pricing', href: '/pricing' },
+  { label: 'Services', href: 'https://tools.orbytara.com/services' },
 ];
 
 const MOBILE_LINKS = [
@@ -19,6 +20,7 @@ const MOBILE_LINKS = [
   { label: 'Templates', href: '/templates', icon: LayoutGrid, desc: 'Ready-to-use prompt library', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
   { label: 'Features', href: '/#features', icon: Compass, desc: 'Explore what PromptBeast can do', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
   { label: 'Pricing', href: '/pricing', icon: CreditCard, desc: 'Simple, transparent pricing plans', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
+  { label: 'Services', href: 'https://tools.orbytara.com/services', icon: Compass, desc: 'View all tools', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
 ];
 
 export default function Navbar() {
@@ -75,11 +77,8 @@ export default function Navbar() {
           <img 
             src="/logo.png" 
             alt="PromptBeast Logo" 
-            className="w-9 h-9 rounded-xl object-contain shadow-lg group-hover:shadow-violet-500/30 transition-all duration-300 group-hover:scale-110 flex-shrink-0"
+            className="w-10 h-10 rounded-xl object-contain shadow-lg group-hover:shadow-violet-500/30 transition-all duration-300 group-hover:scale-110 flex-shrink-0 invert dark:invert-0 hue-rotate-180 dark:hue-rotate-0 contrast-125 dark:contrast-100 saturate-150 dark:saturate-100"
           />
-          <span className="font-bold text-xl text-white whitespace-nowrap" style={{ fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '-0.02em' }}>
-            Prompt<span className="gradient-text">Beast</span>
-          </span>
         </Link>
  
         {/* Desktop nav */}

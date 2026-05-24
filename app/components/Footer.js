@@ -10,6 +10,7 @@ const FOOTER_LINKS = {
     { label: 'Templates', href: '/templates' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Changelog', href: '/changelog' },
+    { label: 'Services', href: 'https://tools.orbytara.com/services' },
   ],
   'Brainwaves': [
     { label: 'Documentation', href: '/docs' },
@@ -93,11 +94,8 @@ export default function Footer() {
               <img 
                 src="/logo.png" 
                 alt="PromptBeast Logo" 
-                className="w-10 h-10 rounded-xl object-contain shadow-lg shadow-amber-500/10 group-hover:shadow-amber-500/30 transition-all duration-300 group-hover:scale-105"
+                className="w-10 h-10 rounded-xl object-contain shadow-lg shadow-amber-500/10 group-hover:shadow-amber-500/30 transition-all duration-300 group-hover:scale-105 invert dark:invert-0 hue-rotate-180 dark:hue-rotate-0 contrast-125 dark:contrast-100 saturate-150 dark:saturate-100"
               />
-              <span className="font-extrabold text-2xl tracking-tight text-white" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
-                Prompt Beast
-              </span>
             </Link>
             <p className="text-sm text-white/50 leading-relaxed max-w-sm">
               An advanced prompt engineering engine synthesizing high-fidelity outputs for LLMs, Midjourney, and generative neural architectures.
