@@ -9,15 +9,31 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
   const selected = HF_MODELS.find(m => m.id === hfModel) || HF_MODELS[0];
 
   const PROVIDERS = [
-    { id: 'openai',      label: 'OpenAI',        sub: process.env.NEXT_PUBLIC_OPENAI_MODEL_NAME || 'GPT-4o Mini',        color: '#10a37f', badge: '⚡ Recommended' },
-    { id: 'gemini',      label: 'Gemini',        sub: process.env.NEXT_PUBLIC_GEMINI_MODEL_NAME || 'Gemini 2.5 Flash',   color: '#34a853', badge: '🔥 Fast & Free' },
-    { id: 'huggingface', label: 'Hugging Face',  sub: 'Open-source models', color: '#ff9d00', badge: '🤗 Free tier'   },
-  ].filter(p => {
-    if (p.id === 'openai' && process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false') return false;
-    if (p.id === 'gemini' && process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false') return false;
-    if (p.id === 'huggingface' && process.env.NEXT_PUBLIC_ENABLE_HF === 'false') return false;
-    return true;
-  });
+    { 
+      id: 'openai',      
+      label: 'OpenAI',        
+      sub: process.env.NEXT_PUBLIC_OPENAI_MODEL_NAME || 'GPT-4o Mini',        
+      color: process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false' ? '#888' : '#10a37f', 
+      badge: process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false' ? 'Coming Soon' : '⚡ Recommended',
+      disabled: process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false'
+    },
+    { 
+      id: 'gemini',      
+      label: 'Gemini',        
+      sub: process.env.NEXT_PUBLIC_GEMINI_MODEL_NAME || 'Gemini 2.5 Flash',   
+      color: process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false' ? '#888' : '#34a853', 
+      badge: process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false' ? 'Coming Soon' : '🔥 Fast & Free',
+      disabled: process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false'
+    },
+    { 
+      id: 'huggingface', 
+      label: 'Hugging Face',  
+      sub: 'Open-source models', 
+      color: process.env.NEXT_PUBLIC_ENABLE_HF === 'false' ? '#888' : '#ff9d00', 
+      badge: process.env.NEXT_PUBLIC_ENABLE_HF === 'false' ? 'Coming Soon' : '🤗 Free tier',
+      disabled: process.env.NEXT_PUBLIC_ENABLE_HF === 'false'
+    },
+  ];
 
   return (
     <div className="space-y-2">
@@ -25,11 +41,14 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
       <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${PROVIDERS.length}, minmax(0, 1fr))` }}>
         {PROVIDERS.map(p => (
           <button key={p.id} type="button" id={`prov-${p.id}`}
-            onClick={() => onProviderChange(p.id)}
+            onClick={() => { if (!p.disabled) onProviderChange(p.id); }}
+            disabled={p.disabled}
             className={`p-3 rounded-xl border text-left transition-all duration-200
-              ${provider === p.id
-                ? 'border-violet-500/55 bg-violet-600/10 shadow-lg shadow-violet-950/30'
-                : 'border-white/8 bg-white/3 hover:border-white/14 hover:bg-white/5'}`}
+              ${p.disabled 
+                ? 'opacity-40 cursor-not-allowed border-white/5 bg-white/2'
+                : (provider === p.id
+                  ? 'border-violet-500/55 bg-violet-600/10 shadow-lg shadow-violet-950/30'
+                  : 'border-white/8 bg-white/3 hover:border-white/14 hover:bg-white/5')}`}
           >
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-bold text-white/85">

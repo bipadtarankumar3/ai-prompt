@@ -62,12 +62,12 @@ const CustomSelector = ({ value, options, icon: Icon, onChange }) => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200/70 dark:bg-[#3c3c3c]/80 dark:hover:bg-[#4a4a4a] text-slate-655 dark:text-slate-350 transition-all duration-200 cursor-pointer border border-slate-200/40 dark:border-transparent select-none active:scale-95 shadow-sm"
+        className="flex items-center justify-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-slate-100 hover:bg-slate-200/70 dark:bg-[#3c3c3c]/80 dark:hover:bg-[#4a4a4a] text-slate-655 dark:text-slate-350 transition-all duration-200 cursor-pointer border border-slate-200/40 dark:border-transparent select-none active:scale-95 shadow-sm min-w-0 max-w-[110px] sm:max-w-none"
       >
-        {activeOption.emoji && <span className="mr-0.5 text-xs">{activeOption.emoji}</span>}
-        {activeOption.Icon && <activeOption.Icon size={12} className="text-amber-500 mr-0.5" />}
-        <span>{activeOption.label || activeOption.id}</span>
-        <ChevronDown size={11} className={`text-slate-400 dark:text-slate-500 transition-transform duration-250 ${open ? 'rotate-180' : ''}`} />
+        {activeOption.emoji && <span className="mr-0.5 text-[10px] sm:text-xs flex-shrink-0">{activeOption.emoji}</span>}
+        {activeOption.Icon && <activeOption.Icon size={12} className="text-amber-500 mr-0.5 flex-shrink-0" />}
+        <span className="truncate">{activeOption.label || activeOption.id}</span>
+        <ChevronDown size={11} className={`text-slate-400 dark:text-slate-500 transition-transform duration-250 flex-shrink-0 ${open ? 'rotate-180' : ''}`} />
       </button>
 
       <AnimatePresence>
@@ -478,24 +478,53 @@ function GeneratorSection() {
                       <div className="flex flex-col gap-1.5">
                         <button
                           onClick={() => setProvider('openai')}
+                          disabled={process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false'}
                           className={`flex items-center justify-between p-2 rounded-xl border text-[10px] font-semibold text-left transition-all
-                            ${provider === 'openai'
-                              ? 'bg-amber-500/10 border-amber-500/30 text-amber-655 dark:text-amber-400'
-                              : 'border-slate-200/50 dark:border-[#333] text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}
+                            ${process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false'
+                              ? 'opacity-40 cursor-not-allowed border-slate-200/20 dark:border-[#333]/40'
+                              : provider === 'openai'
+                                ? 'bg-amber-500/10 border-amber-500/30 text-amber-655 dark:text-amber-400'
+                                : 'border-slate-200/50 dark:border-[#333] text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}
                         >
-                          <span className="flex items-center gap-1.5"><Cpu size={12} /> OpenAI API</span>
-                          {provider === 'openai' && <Check size={11} />}
+                          <span className="flex items-center gap-1.5">
+                            <Cpu size={12} /> OpenAI API
+                            {process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false' && <span className="ml-1 px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-white/10 rounded">Soon</span>}
+                          </span>
+                          {provider === 'openai' && process.env.NEXT_PUBLIC_ENABLE_OPENAI !== 'false' && <Check size={11} />}
                         </button>
                         
                         <button
-                          onClick={() => setProvider('huggingface')}
+                          onClick={() => setProvider('gemini')}
+                          disabled={process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false'}
                           className={`flex items-center justify-between p-2 rounded-xl border text-[10px] font-semibold text-left transition-all
-                            ${provider === 'huggingface'
-                              ? 'bg-amber-500/10 border-amber-500/30 text-amber-655 dark:text-amber-400'
-                              : 'border-slate-200/50 dark:border-[#333] text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}
+                            ${process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false'
+                              ? 'opacity-40 cursor-not-allowed border-slate-200/20 dark:border-[#333]/40'
+                              : provider === 'gemini'
+                                ? 'bg-amber-500/10 border-amber-500/30 text-amber-655 dark:text-amber-400'
+                                : 'border-slate-200/50 dark:border-[#333] text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}
                         >
-                          <span className="flex items-center gap-1.5"><Bot size={12} /> HuggingFace</span>
-                          {provider === 'huggingface' && <Check size={11} />}
+                          <span className="flex items-center gap-1.5">
+                            <Zap size={12} /> Gemini
+                            {process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false' && <span className="ml-1 px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-white/10 rounded">Soon</span>}
+                          </span>
+                          {provider === 'gemini' && process.env.NEXT_PUBLIC_ENABLE_GEMINI !== 'false' && <Check size={11} />}
+                        </button>
+
+                        <button
+                          onClick={() => setProvider('huggingface')}
+                          disabled={process.env.NEXT_PUBLIC_ENABLE_HF === 'false'}
+                          className={`flex items-center justify-between p-2 rounded-xl border text-[10px] font-semibold text-left transition-all
+                            ${process.env.NEXT_PUBLIC_ENABLE_HF === 'false'
+                              ? 'opacity-40 cursor-not-allowed border-slate-200/20 dark:border-[#333]/40'
+                              : provider === 'huggingface'
+                                ? 'bg-amber-500/10 border-amber-500/30 text-amber-655 dark:text-amber-400'
+                                : 'border-slate-200/50 dark:border-[#333] text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'}`}
+                        >
+                          <span className="flex items-center gap-1.5">
+                            <Bot size={12} /> HuggingFace
+                            {process.env.NEXT_PUBLIC_ENABLE_HF === 'false' && <span className="ml-1 px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-white/10 rounded">Soon</span>}
+                          </span>
+                          {provider === 'huggingface' && process.env.NEXT_PUBLIC_ENABLE_HF !== 'false' && <Check size={11} />}
                         </button>
                       </div>
                     </div>
@@ -660,16 +689,22 @@ function GeneratorSection() {
                     
                     <button
                       onClick={() => { setProvider('openai'); setModelDropdownOpen(false); }}
+                      disabled={process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false'}
                       className={`w-full flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-left transition-colors cursor-pointer select-none
-                        ${provider === 'openai' 
-                          ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
-                          : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
+                        ${process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false'
+                          ? 'opacity-40 cursor-not-allowed grayscale'
+                          : provider === 'openai' 
+                            ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
+                            : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
                     >
                       <Cpu size={15} className="text-amber-500 mt-0.5 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-bold flex items-center justify-between">
-                          GPT-4o Mini
-                          {provider === 'openai' && <Check size={13} className="text-amber-500" />}
+                          <span className="flex items-center gap-1.5">
+                            GPT-4o Mini
+                            {process.env.NEXT_PUBLIC_ENABLE_OPENAI === 'false' && <span className="px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-[#333] text-slate-500 dark:text-slate-400 rounded">Soon</span>}
+                          </span>
+                          {provider === 'openai' && process.env.NEXT_PUBLIC_ENABLE_OPENAI !== 'false' && <Check size={13} className="text-amber-500" />}
                         </div>
                         <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-0.5">OpenAI recommended model. High-speed, robust template styling.</p>
                       </div>
@@ -677,16 +712,22 @@ function GeneratorSection() {
 
                     <button
                       onClick={() => { setProvider('gemini'); setModelDropdownOpen(false); }}
+                      disabled={process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false'}
                       className={`w-full flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-left transition-colors cursor-pointer select-none
-                        ${provider === 'gemini' 
-                          ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
-                          : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
+                        ${process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false'
+                          ? 'opacity-40 cursor-not-allowed grayscale'
+                          : provider === 'gemini' 
+                            ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
+                            : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
                     >
                       <Sparkles size={15} className="text-emerald-500 mt-0.5 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-bold flex items-center justify-between">
-                          Gemini 1.5 Flash
-                          {provider === 'gemini' && <Check size={13} className="text-amber-500" />}
+                          <span className="flex items-center gap-1.5">
+                            Gemini 1.5 Flash
+                            {process.env.NEXT_PUBLIC_ENABLE_GEMINI === 'false' && <span className="px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-[#333] text-slate-500 dark:text-slate-400 rounded">Soon</span>}
+                          </span>
+                          {provider === 'gemini' && process.env.NEXT_PUBLIC_ENABLE_GEMINI !== 'false' && <Check size={13} className="text-amber-500" />}
                         </div>
                         <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-0.5">Google's fast model. High-speed and cheap.</p>
                       </div>
@@ -694,16 +735,22 @@ function GeneratorSection() {
 
                     <button
                       onClick={() => { setProvider('huggingface'); setModelDropdownOpen(false); }}
+                      disabled={process.env.NEXT_PUBLIC_ENABLE_HF === 'false'}
                       className={`w-full flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-left transition-colors cursor-pointer select-none
-                        ${provider === 'huggingface' 
-                          ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
-                          : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
+                        ${process.env.NEXT_PUBLIC_ENABLE_HF === 'false'
+                          ? 'opacity-40 cursor-not-allowed grayscale'
+                          : provider === 'huggingface' 
+                            ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
+                            : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
                     >
                       <Bot size={15} className="text-orange-400 mt-0.5 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-bold flex items-center justify-between">
-                          HuggingFace Qwen
-                          {provider === 'huggingface' && <Check size={13} className="text-amber-500" />}
+                          <span className="flex items-center gap-1.5">
+                            HuggingFace Qwen
+                            {process.env.NEXT_PUBLIC_ENABLE_HF === 'false' && <span className="px-1.5 py-0.5 text-[8px] bg-slate-200 dark:bg-[#333] text-slate-500 dark:text-slate-400 rounded">Soon</span>}
+                          </span>
+                          {provider === 'huggingface' && process.env.NEXT_PUBLIC_ENABLE_HF !== 'false' && <Check size={13} className="text-amber-500" />}
                         </div>
                         <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-0.5">Qwen 2.5-7B open-source model. SOTD reasoning capabilities.</p>
                       </div>
@@ -862,7 +909,7 @@ function GeneratorSection() {
                           </div>
                           
                           {/* Inner clean prompt card (No heavy border outlines) */}
-                          <div className="bg-slate-50/50 dark:bg-[#2a2a2a]/30 border border-slate-250/20 dark:border-[#2d2d2d]/60 rounded-2xl p-5 relative select-text transition-all duration-300">
+                          <div className="bg-slate-50/50 dark:bg-[#2a2a2a]/30 border-0 rounded-2xl p-5 relative select-text transition-all duration-300">
                             <p className="prompt-text text-sm leading-relaxed whitespace-pre-wrap text-slate-800 dark:text-[#e4e4e4] font-medium tracking-wide">
                               {msg.content}
                               {/* Blinking neon stream cursor */}
@@ -1001,10 +1048,10 @@ function GeneratorSection() {
               <div className="flex items-end justify-between px-3 pb-3 pt-1.5 gap-2">
 
                 {/* Selector pills */}
-                <div className="flex items-center gap-1.5 flex-nowrap overflow-x-auto scrollbar-none flex-1 min-w-0 pb-1 -mb-1">
-                  <div className="flex-shrink-0"><CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} /></div>
-                  <div className="flex-shrink-0"><CustomSelector value={category} options={CATEGORIES} onChange={setCategory} /></div>
-                  <div className="flex-shrink-0"><CustomSelector value={tone} options={TONES} onChange={setTone} /></div>
+                <div className="flex items-center gap-1 sm:gap-1.5 flex-nowrap flex-1 min-w-0">
+                  <CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} />
+                  <CustomSelector value={category} options={CATEGORIES} onChange={setCategory} />
+                  <CustomSelector value={tone} options={TONES} onChange={setTone} />
                 </div>
 
                 {/* Right side: char count + send button */}

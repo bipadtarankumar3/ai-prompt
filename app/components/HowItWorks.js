@@ -25,9 +25,7 @@ export default function HowItWorks() {
         </div>
 
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          {/* Connector line (desktop) */}
-          <div className="hidden md:block absolute top-[72px] left-[33%] right-[33%] h-px"
-            style={{ background: 'linear-gradient(90deg, rgba(245,158,11,0.4), rgba(249,115,22,0.4))' }} />
+
 
           {STEPS.map((s, i) => (
             <motion.div key={s.n}
