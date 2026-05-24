@@ -64,7 +64,7 @@ export const metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.png',
   },
 };
 

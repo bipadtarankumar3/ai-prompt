@@ -6,11 +6,11 @@ import Link from "next/link";
 
 const FOOTER_LINKS = {
   "Tools": [
-    { label: "AI Prompt Generator", href: "https://tools.orbytara.com/ai-prompt" },
-    { label: "SQL Formatter", href: "https://tools.orbytara.com/sql-formatter" },
-    { label: "JSON Formatter", href: "https://tools.orbytara.com/json-formatter" },
-    { label: "Color Code Tool", href: "https://tools.orbytara.com/color-code" },
-    { label: "Case Converter", href: "https://tools.orbytara.com/case-converter" },
+    { label: "AI Prompt Generator", href: "http://aiprompt.revoxera.com" },
+    { label: "SQL Formatter", href: "http://sqlformatter.revoxera.com" },
+    { label: "JSON Formatter", href: "http://jsonformatter.revoxera.com" },
+    { label: "Color Code Tool", href: "http://colorcode.revoxera.com" },
+    { label: "Case Converter", href: "http://caseconverter.revoxera.com" },
   ],
   "Company": [
     // { label: "Careers", href: "/careers" },
@@ -55,9 +55,7 @@ export default function Footer() {
   const [synapses, setSynapses] = useState(849204912);
   const [load, setLoad] = useState(42.8);
   const [activeNodes, setActiveNodes] = useState(14892);
-  const [consoleInput, setConsoleInput] = useState("");
-  const [consoleOutput, setConsoleOutput] = useState("");
-  const [isSynthesizing, setIsSynthesizing] = useState(false);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -67,20 +65,6 @@ export default function Footer() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  const handleSynthesize = (e) => {
-    e.preventDefault();
-    if (!consoleInput.trim()) return;
-    setIsSynthesizing(true);
-    setConsoleOutput("Establishing link...");
-    setTimeout(() => {
-      setConsoleOutput("Mapping vector weights...");
-      setTimeout(() => {
-        setConsoleOutput(`Optimized Prompt: "${consoleInput.trim()} detailed, cinematic lighting, ultra-realistic, 8k resolution"`);
-        setIsSynthesizing(false);
-      }, 1000);
-    }, 800);
-  };
 
   return (
     <footer className="relative border-t border-white/5 pt-24 pb-12 px-6 bg-[#050508] overflow-hidden">
@@ -101,7 +85,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-start">
 
           {/* Col 1: Brand & Live System Status (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-6 space-y-6">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:scale-110 flex-shrink-0 bg-transparent">
                 <img src="/logo.png" alt="Revoxera Logo" className="w-full h-full object-cover invert dark:invert-0 hue-rotate-180 dark:hue-rotate-0 contrast-125 dark:contrast-100 saturate-150 dark:saturate-100 rounded-xl" />
@@ -130,57 +114,12 @@ export default function Footer() {
                 </div>
               </a>
 
-              {/* <a
-                href="tel:+447858102081"
-                className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-white/2 px-3.5 py-3 transition-all duration-500 ease-out hover:translate-y-[-2px] hover:border-cyan-400/20 hover:bg-white/4 hover:shadow-[0_8px_30px_rgba(6,182,212,0.06)]"
-              >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-cyan-500/10 transition-all duration-500 group-hover:bg-cyan-500/20">
-                  <Phone size={13} className="text-cyan-400" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[13px] font-semibold leading-none text-white">+44 7858 10 20 81</p>
-                  <p className="mt-1 text-[11px] text-white/30 transition-colors group-hover:text-white/50">Mon – Fri, 9am – 6pm</p>
-                </div>
-              </a> */}
+              {/*  */}
             </div>
-          </div>
-
-          {/* Col 2: Neural Quick Console Sandbox (4 cols) */}
-          <div className="lg:col-span-4 border border-white/[0.06] bg-[#0c0c14]/90 rounded-2xl p-5 shadow-lg shadow-black/25">
-            <div className="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider text-amber-500">
-              <Terminal className="w-3.5 h-3.5" />
-              Quick Prompt Synthesizer
-            </div>
-            <form onSubmit={handleSynthesize} className="space-y-3">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Enter a prompt core... e.g. cyberpunk car"
-                  value={consoleInput}
-                  onChange={(e) => setConsoleInput(e.target.value)}
-                  className="w-full text-xs bg-black/60 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder-white/20 focus:outline-none focus:border-amber-500/50 font-mono"
-                  suppressHydrationWarning
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isSynthesizing}
-                className="w-full py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white rounded-xl text-xs font-bold tracking-wider uppercase transition-all duration-300 disabled:opacity-50 cursor-pointer"
-                suppressHydrationWarning
-              >
-                {isSynthesizing ? "Synthesizing..." : "Synthesize Vector"}
-              </button>
-            </form>
-            {consoleOutput && (
-              <div className="mt-3 p-3 bg-black/80 rounded-lg border border-white/5 font-mono text-[10px] text-amber-300 break-words leading-relaxed">
-                <div className="text-white/30 mb-1">&gt; OUTPUT RESPONSE:</div>
-                {consoleOutput}
-              </div>
-            )}
           </div>
 
           {/* Col 3: Hivemind Sync (3 cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500">
               <Cpu className="w-3.5 h-3.5" />
               Sync with Hivemind

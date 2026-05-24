@@ -12,7 +12,7 @@ const LINKS = [
   { label: 'Templates', href: '/templates' },
   { label: 'Features', href: '/#features' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Services', href: 'https://tools.orbytara.com/services' },
+  { label: 'Services', href: 'https://tools.Revoxera.com/services' },
 ];
 
 const MOBILE_LINKS = [
@@ -20,7 +20,7 @@ const MOBILE_LINKS = [
   { label: 'Templates', href: '/templates', icon: LayoutGrid, desc: 'Ready-to-use prompt library', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
   { label: 'Features', href: '/#features', icon: Compass, desc: 'Explore what Revoxera AI can do', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
   { label: 'Pricing', href: '/pricing', icon: CreditCard, desc: 'Simple, transparent pricing plans', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
-  { label: 'Services', href: 'https://tools.orbytara.com/services', icon: Compass, desc: 'View all tools', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
+  { label: 'Services', href: 'https://tools.Revoxera.com/services', icon: Compass, desc: 'View all tools', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
 ];
 
 export default function Navbar() {
