@@ -130,7 +130,7 @@ export default function Footer() {
                 </div>
               </a>
 
-              <a
+              {/* <a
                 href="tel:+447858102081"
                 className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-white/2 px-3.5 py-3 transition-all duration-500 ease-out hover:translate-y-[-2px] hover:border-cyan-400/20 hover:bg-white/4 hover:shadow-[0_8px_30px_rgba(6,182,212,0.06)]"
               >
@@ -141,7 +141,7 @@ export default function Footer() {
                   <p className="text-[13px] font-semibold leading-none text-white">+44 7858 10 20 81</p>
                   <p className="mt-1 text-[11px] text-white/30 transition-colors group-hover:text-white/50">Mon – Fri, 9am – 6pm</p>
                 </div>
-              </a>
+              </a> */}
             </div>
           </div>
 
