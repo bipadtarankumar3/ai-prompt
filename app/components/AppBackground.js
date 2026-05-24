@@ -179,7 +179,7 @@ export default function AppBackground() {
           {bubbles.map((bubble) => (
             <motion.div
               key={bubble.id}
-              className={`absolute rounded-full bg-gradient-to-tr ${bubble.colorClass} border border-white/[0.04] dark:border-white/[0.02] backdrop-blur-[1px]`}
+              className={`absolute rounded-full bg-gradient-to-tr ${bubble.colorClass} border border-white/[0.04] dark:border-white/[0.02]`}
               style={{
                 width: bubble.size,
                 height: bubble.size,

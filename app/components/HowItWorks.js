@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const STEPS = [
   { n: '01', icon: '💭', title: 'Describe Your Idea', desc: 'Type a rough topic, paste an existing prompt, or pick one of our templates. No expertise needed.' },
-  { n: '02', icon: '⚙️', title: 'Configure Settings',  desc: 'Choose category, tone, and AI provider. Switch between GPT-4o and free open-source models.' },
+  { n: '02', icon: '⚙️', title: 'Configure Settings',  desc: 'Choose category, tone, and AI provider. Switch between Gemini 1.5 and free open-source models.' },
   { n: '03', icon: '✨', title: 'Get Perfect Results',  desc: 'Receive a polished, optimized prompt instantly. Copy, download, share, or save to favorites.' },
 ];
 

@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { Zap, Sparkles, RefreshCw, Layers, History, Share2, Shield, Globe, Moon } from 'lucide-react';
 
 const FEATURES = [
-  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Instant Generation',    desc: 'Create optimized prompts in seconds powered by GPT-4o and open-source models.' },
+  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Instant Generation',    desc: 'Create optimized prompts in seconds powered by Gemini 1.5 and open-source models.' },
   { Icon: Sparkles,  color: 'text-violet-400',  bg: 'bg-violet-400/10',  title: 'Prompt Improver',       desc: 'Paste any prompt and watch our AI transform it into something remarkable.' },
   { Icon: RefreshCw, color: 'text-blue-400',    bg: 'bg-blue-400/10',    title: 'Smart Rewriter',        desc: 'Get fresh, completely different variations while preserving the core intent.' },
-  { Icon: Layers,    color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Multiple AI Providers', desc: 'Seamlessly switch between OpenAI GPT-4o, Qwen, Mistral, DeepSeek, and more.' },
+  { Icon: Layers,    color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Multiple AI Providers', desc: 'Seamlessly switch between OpenAI Gemini 1.5, Qwen, Mistral, DeepSeek, and more.' },
   { Icon: History,   color: 'text-pink-400',    bg: 'bg-pink-400/10',    title: 'Prompt History',        desc: 'Every prompt is auto-saved. Access, reload, and delete from your history panel.' },
   { Icon: Share2,    color: 'text-cyan-400',    bg: 'bg-cyan-400/10',    title: 'Easy Sharing',          desc: 'Share via link, download as .txt, or copy to clipboard in one click.' },
   { Icon: Globe,     color: 'text-indigo-400',  bg: 'bg-indigo-400/10',  title: '8 Categories',          desc: 'ChatGPT, Midjourney, Coding, SEO, Marketing, YouTube, Blogging & Business.' },

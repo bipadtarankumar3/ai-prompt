@@ -21,7 +21,7 @@ export const metadata = {
   metadataBase: new URL('https://revoxera.ai'),
   title: 'Revoxera AI — World-Class AI Prompt Generator',
   description:
-    'Generate, improve, and rewrite AI prompts instantly with Revoxera AI. Powered by GPT-4o and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.',
+    'Generate, improve, and rewrite AI prompts instantly with Revoxera AI. Powered by Gemini 1.5 and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.',
   keywords: [
     'AI prompt generator',
     'ChatGPT prompts',
@@ -38,7 +38,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Revoxera AI — World-Class AI Prompt Generator',
-    description: 'Generate, improve, and rewrite AI prompts in seconds. Powered by GPT-4o & Hugging Face.',
+    description: 'Generate, improve, and rewrite AI prompts in seconds. Powered by Gemini 1.5 & Hugging Face.',
     url: 'https://revoxera.ai',
     siteName: 'Revoxera AI',
     type: 'website',

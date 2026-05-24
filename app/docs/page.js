@@ -80,7 +80,7 @@ const SECTIONS = [
         </p>
         <ul className="space-y-3">
           <li className="text-sm text-white/70 leading-relaxed">
-            <strong className="text-white">OpenAI (GPT-4o Mini)</strong>: Recommended for advanced logical tasks, programming, marketing copy, and multi-step complex instructions. Extremely reliable with high coherence.
+            <strong className="text-white">OpenAI (Gemini 1.5 Flash)</strong>: Recommended for advanced logical tasks, programming, marketing copy, and multi-step complex instructions. Extremely reliable with high coherence.
           </li>
           <li className="text-sm text-white/70 leading-relaxed">
             <strong className="text-white">Hugging Face Models</strong>: Access open-source giants such as **Qwen 2.5**, **Llama 3**, and **Mistral**. Ideal for developers, custom pipelines, or privacy-conscious users who prefer open weights.
@@ -98,7 +98,7 @@ const SECTIONS = [
         <div className="border-b border-white/5 pb-3">
           <p className="text-sm font-bold text-white mb-1">Is Revoxera AI free to use?</p>
           <p className="text-xs text-white/50 leading-relaxed">
-            Yes, our Free plan includes generous Hugging Face inference tokens and core template access. Advanced GPT-4o generations are available on our Pro plan.
+            Yes, our Free plan includes generous Hugging Face inference tokens and core template access. Advanced Gemini 1.5 generations are available on our Pro plan.
           </p>
         </div>
         <div className="border-b border-white/5 pb-3">

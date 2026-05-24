@@ -108,13 +108,6 @@ export default function AiNeuralCore() {
         </div>
       </motion.div>
 
-      {/* Decorative Outer HUD Elements */}
-      <div className="absolute top-0 left-0 text-[10px] font-mono text-slate-900/40 dark:text-white/20 uppercase tracking-widest hidden sm:block">
-        SYNAPSE: ACTIVE
-      </div>
-      <div className="absolute bottom-0 right-0 text-[10px] font-mono text-slate-900/40 dark:text-white/20 uppercase tracking-widest hidden sm:block">
-        CORE: v4.8_NODE
-      </div>
     </div>
   );
 }

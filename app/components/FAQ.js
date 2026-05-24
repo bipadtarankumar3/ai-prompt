@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 const FAQS = [
-  { q: 'Is Revoxera AI free to use?', a: 'Yes! Revoxera AI offers a generous free tier powered by Hugging Face open-source models. For GPT-4o access, provide your own OpenAI API key or upgrade to Pro.' },
-  { q: 'Which AI models does Revoxera AI support?', a: 'We support OpenAI GPT-4o Mini and multiple Hugging Face models: Qwen 2.5 7B, Mistral 7B, DeepSeek R1, Phi 3.5 Mini, and Zephyr 7B.' },
+  { q: 'Is Revoxera AI free to use?', a: 'Yes! Revoxera AI offers a generous free tier powered by Hugging Face open-source models. For Gemini 1.5 access, provide your own OpenAI API key or upgrade to Pro.' },
+  { q: 'Which AI models does Revoxera AI support?', a: 'We support OpenAI Gemini 1.5 Flash and multiple Hugging Face models: Qwen 2.5 7B, Mistral 7B, DeepSeek R1, Phi 3.5 Mini, and Zephyr 7B.' },
   { q: 'How do I add my OpenAI API key?', a: 'Add your OPENAI_API_KEY to the .env.local file when self-hosting. Your key is never stored in a database — it stays in environment variables only.' },
   { q: 'Is my data and API key secure?', a: 'All AI calls happen server-side in Next.js API routes. Your API key is never exposed to the browser. We also implement rate limiting (20 req/min) and input sanitization.' },
   { q: 'What makes these prompts better than writing them myself?', a: 'Revoxera AI adds proven prompt engineering techniques: role assignment, context layering, output format specs, chain-of-thought triggers, and category-specific patterns.' },

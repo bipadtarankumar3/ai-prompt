@@ -28,7 +28,7 @@ export default function Hero() {
           >
             <span className="badge badge-purple px-4 py-1.5 text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Powered by GPT-4o &amp; Hugging Face
+              Powered by Gemini 1.5 &amp; Hugging Face
             </span>
           </motion.div>
 
