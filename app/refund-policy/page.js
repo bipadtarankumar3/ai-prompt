@@ -9,7 +9,7 @@ const REFUND_SECTIONS = [
   {
     title: '1. Money-Back Guarantee',
     icon: <Calendar className="w-5 h-5 text-purple-400" />,
-    content: 'We offer a standard 14-day refund policy for all subscription tiers (Pro and Team) purchased via our platform. If you are not satisfied with Prompt Beast, you can request a full refund within 14 days of your initial purchase.'
+    content: 'We offer a standard 14-day refund policy for all subscription tiers (Pro and Team) purchased via our platform. If you are not satisfied with Revoxera AI, you can request a full refund within 14 days of your initial purchase.'
   },
   {
     title: '2. Usage Conditions',
@@ -71,10 +71,10 @@ export default function RefundPolicyPage() {
                 Overview
               </h2>
               <p className="text-sm text-white/70 leading-relaxed mb-4">
-                Thank you for choosing Prompt Beast. We want to make sure you have the best possible experience generating and optimizing AI prompts. Because our platform provides instant access to premium prompt templates and real-time generation APIs, we enforce structured refund terms to protect our content and platform integrity.
+                Thank you for choosing Revoxera AI. We want to make sure you have the best possible experience generating and optimizing AI prompts. Because our platform provides instant access to premium prompt templates and real-time generation APIs, we enforce structured refund terms to protect our content and platform integrity.
               </p>
               <p className="text-sm text-white/70 leading-relaxed">
-                If you believe you qualify for a refund, or have questions about a recent charge, please reach out to our billing support desk at <a href="mailto:billing@promptbeast.ai" className="text-purple-400 hover:underline">billing@promptbeast.ai</a> with your invoice ID.
+                If you believe you qualify for a refund, or have questions about a recent charge, please reach out to our billing support desk at <a href="mailto:billing@revoxera.ai" className="text-purple-400 hover:underline">billing@revoxera.ai</a> with your invoice ID.
               </p>
             </div>
 
@@ -104,7 +104,7 @@ export default function RefundPolicyPage() {
                 5. Subscription Cancellation
               </h2>
               <p className="text-sm text-white/70 leading-relaxed">
-                You may cancel your Prompt Beast subscription at any time directly through your billing portal settings. Upon cancellation, your account will remain active as a premium user until the end of your current billing period, after which it will downgrade to our free tier.
+                You may cancel your Revoxera AI subscription at any time directly through your billing portal settings. Upon cancellation, your account will remain active as a premium user until the end of your current billing period, after which it will downgrade to our free tier.
               </p>
             </div>
           </div>

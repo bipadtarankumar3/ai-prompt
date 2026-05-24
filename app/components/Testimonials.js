@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 
 const T = [
-  { name: 'Sarah Chen',     role: 'AI Artist',               avatar: '👩‍🎨', badge: 'Midjourney', rating: 5, text: 'Prompt Beast completely transformed my Midjourney workflow. I went from spending 30 minutes crafting prompts to getting perfect results in seconds. Absolutely incredible!' },
+  { name: 'Sarah Chen',     role: 'AI Artist',               avatar: '👩‍🎨', badge: 'Midjourney', rating: 5, text: 'Revoxera AI completely transformed my Midjourney workflow. I went from spending 30 minutes crafting prompts to getting perfect results in seconds. Absolutely incredible!' },
   { name: 'Marcus Williams',role: 'Senior Engineer',          avatar: '🧑‍💻', badge: 'Coding',     rating: 5, text: 'The coding prompts are insanely detailed. It adds context I would never think to include, and GPT-4 output quality is night and day better.' },
   { name: 'Priya Sharma',   role: 'Marketing Director',       avatar: '👩‍💼', badge: 'Marketing',  rating: 5, text: 'Our content team\'s output quality doubled in the first week. The marketing prompts genuinely produce results that convert. Worth every penny.' },
-  { name: 'James O\'Brien', role: 'YouTube Creator (500K)',   avatar: '🎬',   badge: 'YouTube',    rating: 5, text: 'The YouTube script prompts are GOLD. My audience retention went up 40% after using AI scripts generated with Prompt Beast templates.' },
+  { name: 'James O\'Brien', role: 'YouTube Creator (500K)',   avatar: '🎬',   badge: 'YouTube',    rating: 5, text: 'The YouTube script prompts are GOLD. My audience retention went up 40% after using AI scripts generated with Revoxera AI templates.' },
   { name: 'Mei Tanaka',     role: 'Startup Founder',          avatar: '🚀',   badge: 'Business',   rating: 5, text: 'Used the business plan prompts to prep for our Series A. The structured output helped us articulate our vision so clearly. We closed the round!' },
-  { name: 'Alex Rivera',    role: 'Freelance Copywriter',     avatar: '✍️',   badge: 'Blogging',   rating: 5, text: 'As a copywriter I was skeptical about AI tools. Prompt Beast is different — it enhances creativity instead of replacing it. My secret weapon.' },
+  { name: 'Alex Rivera',    role: 'Freelance Copywriter',     avatar: '✍️',   badge: 'Blogging',   rating: 5, text: 'As a copywriter I was skeptical about AI tools. Revoxera AI is different — it enhances creativity instead of replacing it. My secret weapon.' },
 ];
 
 export default function Testimonials() {

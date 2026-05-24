@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@huggingface/inference": "^4.13.17",
     "framer-motion": "^12.39.0",
     "lucide-react": "^1.16.0",

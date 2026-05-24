@@ -10,13 +10,14 @@ export default function ProviderSelect({ provider, hfModel, onProviderChange, on
 
   const PROVIDERS = [
     { id: 'openai',      label: 'OpenAI',        sub: 'GPT-4o Mini',        color: '#10a37f', badge: '⚡ Recommended' },
+    { id: 'gemini',      label: 'Gemini',        sub: 'Gemini 1.5 Flash',   color: '#34a853', badge: '🔥 Fast & Free' },
     { id: 'huggingface', label: 'Hugging Face',  sub: 'Open-source models', color: '#ff9d00', badge: '🤗 Free tier'   },
   ];
 
   return (
     <div className="space-y-2">
       {/* Provider cards */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         {PROVIDERS.map(p => (
           <button key={p.id} type="button" id={`prov-${p.id}`}
             onClick={() => onProviderChange(p.id)}

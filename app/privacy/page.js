@@ -24,7 +24,7 @@ const SECTIONS = [
   {
     title: '4. Third-Party Integrations',
     icon: <Globe className="w-5 h-5 text-purple-400" />,
-    content: 'Our service links to external APIs and web tools. We do not control and are not responsible for the privacy practices of external providers. We recommend reviewing the privacy statements of any third-party AI models or platforms you integrate with Prompt Beast.'
+    content: 'Our service links to external APIs and web tools. We do not control and are not responsible for the privacy practices of external providers. We recommend reviewing the privacy statements of any third-party AI models or platforms you integrate with Revoxera AI.'
   }
 ];
 
@@ -71,10 +71,10 @@ export default function PrivacyPage() {
                 Introduction
               </h2>
               <p className="text-sm text-white/70 leading-relaxed mb-4">
-                Welcome to Prompt Beast (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;). We respect your privacy and want to be transparent about how we handle user-generated prompts and configurations. By using our website and services, you consent to the practices described in this Privacy Policy.
+                Welcome to Revoxera AI (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;). We respect your privacy and want to be transparent about how we handle user-generated prompts and configurations. By using our website and services, you consent to the practices described in this Privacy Policy.
               </p>
               <p className="text-sm text-white/70 leading-relaxed">
-                If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at <a href="mailto:privacy@promptbeast.ai" className="text-purple-400 hover:underline">privacy@promptbeast.ai</a>.
+                If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us at <a href="mailto:privacy@revoxera.ai" className="text-purple-400 hover:underline">privacy@revoxera.ai</a>.
               </p>
             </div>
 

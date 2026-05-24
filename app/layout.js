@@ -18,10 +18,10 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://promptbeast.ai'),
-  title: 'Prompt Beast — World-Class AI Prompt Generator',
+  metadataBase: new URL('https://revoxera.ai'),
+  title: 'Revoxera AI — World-Class AI Prompt Generator',
   description:
-    'Generate, improve, and rewrite AI prompts instantly with Prompt Beast. Powered by GPT-4o and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.',
+    'Generate, improve, and rewrite AI prompts instantly with Revoxera AI. Powered by GPT-4o and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.',
   keywords: [
     'AI prompt generator',
     'ChatGPT prompts',
@@ -31,29 +31,29 @@ export const metadata = {
     'GPT-4',
     'prompt improver',
   ],
-  authors: [{ name: 'Prompt Beast' }],
-  creator: 'Prompt Beast',
+  authors: [{ name: 'Revoxera AI' }],
+  creator: 'Revoxera AI',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Prompt Beast — World-Class AI Prompt Generator',
+    title: 'Revoxera AI — World-Class AI Prompt Generator',
     description: 'Generate, improve, and rewrite AI prompts in seconds. Powered by GPT-4o & Hugging Face.',
-    url: 'https://promptbeast.ai',
-    siteName: 'Prompt Beast',
+    url: 'https://revoxera.ai',
+    siteName: 'Revoxera AI',
     type: 'website',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Prompt Beast AI Prompt Generator',
+        alt: 'Revoxera AI AI Prompt Generator',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prompt Beast — AI Prompt Generator',
+    title: 'Revoxera AI — AI Prompt Generator',
     description: 'Generate optimized AI prompts in seconds.',
     images: ['/og-image.png'],
   },

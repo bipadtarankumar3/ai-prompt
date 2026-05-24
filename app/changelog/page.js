@@ -41,7 +41,7 @@ const RELEASES = [
     title: 'Official Launch',
     badge: 'Launch',
     badgeColor: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-    description: 'The birth of Prompt Beast. A high-converting interface built to generate expert-level prompts instantly.',
+    description: 'The birth of Revoxera AI. A high-converting interface built to generate expert-level prompts instantly.',
     changes: [
       'Dual-provider support: GPT-4o Mini (OpenAI) and Open-source AI models (Hugging Face).',
       'Category and Tone selector chips providing custom styling modifiers automatically.',
@@ -83,7 +83,7 @@ export default function ChangelogPage() {
               transition={{ delay: 0.1 }}
               className="text-base text-muted max-w-xl mx-auto leading-relaxed"
             >
-              Stay up to date with new features, visual redesigns, and engine updates built for Prompt Beast.
+              Stay up to date with new features, visual redesigns, and engine updates built for Revoxera AI.
             </motion.p>
           </div>
 

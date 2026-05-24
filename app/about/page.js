@@ -47,7 +47,7 @@ export default function AboutPage() {
               animate={{ opacity: 1, y: 0 }}
               className="section-title mb-6"
             >
-              About Prompt Beast
+              About Revoxera AI
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -62,14 +62,14 @@ export default function AboutPage() {
           {/* Core Story */}
           <div className="glass-card p-6 md:p-8 mb-12">
             <h2 className="text-lg font-bold text-white mb-4" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
-              The Story of Prompt Beast
+              The Story of Revoxera AI
             </h2>
             <div className="space-y-4 text-sm text-white/70 leading-relaxed">
               <p>
-                Prompt Beast was founded in 2026 by a small group of software engineers and content creators who realized that writing effective prompts was becoming a bottleneck. While large language models were growing exponentially in capability, getting them to produce consistent, structured outputs remained a tedious trial-and-error process.
+                Revoxera AI was founded in 2026 by a small group of software engineers and content creators who realized that writing effective prompts was becoming a bottleneck. While large language models were growing exponentially in capability, getting them to produce consistent, structured outputs remained a tedious trial-and-error process.
               </p>
               <p>
-                We realized that effective prompting requires roleplaying, delimiter structures, explicit output rules, and detailed tone adjustments. We built Prompt Beast to automate these prompt patterns, translating brief inputs into complete prompt layouts with a single click.
+                We realized that effective prompting requires roleplaying, delimiter structures, explicit output rules, and detailed tone adjustments. We built Revoxera AI to automate these prompt patterns, translating brief inputs into complete prompt layouts with a single click.
               </p>
             </div>
           </div>

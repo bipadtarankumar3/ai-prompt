@@ -18,7 +18,7 @@ const LINKS = [
 const MOBILE_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
   { label: 'Templates', href: '/templates', icon: LayoutGrid, desc: 'Ready-to-use prompt library', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
-  { label: 'Features', href: '/#features', icon: Compass, desc: 'Explore what PromptBeast can do', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
+  { label: 'Features', href: '/#features', icon: Compass, desc: 'Explore what Revoxera AI can do', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
   { label: 'Pricing', href: '/pricing', icon: CreditCard, desc: 'Simple, transparent pricing plans', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
   { label: 'Services', href: 'https://tools.orbytara.com/services', icon: Compass, desc: 'View all tools', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
 ];
@@ -76,7 +76,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
           <img 
             src="/logo.png" 
-            alt="PromptBeast Logo" 
+            alt="Revoxera AI Logo" 
             className="w-10 h-10 rounded-xl object-contain shadow-lg group-hover:shadow-violet-500/30 transition-all duration-300 group-hover:scale-110 flex-shrink-0 invert dark:invert-0 hue-rotate-180 dark:hue-rotate-0 contrast-125 dark:contrast-100 saturate-150 dark:saturate-100"
           />
         </Link>

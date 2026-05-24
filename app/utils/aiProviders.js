@@ -111,7 +111,7 @@ export async function generateWithHuggingFace(messages, model = 'Qwen/Qwen2.5-7B
  * @returns {Array<{role: string, content: string}>}
  */
 export function buildMessages({ userInput, category, tone, mode, chatHistory = [] }) {
-  const systemBase = `You are Prompt Beast, an expert AI prompt engineer. 
+  const systemBase = `You are Revoxera AI, an expert AI prompt engineer. 
 You craft highly optimized, detailed prompts for various AI tools and use cases.
 Always return ONLY the improved/generated/refined prompt — no preamble, no explanation, no quotation marks around it.
 Use clear structure, specific details, and best practices for the ${category} category.`;
@@ -163,4 +163,35 @@ Make it specific, clear, and immediately usable. Return only the final prompt.`;
     { role: 'system', content: systemBase },
     { role: 'user', content: userMessage },
   ];
+}
+
+// ─── Google Gemini ─────────────────────────────────────────────────────────────
+
+/**
+ * Generate text using Google Gemini API.
+ * @param {Array<{role: string, content: string}>} messages
+ * @param {string} model - defaults to gemini-1.5-flash-latest
+ * @returns {Promise<{text: string, tokensUsed: number}>}
+ */
+export async function generateWithGemini(messages, model = 'gemini-1.5-flash-latest') {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error('GEMINI_API_KEY is not set in environment variables.');
+
+  // Import dynamically or assume it's installed
+  const { GoogleGenerativeAI } = await import('@google/generative-ai');
+  const genAI = new GoogleGenerativeAI(apiKey);
+  
+  const systemMessage = messages.find(m => m.role === 'system')?.content || '';
+  const userMessages = messages.filter(m => m.role !== 'system').map(m => m.content).join('\n\n');
+  
+  const prompt = systemMessage ? `${systemMessage}\n\n${userMessages}` : userMessages;
+  
+  const geminiModel = genAI.getGenerativeModel({ model });
+  const result = await geminiModel.generateContent(prompt);
+  const response = await result.response;
+  
+  const text = response.text();
+  const tokensUsed = response.usageMetadata?.totalTokenCount || 0;
+
+  return { text, tokensUsed };
 }

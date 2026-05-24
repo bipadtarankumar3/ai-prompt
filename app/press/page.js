@@ -27,7 +27,7 @@ export default function PressPage() {
             <p className="section-label mb-2">Media Kit</p>
             <h1 className="section-title mb-4">Press Resources</h1>
             <p className="text-sm text-muted max-w-xl mx-auto">
-              Access the Prompt Beast brand assets, logos, factsheet, and contact info for media inquiries.
+              Access the Revoxera AI brand assets, logos, factsheet, and contact info for media inquiries.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export default function PressPage() {
               </p>
               <div className="border border-white/5 rounded-xl p-4 bg-white/2 flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-white mb-0.5">Prompt Beast Brand Kit</p>
+                  <p className="text-xs font-bold text-white mb-0.5">Revoxera AI Brand Kit</p>
                   <p className="text-[10px] text-white/30">SVG, PNG Logos & Guidelines (12MB)</p>
                 </div>
                 <a
@@ -90,8 +90,8 @@ export default function PressPage() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white mb-0.5">Press Team</p>
-                  <a href="mailto:press@promptbeast.com" className="text-xs text-purple-400 hover:underline">
-                    press@promptbeast.com
+                  <a href="mailto:press@revoxera.com" className="text-xs text-purple-400 hover:underline">
+                    press@revoxera.com
                   </a>
                 </div>
               </div>

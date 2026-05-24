@@ -59,8 +59,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-sm font-bold text-white">Email Support</h3>
                     <p className="text-xs text-white/50 mt-0.5 mb-1">Response time within 24 hours</p>
-                    <a href="mailto:support@promptbeast.com" className="text-xs text-purple-400 hover:underline">
-                      support@promptbeast.com
+                    <a href="mailto:support@revoxera.com" className="text-xs text-purple-400 hover:underline">
+                      support@revoxera.com
                     </a>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-sm font-bold text-white">Office</h3>
                     <p className="text-xs text-white/50 mt-0.5 leading-relaxed">
-                      Prompt Beast Inc.<br />
+                      Revoxera AI Inc.<br />
                       100 Pine Street, Suite 1250<br />
                       San Francisco, CA 94111
                     </p>

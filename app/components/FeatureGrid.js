@@ -19,7 +19,7 @@ export default function FeatureGrid() {
     <section id="features" className="section">
       <div className="container">
         <div className="text-center mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-3">Why Prompt Beast</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-violet-400 mb-3">Why Revoxera AI</p>
           <h2 className="font-bold text-white mb-4"
             style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
             Everything You Need to{' '}

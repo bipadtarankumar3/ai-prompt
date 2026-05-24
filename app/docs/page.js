@@ -13,7 +13,7 @@ const SECTIONS = [
     content: (
       <div className="space-y-4">
         <p className="text-sm text-white/70 leading-relaxed">
-          Welcome to **Prompt Beast**. Our platform is designed to bridge the gap between simple ideas and professional-grade AI prompts. Whether you are using ChatGPT, Midjourney, or open-source models, Prompt Beast optimizes your inputs for maximum output quality.
+          Welcome to **Revoxera AI**. Our platform is designed to bridge the gap between simple ideas and professional-grade AI prompts. Whether you are using ChatGPT, Midjourney, or open-source models, Revoxera AI optimizes your inputs for maximum output quality.
         </p>
         <div className="bg-white/3 border border-white/5 rounded-xl p-4 space-y-2">
           <p className="text-xs font-bold text-white uppercase tracking-wider">Quick steps to get started:</p>
@@ -35,7 +35,7 @@ const SECTIONS = [
     content: (
       <div className="space-y-5">
         <p className="text-sm text-white/70 leading-relaxed">
-          Prompt Beast offers three unique operational modes depending on your specific requirements:
+          Revoxera AI offers three unique operational modes depending on your specific requirements:
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl border border-white/5 bg-white/3">
@@ -96,7 +96,7 @@ const SECTIONS = [
     content: (
       <div className="space-y-4">
         <div className="border-b border-white/5 pb-3">
-          <p className="text-sm font-bold text-white mb-1">Is Prompt Beast free to use?</p>
+          <p className="text-sm font-bold text-white mb-1">Is Revoxera AI free to use?</p>
           <p className="text-xs text-white/50 leading-relaxed">
             Yes, our Free plan includes generous Hugging Face inference tokens and core template access. Advanced GPT-4o generations are available on our Pro plan.
           </p>

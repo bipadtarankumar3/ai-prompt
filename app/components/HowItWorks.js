@@ -17,7 +17,7 @@ export default function HowItWorks() {
           <p className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3">Simple as 1-2-3</p>
           <h2 className="font-bold text-white mb-4"
             style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-            How <span className="gradient-text">Prompt Beast</span> Works
+            How <span className="gradient-text">Revoxera AI</span> Works
           </h2>
           <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed">
             Generate world-class AI prompts in under 30 seconds.

@@ -11,7 +11,7 @@ const PLANS = [
     icon: <Zap className="w-5 h-5" />,
     price: '$0',
     period: 'forever',
-    description: 'Perfect for trying out Prompt Beast',
+    description: 'Perfect for trying out Revoxera AI',
     badge: null,
     gradient: 'from-slate-900/60 to-slate-950/60',
     borderColor: 'border-white/5 hover:border-white/15',
@@ -75,7 +75,7 @@ const PLANS = [
       'On-premise deployment',
     ],
     cta: 'Contact Sales',
-    ctaHref: 'mailto:sales@promptbeast.ai',
+    ctaHref: 'mailto:sales@revoxera.ai',
     highlighted: false,
   },
 ];

@@ -1,4 +1,4 @@
-# 🦁 Prompt Beast — World-Class AI Prompt Generator
+# 🦁 Revoxera AI — World-Class AI Prompt Generator
 
 > Generate, improve, and rewrite AI prompts instantly powered by GPT-4o and Hugging Face.
 
@@ -234,4 +234,4 @@ MIT License — feel free to use and modify for commercial projects.
 
 ---
 
-Made with ❤️ by the **Prompt Beast** team | [promptbeast.ai](https://promptbeast.ai)
+Made with ❤️ by the **Revoxera AI** team | [revoxera.ai](https://revoxera.ai)

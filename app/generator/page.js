@@ -142,7 +142,7 @@ function GeneratorSection() {
   const [mode, setMode] = useState('generate');
   const [category, setCategory] = useState('ChatGPT');
   const [tone, setTone] = useState('Professional');
-  const [provider, setProvider] = useState('openai');
+  const [provider, setProvider] = useState('gemini');
   const [hfModel, setHfModel] = useState('Qwen/Qwen2.5-7B-Instruct');
 
   /* ── History ───────────────────────────────────────────────── */
@@ -208,7 +208,7 @@ function GeneratorSection() {
     ]);
     setInput('');
     setTokens(entry.tokensUsed || 0);
-    setProvider(entry.provider || 'openai');
+    setProvider(entry.provider || 'gemini');
     setModel('');
     setStreamingIdx(null);
     if (entry.category) setCategory(entry.category);
@@ -365,11 +365,9 @@ function GeneratorSection() {
           {/* Header */}
           <div className="flex items-center justify-between p-3.5 border-b border-slate-200/60 dark:border-[#2d2d2d]/80">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-900/20 group-hover:scale-105 transition-all">
-                <Zap size={14} className="text-white fill-white animate-spark" />
-              </div>
+              <img src="/logo.png" alt="Revoxera AI Logo" className="w-7 h-7 object-contain group-hover:scale-105 transition-all" />
               <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors" style={{ fontFamily: 'var(--font-display)' }}>
-                PromptBeast <span className="text-[10px] text-amber-500 dark:text-amber-400/80 font-mono">v1.2</span>
+                Revoxera AI <span className="text-[10px] text-amber-500 dark:text-amber-400/80 font-mono">v1.2</span>
               </span>
             </Link>
             <button
@@ -540,10 +538,8 @@ function GeneratorSection() {
             >
               <div className="flex items-center justify-between p-3.5 border-b border-slate-200/50 dark:border-[#2d2d2d]/80">
                 <div className="flex items-center gap-2">
-                  <div className="w-6.5 h-6.5 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
-                    <Zap size={13} className="text-white fill-white" />
-                  </div>
-                  <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">PromptBeast</span>
+                  <img src="/logo.png" alt="Revoxera AI Logo" className="w-6 h-6 object-contain" />
+                  <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white">Revoxera AI</span>
                 </div>
                 <button
                   onClick={() => setMobileSidebar(false)}
@@ -644,7 +640,7 @@ function GeneratorSection() {
               >
                 <span className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  {provider === 'openai' ? 'GPT-4o Mini' : 'HuggingFace Engine'}
+                  {provider === 'openai' ? 'GPT-4o Mini' : (provider === 'gemini' ? 'Gemini 1.5' : 'HuggingFace Engine')}
                 </span>
                 <ChevronDown size={14} className={`text-slate-400 dark:text-slate-500 transition-transform duration-250 ${modelDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -676,6 +672,23 @@ function GeneratorSection() {
                           {provider === 'openai' && <Check size={13} className="text-amber-500" />}
                         </div>
                         <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-0.5">OpenAI recommended model. High-speed, robust template styling.</p>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => { setProvider('gemini'); setModelDropdownOpen(false); }}
+                      className={`w-full flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-left transition-colors cursor-pointer select-none
+                        ${provider === 'gemini' 
+                          ? 'bg-amber-500/10 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold' 
+                          : 'hover:bg-slate-100/60 dark:hover:bg-[#2c2c2c]/65 text-slate-700 dark:text-slate-350'}`}
+                    >
+                      <Sparkles size={15} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold flex items-center justify-between">
+                          Gemini 1.5 Flash
+                          {provider === 'gemini' && <Check size={13} className="text-amber-500" />}
+                        </div>
+                        <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-0.5">Google's fast model. High-speed and cheap.</p>
                       </div>
                     </button>
 
@@ -1059,7 +1072,7 @@ function GeneratorSection() {
                 <kbd className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-[#2a2a2a] border border-slate-200/70 dark:border-[#383838]/70 text-slate-500 dark:text-[#5a5a5a] font-mono text-[9px]">Shift+Enter</kbd>
                 {' '}for line · {' '}
               </span>
-              PromptBeast can make mistakes. Verify important outputs.
+              Revoxera AI can make mistakes. Verify important outputs.
             </p>
           </div>
         </div>

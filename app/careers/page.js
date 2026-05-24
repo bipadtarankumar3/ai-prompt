@@ -58,7 +58,7 @@ export default function CareersPage() {
             </div>
             <div>
               <h2 className="text-base font-bold text-white mb-1.5" style={{ fontFamily: 'var(--font-display, sans-serif)' }}>
-                Why Prompt Beast?
+                Why Revoxera AI?
               </h2>
               <p className="text-xs text-white/50 leading-relaxed">
                 We are a lean, product-focused team of builders. We value design-first product design, fast release cycles, open communication, and high autonomy. Our team receives comprehensive healthcare, home-office stipends, learning budgets, and flexible vacation time.
@@ -106,7 +106,7 @@ export default function CareersPage() {
                 <div className="flex flex-col justify-between items-start md:items-end gap-4 min-w-[150px] border-t md:border-t-0 md:border-l border-white/5 pt-4 md:pt-0 md:pl-6 flex-shrink-0">
                   <span className="text-xs font-bold text-white/70 font-mono">{job.salary}</span>
                   <a
-                    href="mailto:careers@promptbeast.com"
+                    href="mailto:careers@revoxera.com"
                     className="btn-secondary w-full md:w-auto text-xs py-2 px-4 rounded-xl font-bold flex items-center justify-center gap-1.5"
                   >
                     Apply Now

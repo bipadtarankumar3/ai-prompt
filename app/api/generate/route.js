@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import {
   generateWithOpenAI,
   generateWithHuggingFace,
+  generateWithGemini,
   buildMessages,
 } from '@/app/utils/aiProviders';
 
@@ -77,7 +78,7 @@ export async function POST(request) {
       );
     }
 
-    const validProviders = ['openai', 'huggingface'];
+    const validProviders = ['openai', 'huggingface', 'gemini'];
     if (!validProviders.includes(provider)) {
       return NextResponse.json({ error: 'Invalid provider selected.' }, { status: 400 });
     }
@@ -106,6 +107,8 @@ export async function POST(request) {
 
     if (provider === 'openai') {
       result = await generateWithOpenAI(messages);
+    } else if (provider === 'gemini') {
+      result = await generateWithGemini(messages);
     } else {
       result = await generateWithHuggingFace(
         messages,
@@ -118,7 +121,7 @@ export async function POST(request) {
       result: result.text,
       tokensUsed: result.tokensUsed,
       provider,
-      model: provider === 'openai' ? 'gpt-4o-mini' : (hfModel || 'Qwen/Qwen2.5-7B-Instruct'),
+      model: provider === 'openai' ? 'gpt-4o-mini' : (provider === 'gemini' ? 'gemini-1.5-flash-latest' : (hfModel || 'Qwen/Qwen2.5-7B-Instruct')),
     });
   } catch (error) {
     console.error('[/api/generate] Error:', error);

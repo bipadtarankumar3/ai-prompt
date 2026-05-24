@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const CODE_EXAMPLES = {
-  curl: `curl -X POST https://api.promptbeast.com/v1/generate \\
+  curl: `curl -X POST https://api.revoxera.com/v1/generate \\
   -H "Authorization: Bearer pb_live_your_key" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -17,7 +17,7 @@ const CODE_EXAMPLES = {
     "mode": "generate",
     "provider": "openai"
   }'`,
-  javascript: `const res = await fetch('https://api.promptbeast.com/v1/generate', {
+  javascript: `const res = await fetch('https://api.revoxera.com/v1/generate', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer pb_live_your_key',
@@ -36,7 +36,7 @@ const data = await res.json();
 console.log(data.result);`,
   python: `import requests
 
-url = "https://api.promptbeast.com/v1/generate"
+url = "https://api.revoxera.com/v1/generate"
 headers = {
     "Authorization": "Bearer pb_live_your_key",
     "Content-Type": "application/json"
@@ -113,7 +113,7 @@ export default function ApiReferencePage() {
             <p className="section-label mb-2">Developers</p>
             <h1 className="section-title mb-3">API Reference</h1>
             <p className="text-sm text-white/50 max-w-xl leading-relaxed">
-              Integrate Prompt Beast optimization directly into your workflows and applications via a simple HTTPS API.
+              Integrate Revoxera AI optimization directly into your workflows and applications via a simple HTTPS API.
             </p>
           </motion.div>
 
@@ -185,7 +185,7 @@ export default function ApiReferencePage() {
                       Generate Prompt
                     </h2>
                     <p className="text-[11px] font-mono text-purple-400 mt-0.5">
-                      https://api.promptbeast.com/v1/generate
+                      https://api.revoxera.com/v1/generate
                     </p>
                   </div>
                   <span className="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold font-mono">

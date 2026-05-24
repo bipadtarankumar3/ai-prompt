@@ -56,7 +56,7 @@ export default function CommunityPage() {
               animate={{ opacity: 1, y: 0 }}
               className="section-title mb-6"
             >
-              Join the Prompt Beast Community
+              Join the Revoxera AI Community
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}

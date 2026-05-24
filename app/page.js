@@ -59,7 +59,7 @@ export default function Home() {
                 <span className="gradient-text">Prompt Master?</span>
               </h2>
               <p className="text-base text-muted max-w-lg mx-auto mb-8 leading-relaxed">
-                Join 10,000+ creators, developers, and marketers who use Prompt Beast
+                Join 10,000+ creators, developers, and marketers who use Revoxera AI
                 to generate AI prompts that actually work.
               </p>
               <Link
