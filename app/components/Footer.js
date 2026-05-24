@@ -140,6 +140,7 @@ export default function Footer() {
               <div className="relative">
                 <input 
                   type="text"
+                  suppressHydrationWarning
                   placeholder="Enter a prompt core... e.g. cyberpunk car"
                   value={consoleInput}
                   onChange={(e) => setConsoleInput(e.target.value)}
@@ -148,6 +149,7 @@ export default function Footer() {
               </div>
               <button
                 type="submit"
+                suppressHydrationWarning
                 disabled={isSynthesizing}
                 className="w-full py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white rounded-xl text-xs font-bold tracking-wider uppercase transition-all duration-300 disabled:opacity-50"
               >
@@ -174,10 +176,11 @@ export default function Footer() {
             <div className="space-y-2">
               <input 
                 type="email" 
+                suppressHydrationWarning 
                 placeholder="neural-address@domain.com"
                 className="w-full text-xs bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder-white/25 focus:outline-none focus:border-amber-500/50"
               />
-              <button className="w-full py-2.5 bg-[#0c0c14] text-white border border-white/10 rounded-xl text-xs font-bold hover:bg-[#161622] transition-colors duration-200">
+              <button suppressHydrationWarning className="w-full py-2.5 bg-[#0c0c14] text-white border border-white/10 rounded-xl text-xs font-bold hover:bg-[#161622] transition-colors duration-200">
                 Establish Protocol Sync
               </button>
             </div>

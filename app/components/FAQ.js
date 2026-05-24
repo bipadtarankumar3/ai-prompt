@@ -25,7 +25,7 @@ function Item({ faq, i }) {
       className={`border rounded-2xl overflow-hidden transition-colors duration-200
         ${open ? 'border-violet-500/35 bg-violet-600/5' : 'border-white/7 bg-white/2 hover:border-white/12'}`}
     >
-      <button id={`faq-${i}`} onClick={() => setOpen(!open)}
+      <button id={`faq-${i}`} onClick={() => setOpen(!open)} suppressHydrationWarning
         className="w-full flex items-center justify-between px-6 py-5 text-left gap-4 cursor-pointer">
         <span className="text-sm font-semibold text-white/85">{faq.q}</span>
         <ChevronDown size={18}
