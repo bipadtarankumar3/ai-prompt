@@ -37,7 +37,7 @@ export const metadata = {
   authors: [{ name: 'Revoxera AI' }],
   creator: 'Revoxera AI',
   alternates: {
-    canonical: '/',
+    canonical: 'https://aiprompt.revoxera.com/',
   },
   openGraph: {
     title: 'Revoxera AI — World-Class AI Prompt Generator',
