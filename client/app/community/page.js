@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MessageSquare, GitBranch, Share2, Heart, Shield } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const CHANNELS = [
@@ -35,6 +36,7 @@ const CHANNELS = [
 export default function CommunityPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="community" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

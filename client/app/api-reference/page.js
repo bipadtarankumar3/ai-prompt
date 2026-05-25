@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal, Shield, Copy, Check, Code, Zap, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const CODE_EXAMPLES = {
@@ -98,6 +99,7 @@ export default function ApiReferencePage() {
 
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="api-reference" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-16 px-4 relative">

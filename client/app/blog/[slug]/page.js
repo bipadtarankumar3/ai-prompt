@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, BookOpen, Calendar, User, Clock, Loader } from 'lucide-react';
 import Navbar from '../../components/Navbar';
+import SeoHeader from '../../components/SeoHeader';
 import Footer from '../../components/Footer';
 import { clientApi } from '../../utils/clientApi';
 
@@ -33,18 +34,11 @@ export default function BlogPostView() {
     loadPost();
   }, [slug]);
 
-  useEffect(() => {
-    if (post) {
-      document.title = `${post.title} — Revoxera AI Blog`;
-      let metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', post.excerpt || post.title);
-      }
-    }
-  }, [post]);
+  // Dynamic SEO Metadata handled via SeoHeader component below
 
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="blog_detail" data={post} />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

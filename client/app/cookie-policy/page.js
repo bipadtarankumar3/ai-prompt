@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Info, ShieldAlert, Settings, EyeOff } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const COOKIE_TYPES = [
@@ -31,6 +32,7 @@ const COOKIE_TYPES = [
 export default function CookiePolicyPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="cookie-policy" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

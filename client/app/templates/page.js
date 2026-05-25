@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import TemplatesSection from '../components/TemplateCard';
 import Footer from '../components/Footer';
 
@@ -14,6 +15,7 @@ export default function TemplatesPage() {
 
   return (
     <main>
+      <SeoHeader pageKey="templates" />
       <Navbar />
       <div className="pt-12">
         <TemplatesSection onUseTemplate={handleUseTemplate} />

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Scale, FileCheck, AlertTriangle, HelpCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const TERMS_SECTIONS = [
@@ -31,6 +32,7 @@ const TERMS_SECTIONS = [
 export default function TermsPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="terms" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

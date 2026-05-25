@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { CreditCard, Calendar, RefreshCw, HelpCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const REFUND_SECTIONS = [
@@ -31,6 +32,7 @@ const REFUND_SECTIONS = [
 export default function RefundPolicyPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="refund-policy" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles, HelpCircle, ChevronRight, Zap, RefreshCw, Cpu, BookOpen } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const SECTIONS = [
@@ -121,6 +122,7 @@ const SECTIONS = [
 export default function DocsPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="docs" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">

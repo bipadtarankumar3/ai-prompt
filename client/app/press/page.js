@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Download, FileText, BarChart3, Mail, ExternalLink } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import SeoHeader from '../components/SeoHeader';
 import Footer from '../components/Footer';
 
 const STATS = [
@@ -15,6 +16,7 @@ const STATS = [
 export default function PressPage() {
   return (
     <main className="min-h-screen hero-bg">
+      <SeoHeader pageKey="press" />
       <Navbar />
 
       <section className="mt-16 md:mt-20 py-24 px-4 container relative">
