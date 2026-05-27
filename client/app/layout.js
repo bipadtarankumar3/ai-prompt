@@ -77,8 +77,8 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
-      
-      
+
+
       <body>
         <BackgroundProvider>
           <ThemeProvider
@@ -113,7 +113,7 @@ export default function RootLayout({ children }) {
             />
           </ThemeProvider>
         </BackgroundProvider>
-        <GoogleAnalytics gaId="G-MQEWLCWPRN" />
+        <GoogleAnalytics gaId="G-2Y0DSV87D7" />
       </body>
     </html>
   );
