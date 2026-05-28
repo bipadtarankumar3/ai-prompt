@@ -7,7 +7,6 @@ import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -21,8 +20,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://revoxera.ai'),
-  title: 'Revoxera AI — World-Class AI Prompt Generator',
+  metadataBase: new URL('https://aiprompt.revoxera.com'),
+  title: {
+    default: 'Revoxera AI — World-Class AI Prompt Generator',
+    template: '%s | Revoxera AI',
+  },
   description:
     'Generate, improve, and rewrite AI prompts instantly with Revoxera AI. Powered by Gemini 1.5 and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.',
   keywords: [
@@ -42,7 +44,7 @@ export const metadata = {
   openGraph: {
     title: 'Revoxera AI — World-Class AI Prompt Generator',
     description: 'Generate, improve, and rewrite AI prompts in seconds. Powered by Gemini 1.5 & Hugging Face.',
-    url: 'https://revoxera.ai',
+    url: 'https://aiprompt.revoxera.com',
     siteName: 'Revoxera AI',
     type: 'website',
     images: [
@@ -70,6 +72,90 @@ export const metadata = {
   },
 };
 
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Revoxera AI",
+  "operatingSystem": "Windows, macOS, Linux, Android, iOS",
+  "applicationCategory": "UtilitiesApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Professional client-side prompt engineering utility suite to generate, optimize, and test generative AI prompts.",
+  "featureList": [
+    "AI Prompt Generator supporting ChatGPT, Midjourney, Claude",
+    "Prompt Improver & Rephrase engine",
+    "Predefined industry prompt templates database",
+    "Interactive playground terminal"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://aiprompt.revoxera.com",
+  "name": "Revoxera AI",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://aiprompt.revoxera.com/templates?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Generate Optimized AI Prompts",
+  "description": "Use the Revoxera AI console to build structured instructions for LLMs.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Select Target Model",
+      "text": "Select your target model preset (e.g. ChatGPT, Claude, Midjourney, or Stable Diffusion)."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Input Raw Intent",
+      "text": "Enter your brief task description or primary keywords into the generator prompt area."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Optimize and Improve",
+      "text": "Click generate to apply custom role-playing, constraints, and structured output formatting automatically."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Copy Final Instruction",
+      "text": "Copy the optimized prompt token or save it to your local template favorites."
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is my prompt data private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Revoxera AI runs on a client-side layout. Your custom inputs are processed inside your browser sandbox and never recorded on external databases."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What AI models are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our formatting and styling templates are optimized for OpenAI's GPT-4, Anthropic's Claude 3.5, Google Gemini, Midjourney v6, and Stable Diffusion XL."
+      }
+    }
+  ]
+};
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -77,8 +163,28 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
-
-
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="canonical" href="https://aiprompt.revoxera.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      </head>
       <body>
         <BackgroundProvider>
           <ThemeProvider

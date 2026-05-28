@@ -20,7 +20,7 @@ const CHANNELS = [
     icon: <GitBranch className="w-5 h-5 text-purple-400" />,
     description: 'Submit bug reports, request new templates, propose features, or contribute to our shared prompt utilities library.',
     action: 'View Source',
-    href: 'https://github.com',
+    href: 'https://github.com/revoxera',
     badge: 'Open Source'
   },
   {
@@ -28,7 +28,7 @@ const CHANNELS = [
     icon: <Share2 className="w-5 h-5 text-purple-400" />,
     description: 'Follow our official handle for release announcements, prompt tips, AI industry highlights, and showcase highlights.',
     action: 'Follow Us',
-    href: '#',
+    href: 'https://x.com/revoxera',
     badge: 'Updates'
   }
 ];
@@ -99,6 +99,8 @@ export default function CommunityPage() {
                 </div>
                 <a
                   href={ch.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-secondary w-full justify-center text-xs py-2.5 rounded-xl mt-6 font-semibold"
                 >
                   {ch.action}

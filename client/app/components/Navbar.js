@@ -10,17 +10,17 @@ import { useBackground } from './BackgroundProvider';
 const LINKS = [
   { label: 'Generator', href: '/generator' },
   { label: 'Prompt Collections', href: '/prompt-collections' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Guides', href: '/guides/prompt-engineering-basics' },
   { label: 'About Us', href: '/about' },
-  { label: 'Admin', href: '/admin' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const MOBILE_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
   { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid, desc: 'Explore ready-to-use prompts', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
-  { label: 'Blog', href: '/blog', icon: BookOpen, desc: 'Read expert prompt insights', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
+  { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen, desc: 'Master prompt engineering principles', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
   { label: 'About Us', href: '/about', icon: Info, desc: 'Learn about our mission', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
-  { label: 'Admin Panel', href: '/admin', icon: Lock, desc: 'Configure models and content', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
+  { label: 'Contact Us', href: '/contact', icon: Lock, desc: 'Get in touch with support', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
 ];
 
 export default function Navbar() {
