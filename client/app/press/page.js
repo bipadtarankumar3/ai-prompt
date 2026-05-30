@@ -9,8 +9,8 @@ import Footer from '../components/Footer';
 const STATS = [
   { label: 'Founded', value: '2026' },
   { label: 'Headquarters', value: 'San Francisco, CA' },
-  { label: 'Active Users', value: '50,000+' },
-  { label: 'Prompts Generated', value: '2M+' }
+  { label: 'License', value: 'MIT' },
+  { label: 'Architecture', value: 'Local-First' }
 ];
 
 export default function PressPage() {

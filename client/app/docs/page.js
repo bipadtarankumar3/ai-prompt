@@ -99,19 +99,19 @@ const SECTIONS = [
         <div className="border-b border-white/5 pb-3">
           <p className="text-sm font-bold text-white mb-1">Is Revoxera AI free to use?</p>
           <p className="text-xs text-white/50 leading-relaxed">
-            Yes, our Free plan includes generous Hugging Face inference tokens and core template access. Advanced Gemini 1.5 generations are available on our Pro plan.
+            Yes. All prompt engineering templates, casing tools, variable injection modes, and layout adjustments are 100% free, private, and open. No subscription or registration is required.
           </p>
         </div>
         <div className="border-b border-white/5 pb-3">
           <p className="text-sm font-bold text-white mb-1">Can I save my configurations?</p>
           <p className="text-xs text-white/50 leading-relaxed">
-            Yes, our built-in Prompt History panel stores your last 50 configurations directly inside your browser local storage. No login required.
+            Yes, our built-in Prompt History stores your last 50 configurations directly inside your browser local storage. No login required.
           </p>
         </div>
         <div>
-          <p className="text-sm font-bold text-white mb-1">How can I integrate this into my application?</p>
+          <p className="text-sm font-bold text-white mb-1">How can I integrate this into my workflow?</p>
           <p className="text-xs text-white/50 leading-relaxed">
-            Developers can call our backend services programmatically. Refer to our <a href="/api-reference" className="text-purple-400 hover:underline">API Reference</a> for details.
+            You can export generated prompts as clean Markdown or JSON templates to use directly in your codebases, API payloads, or documentation.
           </p>
         </div>
       </div>
