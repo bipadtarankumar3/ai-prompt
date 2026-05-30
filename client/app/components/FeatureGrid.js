@@ -3,15 +3,12 @@ import { motion } from 'framer-motion';
 import { Zap, Sparkles, RefreshCw, Layers, History, Share2, Shield, Globe, Moon } from 'lucide-react';
 
 const FEATURES = [
-  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Instant Generation',    desc: 'Create optimized prompts in seconds powered by Gemini 1.5 and open-source models.' },
-  { Icon: Sparkles,  color: 'text-violet-400',  bg: 'bg-violet-400/10',  title: 'Prompt Improver',       desc: 'Paste any prompt and watch our AI transform it into something remarkable.' },
-  { Icon: RefreshCw, color: 'text-blue-400',    bg: 'bg-blue-400/10',    title: 'Smart Rewriter',        desc: 'Get fresh, completely different variations while preserving the core intent.' },
-  { Icon: Layers,    color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Multiple AI Providers', desc: 'Seamlessly switch between OpenAI Gemini 1.5, Qwen, Mistral, DeepSeek, and more.' },
-  { Icon: History,   color: 'text-pink-400',    bg: 'bg-pink-400/10',    title: 'Prompt History',        desc: 'Every prompt is auto-saved. Access, reload, and delete from your history panel.' },
-  { Icon: Share2,    color: 'text-cyan-400',    bg: 'bg-cyan-400/10',    title: 'Easy Sharing',          desc: 'Share via link, download as .txt, or copy to clipboard in one click.' },
-  { Icon: Globe,     color: 'text-indigo-400',  bg: 'bg-indigo-400/10',  title: '8 Categories',          desc: 'ChatGPT, Midjourney, Coding, SEO, Marketing, YouTube, Blogging & Business.' },
-  { Icon: Moon,      color: 'text-purple-400',  bg: 'bg-purple-400/10',  title: 'Dark & Light Mode',     desc: 'A beautiful theme system that looks great any time of day, on any device.' },
-  { Icon: Shield,    color: 'text-emerald-400', bg: 'bg-emerald-400/10', title: 'Secure by Design',      desc: 'API keys are server-side only. Rate limiting and input validation built in.' },
+  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Structured Generation', desc: 'Convert rough, one-sentence ideas into comprehensive, detailed system prompts that guide LLM logic.' },
+  { Icon: Sparkles,  color: 'text-violet-400',  bg: 'bg-violet-400/10',  title: 'One-Click Optimization', desc: 'Paste your existing, low-performing prompts and watch Revoxera rebuild role parameters and output rules.' },
+  { Icon: Layers,    color: 'text-blue-400',    bg: 'bg-blue-400/10',    title: 'Multi-Model Tuning',    desc: 'Target the specific context windows and behavioral quirks of ChatGPT, Gemini, Claude, and Midjourney.' },
+  { Icon: Globe,     color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Battle-Tested Templates',desc: 'Unlock access to structured starter blueprints designed specifically for developers, writers, and artists.' },
+  { Icon: History,   color: 'text-pink-400',    bg: 'bg-pink-400/10',    title: 'Auto-Saved History',    desc: 'Never lose a high-performing script. Every generation is auto-saved locally for instant access.' },
+  { Icon: Share2,    color: 'text-cyan-400',    bg: 'bg-cyan-400/10',    title: 'Frictionless Export',   desc: 'Copy to clipboard, download plain text files, or generate one-click share links for your workspace team.' },
 ];
 
 export default function FeatureGrid() {

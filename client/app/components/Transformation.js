@@ -1,0 +1,166 @@
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal, Mail, Image, ArrowRight, CornerDownRight, Sparkles } from 'lucide-react';
+
+const TABS = [
+  {
+    id: 'code',
+    label: 'Coding',
+    icon: Terminal,
+    before: 'create a python function to scrape a website',
+    after: `Role: Expert Python Web Scraping Engineer
+Objective: Write a robust, asynchronous Python function using 'playwright' to scrape dynamic product listings.
+Parameters:
+- URL: Input search result pages.
+- Selectors: Target product title, price, and rating dynamically.
+Edge Cases to Handle:
+- Retries with exponential backoff on HTTP 429/503.
+- Rotating user-agents and proxy configurations.
+- Parsing variations in layout without crashing.
+Output Format: Return JSON objects with schema validation.`,
+    outcome: 'Produces error-free, self-healing scrapers on the first compile.',
+    color: 'amber'
+  },
+  {
+    id: 'copy',
+    label: 'Copywriting',
+    icon: Mail,
+    before: 'write a product description for a water bottle',
+    after: `Role: Conversion-Focused SaaS E-commerce Copywriter
+Goal: Write a 150-word product description for a premium insulated water bottle.
+Target Audience: Outdoor enthusiasts and active urban professionals.
+Framework: Use the AIDA (Attention, Interest, Desire, Action) model.
+Key Details to Highlight:
+- 24-hour temperature retention.
+- Eco-friendly zero-plastic structure.
+- Lifetime leakproof guarantee.
+Tone: Adventurous, sleek, confident.`,
+    outcome: 'Delivers high-converting copywriting that aligns with brand tone.',
+    color: 'orange'
+  },
+  {
+    id: 'art',
+    label: 'Creative Art',
+    icon: Image,
+    before: 'futuristic helmet design',
+    after: `Subject: Close-up of a tactical cyberpunk motorcycle helmet.
+Design elements: Matte carbon-fiber texture, glowing amber visor display, HUD interface.
+Style: Realistic industrial product render, futuristic military aesthetic.
+Lighting: Dramatic high-contrast neon red studio lighting, dark backdrop, realistic reflections.
+Camera: Macro shot, 85mm portrait lens, shallow depth of field, sharp detail --ar 16:9 --v 6.0`,
+    outcome: 'Outputs jaw-dropping, production-ready graphics without texture artifacts.',
+    color: 'emerald'
+  }
+];
+
+export default function Transformation() {
+  const [activeTab, setActiveTab] = useState('code');
+  const current = TABS.find((t) => t.id === activeTab);
+
+  return (
+    <section id="transformation" className="section py-24 border-b border-slate-100 dark:border-white/4 bg-slate-50/30 dark:bg-black/10">
+      <div className="container">
+        <div className="text-center mb-16">
+          <span className="badge badge-purple px-4 py-1.5 text-xs mb-4">
+            <Sparkles size={12} className="inline mr-1" />
+            Before vs. After
+          </span>
+          <h2 
+            className="font-bold text-white mb-4 font-display"
+            style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+          >
+            The Power of <span className="gradient-text">Structured Prompts</span>
+          </h2>
+          <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed">
+            See how Revoxera replaces ambiguous phrasing with high-precision guidelines to direct AI behavior.
+          </p>
+        </div>
+
+        {/* Premium Segmented Tab Selector */}
+        <div className="flex justify-center gap-1 mb-12 bg-slate-100 dark:bg-white/5 p-1.5 rounded-2xl max-w-[420px] mx-auto border border-slate-200/50 dark:border-white/5">
+          {TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = tab.id === activeTab;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  isActive 
+                    ? 'bg-white dark:bg-white/10 text-amber-500 dark:text-amber-400 shadow-sm border border-slate-200/40 dark:border-white/5'
+                    : 'text-slate-400 dark:text-white/40 hover:text-slate-700 dark:hover:text-white/70'
+                }`}
+              >
+                <Icon size={14} />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Content Box */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          {/* Before Container (Light Card in Light Mode, Dark in Dark Mode) */}
+          <div className="lg:col-span-5 flex flex-col justify-between p-7 rounded-3xl border border-slate-200 dark:border-white/6 bg-white dark:bg-[#0b0b14]/50 relative min-h-[220px] shadow-sm">
+            <div>
+              <div className="text-[10px] uppercase font-bold tracking-widest text-red-500 dark:text-red-400/70 mb-4 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                Raw Input Prompt (Vague)
+              </div>
+              <p className="text-sm font-mono text-slate-500 dark:text-white/50 bg-slate-50 dark:bg-white/[0.01] p-4 rounded-xl border border-slate-100 dark:border-white/4 leading-relaxed">
+                &ldquo;{current.before}&rdquo;
+              </p>
+            </div>
+            
+            <div className="mt-6 flex items-start gap-2.5 text-xs text-slate-400 dark:text-white/30 border-t border-slate-100 dark:border-white/4 pt-4 leading-normal">
+              <AlertDot />
+              AI struggles: guesses context, outputs generic copy, requires multiple corrections.
+            </div>
+          </div>
+
+          {/* Transformation Arrow */}
+          <div className="lg:col-span-2 flex items-center justify-center py-4 lg:py-0">
+            <div className="w-10 h-10 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] flex items-center justify-center text-amber-500 animate-pulse shadow-sm">
+              <ArrowRight size={20} className="rotate-90 lg:rotate-0" />
+            </div>
+          </div>
+
+          {/* After Container (Always Dark/High Contrast for visual impact) */}
+          <div className="lg:col-span-5 flex flex-col justify-between p-7 rounded-3xl relative min-h-[280px] shadow-xl" style={{ backgroundColor: '#0b0b14', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] to-transparent rounded-3xl pointer-events-none" />
+            
+            <div className="relative z-10">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 mb-4 flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Revoxera Optimized Prompt (Predictable)
+                </span>
+                <span className="px-1.5 py-0.5 rounded text-[8px] border border-emerald-500/35 bg-emerald-500/10 text-emerald-400 font-bold uppercase tracking-wide">Active</span>
+              </div>
+              <pre className="text-xs font-mono bg-black/40 p-4 rounded-xl border border-white/5 leading-relaxed overflow-x-auto whitespace-pre-wrap max-h-[230px] scrollbar-none" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                {current.after}
+              </pre>
+            </div>
+
+            <div className="relative z-10 mt-6 flex items-center gap-2 text-xs rounded-xl p-3.5 leading-normal border" style={{ color: '#a7f3d0', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
+              <CornerDownRight size={14} className="flex-shrink-0" />
+              <span><strong>Outcome:</strong> {current.outcome}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AlertDot() {
+  return (
+    <span className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-red-400/20 border border-red-500/40 flex items-center justify-center mt-0.5">
+      <span className="w-1 h-1 rounded-full bg-red-500" />
+    </span>
+  );
+}

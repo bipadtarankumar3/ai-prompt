@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
 
   // Check auth session
   useEffect(() => {
-    if (pathname === '/admin/login') {
+    if (pathname === '/login') {
       setLoading(false);
       return;
     }
@@ -29,7 +29,7 @@ export default function AdminLayout({ children }) {
       setToken(savedToken);
       verifySession(savedToken);
     } else {
-      router.push('/admin/login');
+      router.push('/login');
     }
   }, [pathname]);
 
@@ -54,7 +54,7 @@ export default function AdminLayout({ children }) {
     localStorage.removeItem('pb_admin_token');
     setToken(null);
     toast.success('Logged out successfully');
-    router.push('/admin/login');
+    router.push('/login');
   };
 
   // Determine active tab/menu key based on current pathname
@@ -84,7 +84,7 @@ export default function AdminLayout({ children }) {
   };
 
   // If loading or login page, adjust accordingly
-  if (pathname === '/admin/login') {
+  if (pathname === '/login') {
     return <>{children}</>;
   }
 

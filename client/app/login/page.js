@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, User, Loader, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import { clientApi } from '../../utils/clientApi';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { clientApi } from '../utils/clientApi';
 import toast from 'react-hot-toast';
 
 export default function AdminLoginPage() {

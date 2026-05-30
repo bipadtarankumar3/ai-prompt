@@ -2,13 +2,13 @@
 import { motion } from 'framer-motion';
 import { Zap, Sparkles, ArrowRight, Star } from 'lucide-react';
 import Link from 'next/link';
-import AiNeuralCore from './AiNeuralCore';
+import PromptDemo from './PromptDemo';
 
-const TAGS = ['ChatGPT','Midjourney','SEO','Coding','Marketing','YouTube','Blogging','Business','AI Art','Copywriting'];
+const TAGS = ['ChatGPT', 'Midjourney', 'SEO', 'Coding', 'Marketing', 'YouTube', 'Blogging', 'Business', 'AI Art', 'Copywriting'];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-fit md:min-h-screen flex flex-col items-center justify-center hero-bg grid-bg overflow-hidden pt-28 pb-16 md:pt-40 md:pb-24 px-4 md:px-8">
+    <section className="relative min-h-fit md:min-h-screen flex flex-col items-center justify-center hero-bg grid-bg overflow-hidden pt-24 pb-16 md:pt-24 md:pb-24 px-4 md:px-8">
 
       {/* Blurred gradient orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center text-center lg:text-left">
-        
+
         {/* Left Column - Text and Details */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start w-full">
           {/* Eyebrow badge */}
@@ -38,9 +38,9 @@ export default function Hero() {
             className="font-bold leading-[1.1] tracking-tight text-white mb-6 text-center lg:text-left w-full"
             style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 5.5vw, 4rem)' }}
           >
-            Generate{' '}
-            <span className="gradient-text">Perfect AI Prompts</span>
-            {' '}in Seconds
+            Stop guessing what the AI wants. Get{' '}
+            <span className="gradient-text inline-block">production-ready results</span>
+            {' '}on your first try.
           </motion.h1>
 
           {/* Subtext */}
@@ -48,25 +48,33 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
             className="text-base md:text-lg text-white/55 mb-8 leading-relaxed max-w-2xl lg:max-w-none text-center lg:text-left"
           >
-            Transform rough ideas into optimized, professional prompts for ChatGPT, Midjourney, coding, marketing, and 8 other categories — instantly.
+            Staring at a blank chat window or wasting hours tweaking prompts shouldn't be your workflow. Revoxera translates your raw goals into precise instructions that guide LLMs to deliver clean code, high-converting copy, and jaw-dropping visuals on the first run. No guesswork, no wasted credits.
           </motion.p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12 w-full max-w-md lg:max-w-none"
-          >
-            <Link href="/generator" id="hero-primary-cta"
-              className="btn-primary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl glow-md">
-              <Zap size={18} fill="currentColor" />
-              Start Generating Free
-            </Link>
-            <Link href="/templates" id="hero-templates-cta"
-              className="btn-secondary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl">
-              Browse Templates
-              <ArrowRight size={16} />
-            </Link>
-          </motion.div>
+          <div className="flex flex-col items-center lg:items-start w-full mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full max-w-md lg:max-w-none"
+            >
+              <Link href="/generator" id="hero-primary-cta"
+                className="btn-primary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl glow-md">
+                <Zap size={18} fill="currentColor" />
+                Generate Flawless Prompts
+              </Link>
+              <Link href="/templates" id="hero-templates-cta"
+                className="btn-secondary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl">
+                Explore Templates
+                <ArrowRight size={16} />
+              </Link>
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xs text-white/40 mt-3 text-center lg:text-left"
+            >
+              No credit card required. Start generating in 10 seconds.
+            </motion.p>
+          </div>
 
           {/* Stats */}
           <motion.div
@@ -74,10 +82,10 @@ export default function Hero() {
             className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 items-center justify-center lg:justify-start gap-6 sm:gap-12 w-full mb-12"
           >
             {[
-              { v: '50K+', l: 'Prompts Generated' },
-              { v: '5',    l: 'AI Models' },
-              { v: '8',    l: 'Categories' },
-              { v: '99%',  l: 'Satisfaction' },
+              { v: '50K+', l: 'Prompts Built' },
+              { v: '99%', l: 'Success Rate' },
+              { v: '4.9/5', l: 'Average Rating' },
+              { v: '10K+', l: 'Active Users' },
             ].map(s => (
               <div key={s.l} className="text-center lg:text-left">
                 <div className="gradient-text font-bold text-2xl" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{s.v}</div>
@@ -85,29 +93,9 @@ export default function Hero() {
               </div>
             ))}
           </motion.div>
-
-          {/* Social proof */}
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 w-full"
-          >
-            <div className="flex -space-x-2.5">
-              {['🧑‍💻','👩‍🎨','🧑‍💼','👩‍🔬','🎬'].map((e, i) => (
-                <div key={i}
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-700 to-indigo-700 border-2 border-slate-50 dark:border-[#08080f] flex items-center justify-center text-sm"
-                  style={{ zIndex: 5 - i }}>
-                  {e}
-                </div>
-              ))}
-            </div>
-            <div className="text-center sm:text-left">
-              <div className="flex justify-center sm:justify-start gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} size={12} className="text-amber-400" fill="currentColor" />)}</div>
-              <p className="text-xs text-white/35 mt-0.5">Loved by 10,000+ creators</p>
-            </div>
-          </motion.div>
         </div>
 
-        {/* Right Column - AI Synaptic Core Animation */}
+        {/* Right Column - Interactive Prompt Input & Preview Demo */}
         <div className="lg:col-span-5 w-full flex items-center justify-center relative min-h-[350px] sm:min-h-[450px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
@@ -115,7 +103,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center justify-center w-full"
           >
-            <AiNeuralCore />
+            <PromptDemo />
           </motion.div>
         </div>
 

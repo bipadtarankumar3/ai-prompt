@@ -3,22 +3,24 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Moon, Sun, Menu, X, Atom, Sparkles, LayoutGrid, Compass, CreditCard, ChevronRight, BookOpen, Lock, Info } from 'lucide-react';
+import { Zap, Moon, Sun, Menu, X, Atom, Sparkles, LayoutGrid, Compass, CreditCard, ChevronRight, BookOpen, Lock, Info, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useBackground } from './BackgroundProvider';
 
 const LINKS = [
-  { label: 'Generator', href: '/generator' },
-  { label: 'Prompt Collections', href: '/prompt-collections' },
-  { label: 'Guides', href: '/guides/prompt-engineering-basics' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Generator', href: '/generator', icon: Sparkles },
+  { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid },
+  { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen },
+  { label: 'Blog', href: '/blog', icon: FileText },
+  { label: 'About Us', href: '/about', icon: Info },
+  { label: 'Contact', href: '/contact', icon: Lock },
 ];
 
 const MOBILE_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
   { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid, desc: 'Explore ready-to-use prompts', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
   { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen, desc: 'Master prompt engineering principles', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
+  { label: 'Blog', href: '/blog', icon: FileText, desc: 'Read articles and guides', color: 'text-cyan-500 dark:text-cyan-400', bg: 'bg-cyan-500/10 dark:bg-cyan-500/10' },
   { label: 'About Us', href: '/about', icon: Info, desc: 'Learn about our mission', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
   { label: 'Contact Us', href: '/contact', icon: Lock, desc: 'Get in touch with support', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
 ];
@@ -115,16 +117,18 @@ export default function Navbar() {
         <nav className="!hidden md:!flex items-center gap-1">
           {LINKS.map(l => {
             const active = isActive(l.href);
+            const Icon = l.icon;
             return (
               <Link
                 key={l.label}
                 href={l.href}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
                   active
                     ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 font-semibold'
                     : 'text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/5'
                 }`}
               >
+                <Icon size={14} className="opacity-70 group-hover:opacity-100 transition-opacity" />
                 {l.label}
               </Link>
             );
