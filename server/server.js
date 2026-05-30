@@ -77,7 +77,7 @@ async function initializeDatabase() {
         ['site_logo_text', 'REVOXERA'],
         ['site_logo_image', ''],
         ['footer_description', 'Precision-crafted developer tools designed to streamline your daily programming, formatting, and design workflows.'],
-        ['footer_copyright', '© 2026 Revoxera. Neural Architecture Sync v4.8.'],
+        ['footer_copyright', '© 2026 Revoxera. Built for Developers & Creators.'],
         ['default_theme_mode', 'dark'],
         ['seo_home_title', 'Revoxera AI — World-Class AI Prompt Generator'],
         ['seo_home_description', 'Generate, improve, and rewrite AI prompts instantly with Revoxera AI. Powered by Gemini 2.5 and Hugging Face. Support for ChatGPT, Midjourney, Coding, Marketing, SEO, and more.'],
@@ -179,6 +179,11 @@ async function initializeDatabase() {
     } else {
       logger.info('Database already seeded. Skipping default records creation.');
     }
+
+    // Ensure existing settings in DB are updated to clear out cyberpunk text
+    await db.query(
+      "UPDATE settings SET set_value = '© 2026 Revoxera. Built for Developers & Creators.' WHERE set_key = 'footer_copyright' AND set_value LIKE '%Neural Architecture%'"
+    );
   } catch (err) {
     logger.error('Failed to initialize database:', err);
     process.exit(1);
