@@ -13,7 +13,7 @@ export default function AdminBlogsListPage() {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('pb_admin_token');
+    const savedToken = localStorage.getItem('pb_auth_token');
     if (savedToken) {
       setToken(savedToken);
       loadBlogs();

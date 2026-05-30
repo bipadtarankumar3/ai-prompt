@@ -12,7 +12,7 @@ export default function AdminOverview() {
   const [counts, setCounts] = useState({ models: 0, activeModels: 0, collections: 0, blogs: 0 });
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('pb_admin_token');
+    const savedToken = localStorage.getItem('pb_auth_token');
     if (savedToken) {
       setToken(savedToken);
       loadOverviewData(savedToken);

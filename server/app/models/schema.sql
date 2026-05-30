@@ -8,6 +8,7 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     email_verified_at TIMESTAMP DEFAULT NULL,
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'user',
     remember_token VARCHAR(100) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

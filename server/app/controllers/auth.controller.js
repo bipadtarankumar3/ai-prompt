@@ -17,6 +17,20 @@ class AuthController {
     }
   }
 
+  async register(req, res, next) {
+    try {
+      const { name, email, password } = req.body;
+      if (!name || !email || !password) {
+        return error(res, 'Name, email, and password are required', 400);
+      }
+
+      const data = await authService.register(name, email, password);
+      return success(res, data, 'Registration successful', 201);
+    } catch (err) {
+      return error(res, err.message, 400);
+    }
+  }
+
   async verify(req, res, next) {
     try {
       // req.user is set by authMiddleware

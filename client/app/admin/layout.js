@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { clientApi } from '../utils/clientApi';
 import toast from 'react-hot-toast';
+import { motion, AnimatePresence } from 'framer-motion';
 import './admin.css'; // Dedicated admin portal styles
 
 export default function AdminLayout({ children }) {
@@ -16,6 +17,7 @@ export default function AdminLayout({ children }) {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [adminUser, setAdminUser] = useState({ name: 'Admin', email: 'admin@example.com' });
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   // Check auth session
   useEffect(() => {
@@ -24,7 +26,7 @@ export default function AdminLayout({ children }) {
       return;
     }
 
-    const savedToken = localStorage.getItem('pb_admin_token');
+    const savedToken = localStorage.getItem('pb_auth_token');
     if (savedToken) {
       setToken(savedToken);
       verifySession(savedToken);
@@ -37,13 +39,19 @@ export default function AdminLayout({ children }) {
     try {
       const res = await clientApi.adminVerify(authToken);
       if (res && res.user) {
+        if (res.user.role !== 'admin') {
+          toast.error('Access denied. Administrator privileges required.');
+          throw new Error('User is not an administrator');
+        }
         setAdminUser({
           name: res.user.name || 'Admin',
           email: res.user.email || 'admin@example.com'
         });
+      } else {
+        throw new Error('Invalid session response');
       }
     } catch (err) {
-      console.error('Session expired:', err);
+      console.error('Session expired or access denied:', err);
       handleLogout();
     } finally {
       setLoading(false);
@@ -51,7 +59,7 @@ export default function AdminLayout({ children }) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('pb_admin_token');
+    localStorage.removeItem('pb_auth_token');
     setToken(null);
     toast.success('Logged out successfully');
     router.push('/login');
@@ -206,7 +214,7 @@ export default function AdminLayout({ children }) {
           </div>
 
           <button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutConfirm(true)}
             className="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-550/15 rounded-xl transition-all cursor-pointer active:scale-95"
           >
             <LogOut size={13} /> Sign Out
@@ -255,6 +263,57 @@ export default function AdminLayout({ children }) {
           </div>
         </footer>
       </main>
+
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 flex items-center justify-center z-[150] px-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowLogoutConfirm(false)}
+              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+            />
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="relative bg-white border border-slate-200 p-6 rounded-2xl max-w-sm w-full text-center space-y-4 shadow-2xl select-none"
+            >
+              <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto text-red-500">
+                <LogOut size={22} />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-bold text-slate-800 font-mono">Confirm Admin Sign Out</h3>
+                <p className="text-xs text-slate-500 leading-relaxed font-sans">
+                  Are you sure you want to end your site management console session? You will be signed out from all administrative configuration views.
+                </p>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 border border-slate-250/10 cursor-pointer active:scale-98 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowLogoutConfirm(false);
+                    handleLogout();
+                  }}
+                  className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-xs font-bold text-white border border-red-500/25 cursor-pointer active:scale-98 transition-all"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -8,8 +8,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function FloatingChatButton() {
   const pathname = usePathname();
   
-  // Hide on generator page
-  if (pathname === '/generator') return null;
+  // Hide on generator, login, and admin pages
+  if (pathname === '/generator' || pathname === '/login' || pathname.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <AnimatePresence>

@@ -16,23 +16,32 @@ export default function AdminLoginPage() {
   const [loginLoading, setLoginLoading] = useState(false);
   const [verifying, setVerifying] = useState(true);
 
-  // Check if session token already exists, if so redirect to admin dashboard
+  // Redirect if session token already exists
   useEffect(() => {
-    const savedToken = localStorage.getItem('pb_admin_token');
+    const savedToken = localStorage.getItem('pb_auth_token');
     if (savedToken) {
-      verifySession(savedToken);
+      verifyAndRedirect(savedToken);
     } else {
       setVerifying(false);
     }
   }, []);
 
-  const verifySession = async (authToken) => {
+  const verifyAndRedirect = async (authToken) => {
     try {
-      await clientApi.adminVerify(authToken);
-      toast.success('Already authenticated, redirecting...');
-      router.push('/admin');
+      const res = await clientApi.adminVerify(authToken);
+      if (res && res.user) {
+        if (res.user.role === 'admin') {
+          toast.success('Admin session active. Redirecting...');
+          router.push('/admin');
+        } else {
+          toast.success('User session active. Redirecting...');
+          router.push('/dashboard');
+        }
+      } else {
+        throw new Error('Invalid session payload');
+      }
     } catch (err) {
-      localStorage.removeItem('pb_admin_token');
+      localStorage.removeItem('pb_auth_token');
       setVerifying(false);
     }
   };
@@ -45,7 +54,10 @@ export default function AdminLoginPage() {
     setLoginLoading(true);
     try {
       const data = await clientApi.adminLogin(username, password);
-      localStorage.setItem('pb_admin_token', data.token);
+      if (!data || !data.user || data.user.role !== 'admin') {
+        throw new Error('Access denied. Administrator privileges required.');
+      }
+      localStorage.setItem('pb_auth_token', data.token);
       toast.success('Successfully logged in!');
       router.push('/admin');
     } catch (err) {

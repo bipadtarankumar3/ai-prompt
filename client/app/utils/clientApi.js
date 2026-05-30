@@ -72,10 +72,14 @@ export const clientApi = {
   fetchBlogs: () => request('/api/blog-posts'),
   fetchBlogBySlug: (slug) => request(`/api/blog-posts/slug/${slug}`),
 
-  // Admin Authentication
+  // Admin Authentication / User Session Actions
   adminLogin: (username, password) => request('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
+  }),
+  userRegister: (name, email, password) => request('/api/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name, email, password }),
   }),
   adminVerify: (token) => request('/api/auth/status', {
     headers: { Authorization: `Bearer ${token}` },

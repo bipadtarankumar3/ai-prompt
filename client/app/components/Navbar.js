@@ -3,24 +3,22 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Moon, Sun, Menu, X, Atom, Sparkles, LayoutGrid, Compass, CreditCard, ChevronRight, BookOpen, Lock, Info, FileText } from 'lucide-react';
+import { Zap, Moon, Sun, Menu, X, Atom, Sparkles, LayoutGrid, Compass, CreditCard, ChevronRight, BookOpen, Lock, Info, FileText, User } from 'lucide-react';
 import Link from 'next/link';
 import { useBackground } from './BackgroundProvider';
 
-const LINKS = [
+const STATIC_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles },
   { label: 'Compare', href: '/compare', icon: Compass },
   { label: 'Collections', href: '/prompt-collections', icon: LayoutGrid },
-  { label: 'Dashboard', href: '/dashboard', icon: Lock },
   { label: 'Blog', href: '/blog', icon: FileText },
   { label: 'About Us', href: '/about', icon: Info },
 ];
 
-const MOBILE_LINKS = [
+const STATIC_MOBILE_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
   { label: 'Compare Optimizer', href: '/compare', icon: Compass, desc: 'Side-by-side prompt tuning', color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-500/10 dark:bg-blue-500/10' },
   { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid, desc: 'Explore ready-to-use prompts', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
-  { label: 'Developer Dashboard', href: '/dashboard', icon: Lock, desc: 'Saved prompts & API keys', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
   { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen, desc: 'Master prompt engineering principles', color: 'text-cyan-500 dark:text-cyan-400', bg: 'bg-cyan-500/10 dark:bg-cyan-500/10' },
   { label: 'Blog', href: '/blog', icon: FileText, desc: 'Read articles and guides', color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-500/10 dark:bg-purple-500/10' },
 ];
@@ -33,6 +31,14 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const [hash, setHash] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('pb_auth_token');
+      setIsLoggedIn(!!token);
+    }
+  }, [pathname]);
   const [logoImage, setLogoImage] = useState('/logo.png');
   const [logoText, setLogoText] = useState('REVOXERA');
 
@@ -92,6 +98,18 @@ export default function Navbar() {
     return pathname === href;
   };
 
+  const authLink = isLoggedIn
+    ? { label: 'Dashboard', href: '/dashboard', icon: LayoutGrid }
+    : { label: 'Login', href: '/dashboard', icon: User };
+
+  const finalLinks = [...STATIC_LINKS, authLink];
+
+  const mobileAuthLink = isLoggedIn
+    ? { label: 'Developer Dashboard', href: '/dashboard', icon: LayoutGrid, desc: 'Saved prompts & API keys', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' }
+    : { label: 'Login Console', href: '/dashboard', icon: User, desc: 'Sign in to access tools', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' };
+
+  const finalMobileLinks = [...STATIC_MOBILE_LINKS, mobileAuthLink];
+
   return (
     <motion.header
       initial={{ y: -70, opacity: 0 }}
@@ -115,7 +133,7 @@ export default function Navbar() {
  
         {/* Desktop nav */}
         <nav className="!hidden md:!flex items-center gap-1">
-          {LINKS.map(l => {
+          {finalLinks.map(l => {
             const active = isActive(l.href);
             const Icon = l.icon;
             return (
@@ -238,7 +256,7 @@ export default function Navbar() {
               animate="show"
               className="flex flex-col gap-1"
             >
-              {MOBILE_LINKS.map(l => {
+              {finalMobileLinks.map(l => {
                 const active = isActive(l.href);
                 return (
                   <motion.div

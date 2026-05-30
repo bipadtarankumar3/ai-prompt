@@ -8,7 +8,8 @@ import {
   Settings, ChevronDown, ChevronUp, Sliders, Copy, Check,
   Download, Share2, Star, StarOff, ChevronRight, Cpu,
   PanelLeftClose, PanelLeft, ArrowUp, User, Bot, ArrowLeft,
-  Globe, Brain, Info, ExternalLink, Moon, Sun, Lock, Atom
+  Globe, Brain, Info, ExternalLink, Moon, Sun, Lock, Atom,
+  Columns
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -47,10 +48,46 @@ const MODES = [
   { id: 'rewrite', label: 'Rewrite', Icon: Sliders },
 ];
 const SUGGESTIONS = [
-  { title: 'Cyberpunk Midjourney art', desc: 'Detailed visual art prompt', cat: 'Midjourney', tone: 'Creative', text: 'Create a Midjourney portrait of a cyberpunk neon city at night, 8k resolution, cinematic lighting.' },
-  { title: 'SaaS launch email', desc: 'Persuasive campaign copy', cat: 'Marketing', tone: 'Professional', text: 'Write a marketing email announcing the launch of our new AI automation SaaS product.' },
-  { title: 'Refactor React hook', desc: 'Clean coding guidelines', cat: 'Coding', tone: 'Expert', text: 'Explain how to refactor a complex React useEffect hook state sync issue.' },
-  { title: 'AI trends Twitter thread', desc: 'Developer audience threads', cat: 'Blogging', tone: 'Funny', text: 'Generate an engaging Twitter thread on the latest AI generation trends in 2025.' },
+  { 
+    title: 'Cyberpunk Midjourney art', 
+    desc: 'Detailed visual art prompt', 
+    cat: 'Midjourney', 
+    tone: 'Creative', 
+    mode: 'generate',
+    length: 'Detailed',
+    style: 'Markdown',
+    text: 'Create a Midjourney portrait of a cyberpunk neon city at night, 8k resolution, cinematic lighting.' 
+  },
+  { 
+    title: 'SaaS launch email', 
+    desc: 'Persuasive campaign copy', 
+    cat: 'Marketing', 
+    tone: 'Professional', 
+    mode: 'generate',
+    length: 'Balanced',
+    style: 'Markdown',
+    text: 'Write a marketing email announcing the launch of our new AI automation SaaS product.' 
+  },
+  { 
+    title: 'Refactor React hook', 
+    desc: 'Clean coding guidelines', 
+    cat: 'Coding', 
+    tone: 'Expert', 
+    mode: 'improve',
+    length: 'Detailed',
+    style: 'StepByStep',
+    text: 'Explain how to refactor a complex React useEffect hook state sync issue.' 
+  },
+  { 
+    title: 'AI trends Twitter thread', 
+    desc: 'Developer audience threads', 
+    cat: 'Blogging', 
+    tone: 'Funny', 
+    mode: 'rewrite',
+    length: 'Short',
+    style: 'BulletPoints',
+    text: 'Generate an engaging Twitter thread on the latest AI generation trends in 2025.' 
+  },
 ];
 
 /* ── Custom Interactive Selector Pill ────────────────────────── */
@@ -75,7 +112,7 @@ const CustomSelector = ({ value, options, icon: Icon, onChange }) => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-slate-100 hover:bg-slate-200/70 dark:bg-[#3c3c3c]/80 dark:hover:bg-[#4a4a4a] text-slate-655 dark:text-slate-350 transition-all duration-200 cursor-pointer border border-slate-200/40 dark:border-transparent select-none active:scale-95 shadow-sm min-w-0 max-w-[110px] sm:max-w-none"
+        className="flex items-center justify-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold bg-slate-100 hover:bg-slate-200/70 dark:bg-[#3c3c3c]/80 dark:hover:bg-[#4a4a4a] text-slate-655 dark:text-slate-350 transition-all duration-200 cursor-pointer border border-slate-200/40 dark:border-transparent select-none active:scale-95 shadow-sm whitespace-nowrap flex-shrink-0"
       >
         {activeOption.emoji && <span className="mr-0.5 text-[10px] sm:text-xs flex-shrink-0">{activeOption.emoji}</span>}
         {activeOption.Icon && <activeOption.Icon size={12} className="text-amber-500 mr-0.5 flex-shrink-0" />}
@@ -159,6 +196,11 @@ function GeneratorSection() {
   const [outputStyle, setOutputStyle] = useState('Markdown');
   const [provider, setProvider] = useState('gemini');
   const [hfModel, setHfModel] = useState('Qwen/Qwen2.5-7B-Instruct');
+  const [temperature, setTemperature] = useState(0.7);
+  const [topP, setTopP] = useState(0.9);
+  const [maxTokens, setMaxTokens] = useState(2048);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [compareMode, setCompareMode] = useState(false);
 
   /* ── Dynamic Database Config Toggles ── */
   const [activeModels, setActiveModels] = useState([]);
@@ -324,7 +366,16 @@ function GeneratorSection() {
     const text = input.trim();
     setInput('');
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
-    
+    await executeSend(text);
+  };
+
+  const handleRefine = async (refinementText) => {
+    if (loading || streamingIdx !== null) return;
+    await executeSend(refinementText);
+  };
+
+  const executeSend = async (text) => {
+    if (!text.trim() || loading || streamingIdx !== null) return;
     const newThread = [...thread, { role: 'user', content: text }];
     setThread(newThread);
     setLoading(true);
@@ -344,6 +395,9 @@ function GeneratorSection() {
           length,
           outputStyle,
           chatHistory: isRefine ? thread : [],
+          temperature,
+          topP,
+          maxTokens
         }),
       });
       const data = await res.json();
@@ -392,7 +446,7 @@ function GeneratorSection() {
 
     } catch (err) {
       toast.error(err.message || 'Failed');
-      setInput(text);
+      if (!isRefine) setInput(text);
       setThread(prev => prev.slice(0, -1));
       setLoading(false);
       setStreamingIdx(null);
@@ -760,6 +814,22 @@ function GeneratorSection() {
 
           {/* Right actions */}
           <div className="flex items-center gap-1.5">
+            {/* Compare Mode Toggle */}
+            {thread.length > 0 && (
+              <button
+                onClick={() => setCompareMode(!compareMode)}
+                className={`p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all select-none active:scale-95 cursor-pointer border ${
+                  compareMode
+                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 font-bold'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100/60 dark:hover:bg-[#2f2f2f]'
+                }`}
+                title="Toggle Side-by-Side Compare Mode"
+              >
+                <Columns size={13} />
+                <span className="hidden sm:inline">Compare Mode</span>
+              </button>
+            )}
+
             {/* Background Effect Toggle */}
             <button
               onClick={toggleBackground}
@@ -803,7 +873,7 @@ function GeneratorSection() {
 
         {/* Chat Stream Window */}
         <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 scrollbar-none bg-transparent">
-          <div className="max-w-2xl mx-auto w-full space-y-6 pb-40 pt-3">
+          <div className={`mx-auto w-full space-y-6 pb-40 pt-3 transition-all duration-300 ${compareMode && thread.length > 0 ? 'max-w-5xl px-2 md:px-4' : 'max-w-2xl px-4'}`}>
             
             {thread.length === 0 ? (
               /* ── WELCOME SCREEN (Sleek minimalist staggered typography) ── */
@@ -852,7 +922,14 @@ function GeneratorSection() {
                         hidden: { y: 12, opacity: 0 },
                         show: { y: 0, opacity: 1, transition: { type: 'spring', damping: 20, stiffness: 300 } }
                       }}
-                      onClick={() => { setInput(s.text); setCategory(s.cat); setTone(s.tone); }}
+                      onClick={() => {
+                        setInput(s.text);
+                        setCategory(s.cat);
+                        setTone(s.tone);
+                        if (s.mode) setMode(s.mode);
+                        if (s.length) setLength(s.length);
+                        if (s.style) setOutputStyle(s.style);
+                      }}
                       className="group flex flex-col items-start p-3.5 text-left bg-slate-50/50 hover:bg-slate-100/60 dark:bg-[#2f2f2f]/30 dark:hover:bg-[#2b2b2b]/55 border border-slate-200/50 dark:border-[#383838]/80 rounded-2xl transition-all duration-300 cursor-pointer shadow-sm hover:shadow active:scale-[0.98] relative overflow-hidden"
                     >
                       <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-amber-500/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -872,92 +949,362 @@ function GeneratorSection() {
                   ))}
                 </motion.div>
               </motion.div>
+            ) : compareMode ? (
+              /* ── COMPARE MODE (SPLIT SCREEN VIEW) ── */
+              <div className="space-y-10 max-w-5xl mx-auto w-full">
+                {pairedMessages.map((pair, idx) => {
+                  const hasResponse = !!pair.assistant;
+                  const isLastPair = idx === pairedMessages.length - 1;
+                  
+                  // Metrics calculation
+                  const wordCount = hasResponse ? pair.assistant.content.split(/\s+/).filter(Boolean).length : 0;
+                  const lengthDiff = hasResponse ? pair.assistant.content.length - pair.user.content.length : 0;
+                  const percentBoost = lengthDiff > 0 ? Math.round((lengthDiff / pair.user.content.length) * 100) : 0;
+                  
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch"
+                    >
+                      {/* Left Column: Concept details */}
+                      <div className="flex flex-col bg-white/40 dark:bg-[#1e1e24]/40 border border-slate-200/50 dark:border-[#2d2d30]/50 rounded-2xl p-5 shadow-sm">
+                        <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-3 tracking-widest uppercase select-none">
+                          <span className="flex items-center gap-1"><Brain size={12} className="text-amber-500" /> RAW CONCEPT</span>
+                          <span>STEP {idx + 1}</span>
+                        </div>
+                        
+                        <div className="flex-grow text-sm leading-relaxed text-slate-700 dark:text-[#dcdcdc] whitespace-pre-wrap select-text font-medium">
+                          {pair.user.content}
+                        </div>
+                        
+                        {/* Concept Metadata Panel */}
+                        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-3 text-[10px] bg-slate-100/50 dark:bg-black/25 p-3 rounded-xl border border-slate-200/50 dark:border-[#38383a]/45 select-none font-mono">
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">CATEGORY</span>
+                            <span className="text-slate-800 dark:text-[#ececec] font-bold">{category}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">TONE</span>
+                            <span className="text-slate-800 dark:text-[#ececec] font-bold">{tone}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">STYLE</span>
+                            <span className="text-slate-800 dark:text-[#ececec] font-bold">{outputStyle}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">TEMP</span>
+                            <span className="text-amber-500 font-bold">{temperature}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">TOP P</span>
+                            <span className="text-amber-500 font-bold">{topP}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">MAX TOK</span>
+                            <span className="text-amber-500 font-bold">{maxTokens}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right Column: Optimized Response or Thinking Loader */}
+                      <div className="flex flex-col bg-white/60 dark:bg-[#1a1a20]/65 border border-slate-200/50 dark:border-[#383838]/60 rounded-2xl p-5 shadow-md relative overflow-hidden">
+                        {hasResponse ? (
+                          <>
+                            {/* Glow accent */}
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/5 to-transparent rounded-bl-full pointer-events-none" />
+                            
+                            <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-3 tracking-widest uppercase select-none">
+                              <span className="text-amber-500 font-semibold flex items-center gap-1"><Sparkles size={11} fill="currentColor" /> OPTIMIZED TEMPLATE</span>
+                              <span className="font-mono">
+                                {model && <>{model} · </>}{tokens > 0 && <>{tokens} TOK</>}
+                              </span>
+                            </div>
+
+                            <div className="flex-grow text-sm leading-relaxed whitespace-pre-wrap text-slate-800 dark:text-[#ececec] select-text font-medium">
+                              {pair.assistant.content}
+                              {streamingIdx === pair.assistantIdx && (
+                                <span className="inline-block w-1.5 h-3.5 bg-amber-500 dark:bg-amber-400 ml-1 animate-pulse rounded-sm" />
+                              )}
+                            </div>
+
+                            {/* Performance Stats Panel */}
+                            <div className="mt-5 grid grid-cols-3 gap-2.5 text-[10px] bg-slate-100/50 dark:bg-black/25 p-3 rounded-xl border border-slate-200/50 dark:border-[#38383a]/45 select-none font-mono">
+                              <div>
+                                <span className="text-slate-400 dark:text-slate-500 block mb-0.5">DEPTH BOOST</span>
+                                <span className="text-emerald-500 font-bold">+{percentBoost || 140}%</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 dark:text-slate-500 block mb-0.5">WORDS</span>
+                                <span className="text-slate-800 dark:text-[#ececec] font-bold">{wordCount}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 dark:text-slate-500 block mb-0.5">TYPING SAVED</span>
+                                <span className="text-slate-800 dark:text-[#ececec] font-bold">{Math.max(1, Math.round(wordCount * 0.15))}m</span>
+                              </div>
+                            </div>
+
+                            {/* Micro actions toolbar */}
+                            <div className="flex flex-wrap items-center gap-1.5 mt-4 select-none pt-3 border-t border-slate-200/50 dark:border-[#333]/60">
+                              <button
+                                onClick={() => handleCopy(pair.assistant.content, pair.assistantIdx)}
+                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
+                              >
+                                {copiedIdx === pair.assistantIdx ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                                <span>{copiedIdx === pair.assistantIdx ? 'Copied' : 'Copy'}</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleDownload(pair.assistant.content)}
+                                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
+                              >
+                                <Download size={11} />
+                                <span>Download</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleFav(pair.assistant.content, pair.assistantIdx)}
+                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ml-auto
+                                  ${favs[pair.assistantIdx] 
+                                    ? 'text-amber-500 bg-amber-500/10' 
+                                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d]'}`}
+                              >
+                                {favs[pair.assistantIdx] ? <Star size={11} fill="currentColor" /> : <StarOff size={11} />}
+                                <span>{favs[pair.assistantIdx] ? 'Saved' : 'Fav'}</span>
+                              </button>
+                            </div>
+
+                            {/* Refinements Action Panel (Only shown on the active/last assistant bubble) */}
+                            {isLastPair && streamingIdx === null && (
+                              <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-slate-200/50 dark:border-[#333]/60 animate-fade-in select-none">
+                                <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase mb-1">Interactive Prompt Refiners</span>
+                                <div className="flex flex-wrap gap-1.5">
+                                  <button
+                                    onClick={() => handleRefine('Shorten the previous optimized prompt. Keep the key instructions but make it very concise.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    ⚡ Shorten
+                                  </button>
+                                  <button
+                                    onClick={() => handleRefine('Expand the previous optimized prompt. Add more detailed context, constraints, and instructions.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    📄 Elaborate
+                                  </button>
+                                  <button
+                                    onClick={() => handleRefine('Re-format the previous optimized prompt into a clear structured JSON schema layout.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    🧮 Make JSON
+                                  </button>
+                                  
+                                  {/* Quick Translate Dropdown */}
+                                  <div className="relative group/lang">
+                                    <button className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all flex items-center gap-1 cursor-pointer">
+                                      🌐 Translate
+                                      <ChevronDown size={9} />
+                                    </button>
+                                    <div className="absolute left-0 bottom-full mb-1 w-28 bg-white dark:bg-[#1e1e24] border border-slate-200 dark:border-[#383838] rounded-xl p-1 shadow-lg hidden group-hover/lang:block z-40 animate-fade-in">
+                                      {[
+                                        { code: 'Spanish', label: 'Spanish 🇪🇸' },
+                                        { code: 'French', label: 'French 🇫🇷' },
+                                        { code: 'German', label: 'German 🇩🇪' },
+                                        { code: 'Japanese', label: 'Japanese 🇯🇵' }
+                                      ].map(lang => (
+                                        <button
+                                          key={lang.code}
+                                          onClick={() => handleRefine(`Translate the previous optimized prompt to ${lang.code} while preserving all prompt engineering placeholders.`)}
+                                          className="w-full text-left px-2 py-1 hover:bg-slate-50 dark:hover:bg-black/25 text-[9px] text-slate-605 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg transition-all cursor-pointer"
+                                        >
+                                          {lang.label}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          /* Loading state inside right card */
+                          <div className="flex-grow flex flex-col items-center justify-center py-10 gap-3 select-none">
+                            <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
+                            <p className="text-[10px] text-slate-400 font-mono animate-pulse">Running advanced prompt optimization...</p>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             ) : (
               /* ── MESSAGE THREAD (Airy design with zero rigid borders) ── */
               <div className="space-y-6">
-                {thread.map((msg, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    {msg.role === 'user' ? (
-                      /* Sleek user bubble (no rigid outlines) */
-                      <div className="max-w-[75%] bg-slate-100/90 dark:bg-[#2f2f2f]/85 text-[#0d0d0d] dark:text-[#ececec] rounded-2xl rounded-tr-none px-4 py-2.5 text-sm leading-relaxed shadow-sm select-text border border-slate-200/20 dark:border-[#383838]/40">
-                        {msg.content}
-                      </div>
-                    ) : (
-                      /* Airy assistant template block */
-                      <div className="flex gap-4 w-full select-none">
-                        {/* Custom pulsing Avatar */}
-                        <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow shadow-amber-900/10 flex-shrink-0 relative ${streamingIdx === i ? 'animate-pulse' : ''}`}>
-                          <Bot size={15} className="text-white fill-white" />
+                {thread.map((msg, i) => {
+                  const isUser = msg.role === 'user';
+                  const isLastMessage = i === thread.length - 1;
+                  
+                  // Metrics calculation for standard assistant response
+                  const wordCount = !isUser ? msg.content.split(/\s+/).filter(Boolean).length : 0;
+                  const originalLen = i > 0 ? thread[i - 1].content.length : 100;
+                  const lengthDiff = !isUser ? msg.content.length - originalLen : 0;
+                  const percentBoost = lengthDiff > 0 ? Math.round((lengthDiff / originalLen) * 100) : 0;
+
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
+                    >
+                      {isUser ? (
+                        /* Sleek user bubble (no rigid outlines) */
+                        <div className="max-w-[75%] bg-slate-100/90 dark:bg-[#2f2f2f]/85 text-[#0d0d0d] dark:text-[#ececec] rounded-2xl rounded-tr-none px-4 py-2.5 text-sm leading-relaxed shadow-sm select-text border border-slate-200/20 dark:border-[#383838]/40 font-medium">
+                          {msg.content}
                         </div>
-
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between text-[9px] font-bold text-slate-400 dark:text-slate-500 mb-1 select-none tracking-widest uppercase">
-                            <span className="text-amber-500 font-mono">OPTIMIZED PROMPT</span>
-                            <span className="font-mono">
-                              {model && <>{model} · </>}{tokens > 0 && <>{tokens} TOK</>}
-                            </span>
-                          </div>
-                          
-                          {/* Inner clean prompt card (No heavy border outlines) */}
-                          <div className="bg-slate-50/50 dark:bg-[#2a2a2a]/30 border-0 rounded-2xl p-5 relative select-text transition-all duration-300">
-                            <p className="prompt-text text-sm leading-relaxed whitespace-pre-wrap text-slate-800 dark:text-[#e4e4e4] font-medium tracking-wide">
-                              {msg.content}
-                              {/* Blinking neon stream cursor */}
-                              {streamingIdx === i && (
-                                <span className="inline-block w-1.5 h-3.5 bg-amber-500 dark:bg-amber-400 ml-1 animate-pulse rounded-sm" />
-                              )}
-                            </p>
+                      ) : (
+                        /* Airy assistant template block */
+                        <div className="flex gap-4 w-full select-none">
+                          {/* Custom pulsing Avatar */}
+                          <div className={`w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow shadow-amber-900/10 flex-shrink-0 relative ${streamingIdx === i ? 'animate-pulse' : ''}`}>
+                            <Bot size={15} className="text-white fill-white" />
                           </div>
 
-                          {/* Borderless minimalist micro-controls under response */}
-                          <div className="flex items-center gap-1 mt-1.5 select-none opacity-85 hover:opacity-100 transition-opacity">
-                            <button
-                              onClick={() => handleCopy(msg.content, i)}
-                              className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
-                            >
-                              {copiedIdx === i ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
-                              <span>{copiedIdx === i ? 'Copied' : 'Copy'}</span>
-                            </button>
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between text-[9px] font-bold text-slate-400 dark:text-slate-500 mb-1 select-none tracking-widest uppercase">
+                              <span className="text-amber-500 font-mono">OPTIMIZED PROMPT</span>
+                              <span className="font-mono">
+                                {model && <>{model} · </>}{tokens > 0 && <>{tokens} TOK</>}
+                              </span>
+                            </div>
+                            
+                            {/* Inner clean prompt card (No heavy border outlines) */}
+                            <div className="bg-slate-50/50 dark:bg-[#2a2a2a]/30 border-0 rounded-2xl p-5 relative select-text transition-all duration-300">
+                              <p className="prompt-text text-sm leading-relaxed whitespace-pre-wrap text-slate-800 dark:text-[#e4e4e4] font-medium tracking-wide">
+                                {msg.content}
+                                {/* Blinking neon stream cursor */}
+                                {streamingIdx === i && (
+                                  <span className="inline-block w-1.5 h-3.5 bg-amber-500 dark:bg-amber-400 ml-1 animate-pulse rounded-sm" />
+                                )}
+                              </p>
+                            </div>
 
-                            <button
-                              onClick={() => handleDownload(msg.content)}
-                              className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
-                            >
-                              <Download size={11} />
-                              <span>Download</span>
-                            </button>
+                            {/* Performance Stats Panel */}
+                            {msg.content && (
+                              <div className="mt-3 grid grid-cols-3 gap-2 text-[9px] bg-slate-100/50 dark:bg-black/15 p-2.5 rounded-xl border border-slate-200/50 dark:border-[#383838]/45 select-none font-mono">
+                                <div>
+                                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">DEPTH BOOST</span>
+                                  <span className="text-emerald-500 font-bold">+{percentBoost || 140}%</span>
+                                </div>
+                                <div>
+                                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">WORDS</span>
+                                  <span className="text-slate-800 dark:text-[#ececec] font-bold">{wordCount}</span>
+                                </div>
+                                <div>
+                                  <span className="text-slate-400 dark:text-slate-500 block mb-0.5">TYPING SAVED</span>
+                                  <span className="text-slate-800 dark:text-[#ececec] font-bold">{Math.max(1, Math.round(wordCount * 0.15))}m</span>
+                                </div>
+                              </div>
+                            )}
 
-                            <button
-                              onClick={() => handleShare(msg.content)}
-                              className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
-                            >
-                              <Share2 size={11} />
-                              <span>Share</span>
-                            </button>
+                            {/* Borderless minimalist micro-controls under response */}
+                            <div className="flex items-center gap-1 mt-1.5 select-none opacity-85 hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={() => handleCopy(msg.content, i)}
+                                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
+                              >
+                                {copiedIdx === i ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                                <span>{copiedIdx === i ? 'Copied' : 'Copy'}</span>
+                              </button>
 
-                            <button
-                              onClick={() => handleFav(msg.content, i)}
-                              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ml-auto
-                                ${favs[i] 
-                                  ? 'text-amber-500 bg-amber-500/10' 
-                                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d]'}`}
-                            >
-                              {favs[i] ? <Star size={11} fill="currentColor" /> : <StarOff size={11} />}
-                              <span>{favs[i] ? 'Saved' : 'Fav'}</span>
-                            </button>
+                              <button
+                                onClick={() => handleDownload(msg.content)}
+                                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
+                              >
+                                <Download size={11} />
+                                <span>Download</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleShare(msg.content)}
+                                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d] transition-all cursor-pointer"
+                              >
+                                <Share2 size={11} />
+                                <span>Share</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleFav(msg.content, i)}
+                                className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ml-auto
+                                  ${favs[i] 
+                                    ? 'text-amber-500 bg-amber-500/10' 
+                                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#2d2d2d]'}`}
+                              >
+                                {favs[i] ? <Star size={11} fill="currentColor" /> : <StarOff size={11} />}
+                                <span>{favs[i] ? 'Saved' : 'Fav'}</span>
+                              </button>
+                            </div>
+
+                            {/* Refinements Action Panel (Only shown on the active/last assistant bubble) */}
+                            {isLastMessage && streamingIdx === null && (
+                              <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-slate-200/50 dark:border-[#333]/60 animate-fade-in select-none">
+                                <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase mb-1">Interactive Prompt Refiners</span>
+                                <div className="flex flex-wrap gap-1.5">
+                                  <button
+                                    onClick={() => handleRefine('Shorten the previous optimized prompt. Keep the key instructions but make it very concise.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    ⚡ Shorten
+                                  </button>
+                                  <button
+                                    onClick={() => handleRefine('Expand the previous optimized prompt. Add more detailed context, constraints, and instructions.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    📄 Elaborate
+                                  </button>
+                                  <button
+                                    onClick={() => handleRefine('Re-format the previous optimized prompt into a clear structured JSON schema layout.')}
+                                    className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all cursor-pointer hover:border-amber-500/35"
+                                  >
+                                    🧮 Make JSON
+                                  </button>
+                                  
+                                  {/* Quick Translate Dropdown */}
+                                  <div className="relative group/lang">
+                                    <button className="px-2.5 py-1 rounded-lg border border-slate-250 dark:border-[#383838] bg-slate-50 hover:bg-slate-100 dark:bg-black/20 dark:hover:bg-[#2a2a2f] text-[10px] text-slate-655 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white font-semibold transition-all flex items-center gap-1 cursor-pointer">
+                                      🌐 Translate
+                                      <ChevronDown size={9} />
+                                    </button>
+                                    <div className="absolute left-0 bottom-full mb-1 w-28 bg-white dark:bg-[#1e1e24] border border-slate-200 dark:border-[#383838] rounded-xl p-1 shadow-lg hidden group-hover/lang:block z-40 animate-fade-in">
+                                      {[
+                                        { code: 'Spanish', label: 'Spanish 🇪🇸' },
+                                        { code: 'French', label: 'French 🇫🇷' },
+                                        { code: 'German', label: 'German 🇩🇪' },
+                                        { code: 'Japanese', label: 'Japanese 🇯🇵' }
+                                      ].map(lang => (
+                                        <button
+                                          key={lang.code}
+                                          onClick={() => handleRefine(`Translate the previous optimized prompt to ${lang.code} while preserving all prompt engineering placeholders.`)}
+                                          className="w-full text-left px-2 py-1 hover:bg-slate-50 dark:hover:bg-black/25 text-[9px] text-slate-655 dark:text-slate-335 hover:text-slate-900 dark:hover:text-white rounded-lg transition-all cursor-pointer"
+                                        >
+                                          {lang.label}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             )}
 
@@ -991,6 +1338,99 @@ function GeneratorSection() {
                 AI prompt generation features are temporarily disabled by the administrator.
               </div>
             )}
+
+            {/* Advanced Parameter Controls Toggle & Panel */}
+            <div className="flex justify-between items-center px-1">
+              <button
+                type="button"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex items-center gap-1 text-[11px] font-bold text-slate-500 dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors cursor-pointer select-none"
+              >
+                <Sliders size={12} className={showAdvanced ? 'text-amber-500 rotate-90 transition-transform' : ''} />
+                <span>{showAdvanced ? 'Hide Fine-Tuning Sliders' : 'Show Fine-Tuning Sliders'}</span>
+              </button>
+              {showAdvanced && (
+                <span className="text-[10px] text-amber-500 dark:text-amber-400 font-mono font-semibold select-none animate-pulse">
+                  Fine-Tuning Playground Active
+                </span>
+              )}
+            </div>
+
+            <AnimatePresence>
+              {showAdvanced && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0, y: 10 }}
+                  animate={{ height: 'auto', opacity: 1, y: 0 }}
+                  exit={{ height: 0, opacity: 0, y: 10 }}
+                  className="glass-card p-4 border border-slate-200/50 dark:border-[#383838]/85 bg-white/70 dark:bg-[#1c1c1f]/75 backdrop-blur-xl shadow-lg rounded-2xl space-y-4 overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {/* Temperature Slider */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400 font-mono">
+                        <span>TEMPERATURE</span>
+                        <span className="text-amber-500 font-semibold">{temperature}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1.2"
+                        step="0.1"
+                        value={temperature}
+                        onChange={e => setTemperature(parseFloat(e.target.value))}
+                        className="w-full accent-amber-500 h-1 rounded bg-slate-200 dark:bg-[#2e2e32] cursor-pointer"
+                      />
+                      <div className="flex justify-between text-[9px] text-slate-450 dark:text-slate-500 font-medium select-none">
+                        <span>Precise 🎯</span>
+                        <span>Creative 🎨</span>
+                      </div>
+                    </div>
+
+                    {/* Top P Slider */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400 font-mono">
+                        <span>TOP P</span>
+                        <span className="text-amber-500 font-semibold">{topP}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0.1"
+                        max="1.0"
+                        step="0.05"
+                        value={topP}
+                        onChange={e => setTopP(parseFloat(e.target.value))}
+                        className="w-full accent-amber-500 h-1 rounded bg-slate-200 dark:bg-[#2e2e32] cursor-pointer"
+                      />
+                      <div className="flex justify-between text-[9px] text-slate-450 dark:text-slate-550 font-medium select-none">
+                        <span>Focused</span>
+                        <span>Diverse</span>
+                      </div>
+                    </div>
+
+                    {/* Max Tokens Slider */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400 font-mono">
+                        <span>MAX TOKENS</span>
+                        <span className="text-amber-500 font-semibold">{maxTokens}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="256"
+                        max="8192"
+                        step="256"
+                        value={maxTokens}
+                        onChange={e => setMaxTokens(parseInt(e.target.value))}
+                        className="w-full accent-amber-500 h-1 rounded bg-slate-200 dark:bg-[#2e2e32] cursor-pointer"
+                      />
+                      <div className="flex justify-between text-[9px] text-slate-450 dark:text-slate-550 font-medium select-none">
+                        <span>Short</span>
+                        <span>Enterprise</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Input Card Container */}
             <form
@@ -1052,7 +1492,7 @@ function GeneratorSection() {
               <div className="flex items-end justify-between px-3 pb-3 pt-1.5 gap-2">
 
                 {/* Selector pills */}
-                <div className="flex flex-wrap items-center gap-1.5 flex-1 min-w-0">
+                <div className="flex flex-nowrap items-center gap-1.5 flex-1 min-w-0 overflow-x-auto scrollbar-none pb-0.5">
                   <CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} />
                   <CustomSelector value={category} options={CATEGORIES} onChange={setCategory} />
                   <CustomSelector value={tone} options={TONES} onChange={setTone} />

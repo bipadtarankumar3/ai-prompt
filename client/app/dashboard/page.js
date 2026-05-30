@@ -12,9 +12,11 @@ import Footer from '../components/Footer';
 import SeoHeader from '../components/SeoHeader';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { clientApi } from '../utils/clientApi';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,6 +25,8 @@ export default function DashboardPage() {
   // Form Inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
 
   // Dashboard Data State
   const [savedPrompts, setSavedPrompts] = useState([]);
@@ -35,6 +39,7 @@ export default function DashboardPage() {
   const [copiedPromptId, setCopiedPromptId] = useState(null);
   const [copiedKeyId, setCopiedKeyId] = useState(null);
   const [showKeyText, setShowKeyText] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -52,6 +57,13 @@ export default function DashboardPage() {
     try {
       const verifyRes = await clientApi.adminVerify(authToken);
       setUser(verifyRes.user);
+
+      // Redirect directly to admin management portal if role matches
+      if (verifyRes.user && verifyRes.user.role === 'admin') {
+        toast.success('Admin authenticated. Redirecting to admin console...');
+        router.push('/admin');
+        return;
+      }
       
       // Load dashboard information
       const [saved, userLimits, keys] = await Promise.all([
@@ -83,7 +95,28 @@ export default function DashboardPage() {
       toast.success('Successfully logged in! Welcome back.');
       await verifyAndLoadData(res.token);
     } catch (err) {
-      toast.error(err.message || 'Login failed. Use admin@example.com / admin123');
+      toast.error(err.message || 'Login failed. Check your email and password.');
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      return toast.error('All fields are required.');
+    }
+    if (loggingIn) return;
+
+    setLoggingIn(true);
+    try {
+      const res = await clientApi.userRegister(name, email, password);
+      localStorage.setItem('pb_auth_token', res.token);
+      setToken(res.token);
+      toast.success('Successfully registered! Welcome to your developer console.');
+      await verifyAndLoadData(res.token);
+    } catch (err) {
+      toast.error(err.message || 'Registration failed.');
     } finally {
       setLoggingIn(false);
     }
@@ -154,7 +187,7 @@ export default function DashboardPage() {
               <p className="text-sm text-white/50">Decrypting account data...</p>
             </div>
           ) : !token ? (
-            /* ── LOGIN FORM CARD ── */
+            /* ── LOGIN/REGISTER FORM CARD ── */
             <div className="max-w-md mx-auto relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-amber-600/5 to-purple-600/5 rounded-3xl blur-2xl -z-10" />
               
@@ -163,18 +196,62 @@ export default function DashboardPage() {
                   <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Lock className="text-amber-500" size={20} />
                   </div>
-                  <h1 className="text-xl font-bold text-white mb-2">Access Developer Console</h1>
+                  <h1 className="text-xl font-bold text-white mb-2">
+                    {authMode === 'login' ? 'Access Developer Console' : 'Create Developer Account'}
+                  </h1>
                   <p className="text-xs text-white/50 leading-relaxed">
-                    Log in to test saved prompts, view programmatic API keys, and track limits. Use pre-seeded default developer account details below.
+                    {authMode === 'login' 
+                      ? 'Log in to test saved prompts, view programmatic API keys, and track limits.' 
+                      : 'Sign up to start saving prompt presets, tracking API metrics, and generating keys.'}
                   </p>
                 </div>
 
-                <form onSubmit={handleLogin} className="space-y-4">
+                {/* Tabs */}
+                <div className="flex border-b border-white/10 select-none">
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('login')}
+                    className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+                      authMode === 'login'
+                        ? 'border-amber-500 text-white'
+                        : 'border-transparent text-white/40 hover:text-white/60'
+                    }`}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('register')}
+                    className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-all border-b-2 ${
+                      authMode === 'register'
+                        ? 'border-amber-500 text-white'
+                        : 'border-transparent text-white/40 hover:text-white/60'
+                    }`}
+                  >
+                    Register
+                  </button>
+                </div>
+
+                <form onSubmit={authMode === 'login' ? handleLogin : handleRegister} className="space-y-4">
+                  {authMode === 'register' && (
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">Full Name</label>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 hover:border-white/15 focus:border-amber-500 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-650 outline-none transition-all"
+                        required
+                      />
+                    </div>
+                  )}
+
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">Email Address</label>
                     <input
                       type="email"
-                      placeholder="admin@example.com"
+                      placeholder="you@example.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       className="w-full bg-white/5 border border-white/10 hover:border-white/15 focus:border-amber-500 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-650 outline-none transition-all"
@@ -201,22 +278,24 @@ export default function DashboardPage() {
                   >
                     {loggingIn ? (
                       <>
-                        <RefreshCw size={14} className="animate-spin" /> Verifying...
+                        <RefreshCw size={14} className="animate-spin" /> {authMode === 'login' ? 'Verifying...' : 'Creating Account...'}
                       </>
                     ) : (
                       <>
-                        Get Started <ArrowRight size={14} />
+                        {authMode === 'login' ? 'Sign In' : 'Create Account'} <ArrowRight size={14} />
                       </>
                     )}
                   </button>
                 </form>
 
-                <div className="border-t border-white/5 pt-4 text-center select-none">
-                  <span className="text-[10px] text-white/35 font-bold uppercase tracking-wider block mb-1">Pre-seeded Credentials</span>
-                  <code className="text-[10px] text-amber-400 bg-amber-500/10 px-2.5 py-1.5 rounded-lg border border-amber-500/20 block select-all font-mono">
-                    admin@example.com / admin123
-                  </code>
-                </div>
+                {authMode === 'login' && (
+                  <div className="border-t border-white/5 pt-4 text-center select-none">
+                    <span className="text-[10px] text-white/35 font-bold uppercase tracking-wider block mb-1">Pre-seeded Credentials</span>
+                    <code className="text-[10px] text-amber-400 bg-amber-500/10 px-2.5 py-1.5 rounded-lg border border-amber-500/20 block select-all font-mono">
+                      admin@example.com / admin123
+                    </code>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
@@ -231,19 +310,54 @@ export default function DashboardPage() {
                   <div>
                     <h2 className="text-sm font-bold text-white flex items-center gap-1.5">
                       {user?.name || 'Developer'} 
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono font-medium">Verified Account</span>
+                      {user?.role === 'admin' ? (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 font-mono font-medium">Administrator</span>
+                      ) : (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono font-medium">Verified Account</span>
+                      )}
                     </h2>
                     <p className="text-[11px] text-white/40">{user?.email || 'admin@example.com'}</p>
                   </div>
                 </div>
 
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-1.5 text-xs text-white/50 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl border border-white/5 transition-all cursor-pointer"
-                >
-                  <LogOut size={13} /> Sign Out
-                </button>
+                <div className="flex items-center gap-3">
+                  {user?.role === 'admin' && (
+                    <Link
+                      href="/admin"
+                      className="flex items-center gap-1.5 text-xs text-amber-450 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-4 py-2.5 rounded-xl border border-amber-500/20 transition-all font-bold cursor-pointer"
+                    >
+                      <Sparkles size={13} fill="currentColor" className="text-amber-400" /> Admin Portal
+                    </Link>
+                  )}
+
+                  <button
+                    onClick={() => setShowLogoutConfirm(true)}
+                    className="flex items-center gap-1.5 text-xs text-white/50 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl border border-white/5 transition-all cursor-pointer"
+                  >
+                    <LogOut size={13} /> Sign Out
+                  </button>
+                </div>
               </div>
+
+              {/* Administrator Quick Portal Banner */}
+              {user?.role === 'admin' && (
+                <div className="bg-gradient-to-r from-amber-500/10 via-purple-600/10 to-transparent border border-amber-500/20 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none">
+                  <div className="space-y-1">
+                    <h3 className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
+                      <ShieldAlert size={14} /> System Administrator Portal
+                    </h3>
+                    <p className="text-xs text-white/60 leading-relaxed font-sans">
+                      You are logged in with system administrator privileges. Access the site management dashboard to customize settings, configure AI providers and models, draft blogs, or modify collection presets.
+                    </p>
+                  </div>
+                  <Link
+                    href="/admin"
+                    className="flex-shrink-0 flex items-center gap-1.5 btn-primary px-5 py-3 rounded-xl text-xs font-bold shadow-lg shadow-amber-500/10 active:scale-98 transition-all"
+                  >
+                    Manage Platform <ArrowRight size={13} />
+                  </Link>
+                </div>
+              )}
 
               {/* Grid: Nav tabs on left, stats overview on right */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
@@ -495,6 +609,57 @@ export default function DashboardPage() {
       </section>
 
       <Footer />
+
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 flex items-center justify-center z-[100] px-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowLogoutConfirm(false)}
+              className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            />
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="relative bg-[#0d0d15] border border-white/10 p-6 rounded-2xl max-w-sm w-full text-center space-y-4 shadow-2xl select-none"
+            >
+              <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto text-red-500">
+                <LogOut size={22} />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-bold text-white font-mono">Confirm Sign Out</h3>
+                <p className="text-xs text-white/50 leading-relaxed font-sans">
+                  Are you sure you want to end your developer console session? You will need to log back in to access saved presets.
+                </p>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="flex-1 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-bold text-white border border-white/5 cursor-pointer active:scale-98 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowLogoutConfirm(false);
+                    handleLogout();
+                  }}
+                  className="flex-1 py-2.5 rounded-xl bg-red-650 hover:bg-red-600 text-xs font-bold text-white border border-red-550/20 cursor-pointer active:scale-98 transition-all bg-red-600"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

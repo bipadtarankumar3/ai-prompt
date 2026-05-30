@@ -5,6 +5,7 @@ const path = require('path');
 
 const blogController = require('../controllers/blog.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
+const adminMiddleware = require('../middlewares/admin.middleware');
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -37,13 +38,13 @@ router.get('/', blogController.getAll);
 router.get('/slug/:slug', blogController.getBySlug);
 
 // Admin-only CRUD routes
-router.post('/admin', authMiddleware, blogController.create);
-router.get('/admin/:id', authMiddleware, blogController.getById);
-router.put('/admin/:id', authMiddleware, blogController.update);
-router.delete('/admin/:id', authMiddleware, blogController.delete);
+router.post('/admin', authMiddleware, adminMiddleware, blogController.create);
+router.get('/admin/:id', authMiddleware, adminMiddleware, blogController.getById);
+router.put('/admin/:id', authMiddleware, adminMiddleware, blogController.update);
+router.delete('/admin/:id', authMiddleware, adminMiddleware, blogController.delete);
 
 // Admin-only image upload route
-router.post('/upload', authMiddleware, upload.single('image'), (req, res) => {
+router.post('/upload', authMiddleware, adminMiddleware, upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });

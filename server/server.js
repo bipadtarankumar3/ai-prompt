@@ -66,8 +66,8 @@ async function initializeDatabase() {
       // Seed User
       const passwordHash = await bcrypt.hash('admin123', 10);
       await db.query(
-        'INSERT INTO users (name, email, password, email_verified_at) VALUES ($1, $2, $3, NOW())',
-        ['Admin', 'admin@example.com', passwordHash]
+        'INSERT INTO users (name, email, password, role, email_verified_at) VALUES ($1, $2, $3, $4, NOW())',
+        ['Admin', 'admin@example.com', passwordHash, 'admin']
       );
       logger.info('Seeded default user (admin@example.com / admin123).');
 
