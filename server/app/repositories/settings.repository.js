@@ -1,23 +1,21 @@
-const db = require('../config/database');
+const { Setting } = require('../models');
 
 class SettingsRepository {
   async get(key) {
-    const result = await db.query('SELECT set_value FROM settings WHERE set_key = $1', [key]);
-    return result.rows[0]?.set_value || null;
+    const instance = await Setting.findByPk(key);
+    return instance?.set_value || null;
   }
 
   async set(key, value) {
-    const result = await db.query(
-      'INSERT INTO settings (set_key, set_value) VALUES ($1, $2) ON CONFLICT (set_key) DO UPDATE SET set_value = EXCLUDED.set_value RETURNING *',
-      [key, String(value)]
-    );
-    return result.rows[0];
+    // Sequelize upsert handles ON CONFLICT DO UPDATE
+    const [instance] = await Setting.upsert({ set_key: key, set_value: String(value) });
+    return instance.dataValues;
   }
 
   async getAll() {
-    const result = await db.query('SELECT set_key, set_value FROM settings');
-    return result.rows.reduce((acc, row) => {
-      acc[row.set_key] = row.set_value;
+    const instances = await Setting.findAll();
+    return instances.reduce((acc, instance) => {
+      acc[instance.set_key] = instance.set_value;
       return acc;
     }, {});
   }

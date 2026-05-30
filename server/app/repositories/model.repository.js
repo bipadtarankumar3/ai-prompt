@@ -1,8 +1,9 @@
-const db = require('../config/database');
+const { AiModel } = require('../models');
 
 class ModelRepository {
-  mapRow(row) {
-    if (!row) return null;
+  mapRow(instance) {
+    if (!instance) return null;
+    const row = instance.dataValues || instance;
     return {
       id: row.am_id,
       name: row.am_name,
@@ -14,39 +15,47 @@ class ModelRepository {
   }
 
   async findAll() {
-    const result = await db.query('SELECT * FROM ai_models ORDER BY am_id ASC');
-    return result.rows.map(this.mapRow);
+    const instances = await AiModel.findAll({ order: [['am_id', 'ASC']] });
+    return instances.map(i => this.mapRow(i));
   }
 
   async findActive() {
-    const result = await db.query('SELECT * FROM ai_models WHERE am_is_active = true ORDER BY am_id ASC');
-    return result.rows.map(this.mapRow);
+    const instances = await AiModel.findAll({ 
+      where: { am_is_active: true },
+      order: [['am_id', 'ASC']]
+    });
+    return instances.map(i => this.mapRow(i));
   }
 
   async findById(id) {
-    const result = await db.query('SELECT * FROM ai_models WHERE am_id = $1', [id]);
-    return this.mapRow(result.rows[0]);
+    const instance = await AiModel.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async create({ name, provider, api_model_code, is_active }) {
-    const result = await db.query(
-      'INSERT INTO ai_models (am_name, am_provider, am_api_model_code, am_is_active) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, provider, api_model_code, is_active !== false]
-    );
-    return this.mapRow(result.rows[0]);
+    const instance = await AiModel.create({
+      am_name: name,
+      am_provider: provider,
+      am_api_model_code: api_model_code,
+      am_is_active: is_active !== false
+    });
+    return this.mapRow(instance);
   }
 
   async update(id, { name, provider, api_model_code, is_active }) {
-    const result = await db.query(
-      'UPDATE ai_models SET am_name = $1, am_provider = $2, am_api_model_code = $3, am_is_active = $4 WHERE am_id = $5 RETURNING *',
-      [name, provider, api_model_code, is_active, id]
-    );
-    return this.mapRow(result.rows[0]);
+    await AiModel.update({
+      am_name: name,
+      am_provider: provider,
+      am_api_model_code: api_model_code,
+      am_is_active: is_active
+    }, { where: { am_id: id } });
+    const instance = await AiModel.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async delete(id) {
-    const result = await db.query('DELETE FROM ai_models WHERE am_id = $1 RETURNING am_id', [id]);
-    return { id: result.rows[0]?.am_id };
+    await AiModel.destroy({ where: { am_id: id } });
+    return { id };
   }
 }
 

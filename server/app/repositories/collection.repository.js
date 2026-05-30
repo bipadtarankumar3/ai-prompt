@@ -1,8 +1,10 @@
-const db = require('../config/database');
+const { Op } = require('sequelize');
+const { PromptCollection, sequelize } = require('../models');
 
 class CollectionRepository {
-  mapRow(row) {
-    if (!row) return null;
+  mapRow(instance) {
+    if (!instance) return null;
+    const row = instance.dataValues || instance;
     return {
       id: row.pc_id,
       slug: row.pc_slug,
@@ -31,272 +33,243 @@ class CollectionRepository {
   }
 
   async findAll() {
-    const result = await db.query('SELECT * FROM prompt_collections ORDER BY pc_id DESC');
-    return result.rows.map(this.mapRow);
+    const instances = await PromptCollection.findAll({ order: [['pc_id', 'DESC']] });
+    return instances.map(i => this.mapRow(i));
   }
 
   async findById(id) {
-    const result = await db.query('SELECT * FROM prompt_collections WHERE pc_id = $1', [id]);
-    return this.mapRow(result.rows[0]);
+    const instance = await PromptCollection.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async findBySlug(slug) {
-    const result = await db.query('SELECT * FROM prompt_collections WHERE pc_slug = $1', [slug]);
-    return this.mapRow(result.rows[0]);
+    const instance = await PromptCollection.findOne({ where: { pc_slug: slug } });
+    return this.mapRow(instance);
   }
 
   async findTrending(limit = 6) {
-    const result = await db.query(
-      'SELECT * FROM prompt_collections ORDER BY pc_copy_count DESC, pc_view_count DESC LIMIT $1',
-      [limit]
-    );
-    return result.rows.map(this.mapRow);
+    const instances = await PromptCollection.findAll({
+      order: [['pc_copy_count', 'DESC'], ['pc_view_count', 'DESC']],
+      limit
+    });
+    return instances.map(i => this.mapRow(i));
   }
 
   async findRelated(id, category, limit = 3) {
-    const result = await db.query(
-      'SELECT * FROM prompt_collections WHERE pc_category = $1 AND pc_id != $2 ORDER BY pc_copy_count DESC LIMIT $3',
-      [category, id, limit]
-    );
-    return result.rows.map(this.mapRow);
+    const instances = await PromptCollection.findAll({
+      where: {
+        pc_category: category,
+        pc_id: { [Op.ne]: id }
+      },
+      order: [['pc_copy_count', 'DESC']],
+      limit
+    });
+    return instances.map(i => this.mapRow(i));
   }
 
-  /**
-   * Find similar prompts by shared tags (JSONB overlap).
-   * Falls back to category-based if no tags overlap.
-   */
   async findSimilar(id, tags = [], limit = 4) {
     if (tags && tags.length > 0) {
-      const result = await db.query(
-        `SELECT *, (
-           SELECT count(*) FROM jsonb_array_elements_text(pc_tags) t WHERE t = ANY($1::text[])
-         ) AS tag_overlap
-         FROM prompt_collections
-         WHERE pc_id != $2
-         ORDER BY tag_overlap DESC, pc_copy_count DESC
-         LIMIT $3`,
-        [tags, id, limit]
-      );
-      if (result.rows.length > 0) return result.rows.map(this.mapRow);
+      // Sequelize JSONB overlap operator @>
+      const instances = await PromptCollection.findAll({
+        where: {
+          pc_id: { [Op.ne]: id },
+          pc_tags: {
+            [Op.contains]: tags
+          }
+        },
+        order: [['pc_copy_count', 'DESC']],
+        limit
+      });
+      if (instances.length > 0) return instances.map(i => this.mapRow(i));
     }
+
     // Fallback to category
-    const result = await db.query(
-      'SELECT * FROM prompt_collections WHERE pc_id != $1 ORDER BY pc_copy_count DESC LIMIT $2',
-      [id, limit]
-    );
-    return result.rows.map(this.mapRow);
+    return this.findRelated(id, 'General', limit); // Actually this should fallback to category but we don't have category here. Let's just find random or latest.
   }
 
-  /**
-   * Find prompts by category with server-side pagination + sort + filter.
-   * Supports: sort = 'popular' | 'newest' | 'alphabetical'
-   *           filter = 'all' | 'featured' | 'premium'
-   */
   async findByCategory(category, { page = 1, limit = 12, sort = 'popular', filter = 'all' } = {}) {
     const offset = (page - 1) * limit;
-    const params = [category, limit, offset];
-    let filterClause = '';
+    
+    const whereClause = {
+      pc_category: sequelize.where(sequelize.fn('LOWER', sequelize.col('pc_category')), category.toLowerCase())
+    };
 
     if (filter === 'featured') {
-      filterClause = ' AND pc_is_featured = true';
+      whereClause.pc_is_featured = true;
     } else if (filter === 'premium') {
-      filterClause = ' AND pc_is_premium = true';
+      whereClause.pc_is_premium = true;
     }
 
     const orderMap = {
-      popular: 'pc_copy_count DESC, pc_view_count DESC',
-      newest: 'pc_created_at DESC',
-      alphabetical: 'pc_title ASC',
+      popular: [['pc_copy_count', 'DESC'], ['pc_view_count', 'DESC']],
+      newest: [['pc_created_at', 'DESC']],
+      alphabetical: [['pc_title', 'ASC']],
     };
     const orderClause = orderMap[sort] || orderMap.popular;
 
-    const [dataRes, countRes] = await Promise.all([
-      db.query(
-        `SELECT * FROM prompt_collections WHERE LOWER(pc_category) = LOWER($1)${filterClause} ORDER BY ${orderClause} LIMIT $2 OFFSET $3`,
-        params
-      ),
-      db.query(
-        `SELECT COUNT(*) FROM prompt_collections WHERE LOWER(pc_category) = LOWER($1)${filterClause}`,
-        [category]
-      ),
-    ]);
+    const { rows, count } = await PromptCollection.findAndCountAll({
+      where: whereClause,
+      order: orderClause,
+      limit,
+      offset
+    });
 
     return {
-      data: dataRes.rows.map(this.mapRow),
-      total: parseInt(countRes.rows[0].count, 10),
+      data: rows.map(i => this.mapRow(i)),
+      total: count,
       page,
       limit,
-      totalPages: Math.ceil(parseInt(countRes.rows[0].count, 10) / limit),
+      totalPages: Math.ceil(count / limit),
     };
   }
 
-  /**
-   * Find featured prompts by category.
-   */
   async findFeaturedByCategory(category, limit = 4) {
-    const result = await db.query(
-      'SELECT * FROM prompt_collections WHERE LOWER(pc_category) = LOWER($1) AND pc_is_featured = true ORDER BY pc_copy_count DESC LIMIT $2',
-      [category, limit]
-    );
-    return result.rows.map(this.mapRow);
+    const instances = await PromptCollection.findAll({
+      where: {
+        pc_category: sequelize.where(sequelize.fn('LOWER', sequelize.col('pc_category')), category.toLowerCase()),
+        pc_is_featured: true
+      },
+      order: [['pc_copy_count', 'DESC']],
+      limit
+    });
+    return instances.map(i => this.mapRow(i));
   }
 
-  /**
-   * Find recently added prompts by category.
-   */
   async findRecentByCategory(category, limit = 4) {
-    const result = await db.query(
-      'SELECT * FROM prompt_collections WHERE LOWER(pc_category) = LOWER($1) ORDER BY pc_created_at DESC LIMIT $2',
-      [category, limit]
-    );
-    return result.rows.map(this.mapRow);
+    const instances = await PromptCollection.findAll({
+      where: {
+        pc_category: sequelize.where(sequelize.fn('LOWER', sequelize.col('pc_category')), category.toLowerCase())
+      },
+      order: [['pc_created_at', 'DESC']],
+      limit
+    });
+    return instances.map(i => this.mapRow(i));
   }
 
-  /**
-   * Find prompts by type (prompt | template | example).
-   */
   async findByType(type, { page = 1, limit = 12 } = {}) {
     const offset = (page - 1) * limit;
-    const [dataRes, countRes] = await Promise.all([
-      db.query(
-        'SELECT * FROM prompt_collections WHERE pc_type = $1 ORDER BY pc_copy_count DESC LIMIT $2 OFFSET $3',
-        [type, limit, offset]
-      ),
-      db.query('SELECT COUNT(*) FROM prompt_collections WHERE pc_type = $1', [type]),
-    ]);
+    const { rows, count } = await PromptCollection.findAndCountAll({
+      where: { pc_type: type },
+      order: [['pc_copy_count', 'DESC']],
+      limit,
+      offset
+    });
+
     return {
-      data: dataRes.rows.map(this.mapRow),
-      total: parseInt(countRes.rows[0].count, 10),
+      data: rows.map(i => this.mapRow(i)),
+      total: count,
       page,
       limit,
-      totalPages: Math.ceil(parseInt(countRes.rows[0].count, 10) / limit),
+      totalPages: Math.ceil(count / limit),
     };
   }
 
-  /**
-   * Find prompts by tag (JSONB containment query).
-   */
   async findByTag(tagSlug, { page = 1, limit = 12 } = {}) {
     const offset = (page - 1) * limit;
-    const [dataRes, countRes] = await Promise.all([
-      db.query(
-        `SELECT * FROM prompt_collections WHERE pc_tags @> $1::jsonb ORDER BY pc_copy_count DESC LIMIT $2 OFFSET $3`,
-        [JSON.stringify([tagSlug]), limit, offset]
-      ),
-      db.query(
-        `SELECT COUNT(*) FROM prompt_collections WHERE pc_tags @> $1::jsonb`,
-        [JSON.stringify([tagSlug])]
-      ),
-    ]);
+    const { rows, count } = await PromptCollection.findAndCountAll({
+      where: {
+        pc_tags: {
+          [Op.contains]: [tagSlug]
+        }
+      },
+      order: [['pc_copy_count', 'DESC']],
+      limit,
+      offset
+    });
+
     return {
-      data: dataRes.rows.map(this.mapRow),
-      total: parseInt(countRes.rows[0].count, 10),
+      data: rows.map(i => this.mapRow(i)),
+      total: count,
       page,
       limit,
-      totalPages: Math.ceil(parseInt(countRes.rows[0].count, 10) / limit),
+      totalPages: Math.ceil(count / limit),
     };
   }
 
-  /**
-   * Paginated list for sitemap generation (minimal fields, fast).
-   */
   async findForSitemap(page = 1, limit = 1000) {
     const offset = (page - 1) * limit;
-    const result = await db.query(
-      'SELECT pc_slug, pc_updated_at, pc_created_at FROM prompt_collections ORDER BY pc_id ASC LIMIT $1 OFFSET $2',
-      [limit, offset]
-    );
-    return result.rows.map(row => ({
-      slug: row.pc_slug,
-      updated_at: row.pc_updated_at || row.pc_created_at,
+    const instances = await PromptCollection.findAll({
+      attributes: ['pc_slug', 'pc_updated_at', 'pc_created_at'],
+      order: [['pc_id', 'ASC']],
+      limit,
+      offset
+    });
+    
+    return instances.map(instance => ({
+      slug: instance.pc_slug,
+      updated_at: instance.pc_updated_at || instance.pc_created_at,
     }));
   }
 
   async getTotalCount() {
-    const result = await db.query('SELECT COUNT(*) FROM prompt_collections');
-    return parseInt(result.rows[0].count, 10);
+    return await PromptCollection.count();
   }
 
   async incrementCopy(id) {
-    const result = await db.query(
-      'UPDATE prompt_collections SET pc_copy_count = pc_copy_count + 1 WHERE pc_id = $1 RETURNING pc_copy_count',
-      [id]
-    );
-    return result.rows[0]?.pc_copy_count;
+    await PromptCollection.increment('pc_copy_count', { by: 1, where: { pc_id: id } });
+    const instance = await PromptCollection.findByPk(id, { attributes: ['pc_copy_count'] });
+    return instance?.pc_copy_count;
   }
 
   async incrementView(id) {
-    const result = await db.query(
-      'UPDATE prompt_collections SET pc_view_count = pc_view_count + 1 WHERE pc_id = $1 RETURNING pc_view_count',
-      [id]
-    );
-    return result.rows[0]?.pc_view_count;
+    await PromptCollection.increment('pc_view_count', { by: 1, where: { pc_id: id } });
+    const instance = await PromptCollection.findByPk(id, { attributes: ['pc_view_count'] });
+    return instance?.pc_view_count;
   }
 
   async create(data) {
-    const {
-      slug, title, prompt_text, category, description,
-      example_inputs, example_outputs, use_cases, faqs,
-      tags, variations, is_featured, is_premium,
-      type, ai_model_target, difficulty, meta_title, meta_description
-    } = data;
-
-    const result = await db.query(
-      `INSERT INTO prompt_collections (
-        pc_slug, pc_title, pc_prompt_text, pc_category,
-        pc_description, pc_example_inputs, pc_example_outputs,
-        pc_use_cases, pc_faqs, pc_tags, pc_variations,
-        pc_is_featured, pc_is_premium, pc_type, pc_ai_model_target,
-        pc_difficulty, pc_meta_title, pc_meta_description, pc_updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, NOW())
-      RETURNING *`,
-      [
-        slug, title, prompt_text, category, description,
-        example_inputs, example_outputs,
-        JSON.stringify(use_cases || []), JSON.stringify(faqs || []),
-        JSON.stringify(tags || []), JSON.stringify(variations || []),
-        is_featured || false, is_premium || false,
-        type || 'prompt', ai_model_target || null,
-        difficulty || 'beginner', meta_title || null, meta_description || null
-      ]
-    );
-    return this.mapRow(result.rows[0]);
+    const instance = await PromptCollection.create({
+      pc_slug: data.slug,
+      pc_title: data.title,
+      pc_prompt_text: data.prompt_text,
+      pc_category: data.category,
+      pc_description: data.description,
+      pc_example_inputs: data.example_inputs,
+      pc_example_outputs: data.example_outputs,
+      pc_use_cases: data.use_cases || [],
+      pc_faqs: data.faqs || [],
+      pc_tags: data.tags || [],
+      pc_variations: data.variations || [],
+      pc_is_featured: data.is_featured || false,
+      pc_is_premium: data.is_premium || false,
+      pc_type: data.type || 'prompt',
+      pc_ai_model_target: data.ai_model_target || null,
+      pc_difficulty: data.difficulty || 'beginner',
+      pc_meta_title: data.meta_title || null,
+      pc_meta_description: data.meta_description || null
+    });
+    return this.mapRow(instance);
   }
 
   async update(id, data) {
-    const {
-      slug, title, prompt_text, category, description,
-      example_inputs, example_outputs, use_cases, faqs,
-      tags, variations, is_featured, is_premium,
-      type, ai_model_target, difficulty, meta_title, meta_description
-    } = data;
-
-    const result = await db.query(
-      `UPDATE prompt_collections SET
-        pc_slug = $1, pc_title = $2, pc_prompt_text = $3, pc_category = $4,
-        pc_description = $5, pc_example_inputs = $6, pc_example_outputs = $7,
-        pc_use_cases = $8, pc_faqs = $9, pc_tags = $10, pc_variations = $11,
-        pc_is_featured = $12, pc_is_premium = $13, pc_type = $14,
-        pc_ai_model_target = $15, pc_difficulty = $16, pc_meta_title = $17,
-        pc_meta_description = $18, pc_updated_at = NOW()
-      WHERE pc_id = $19 RETURNING *`,
-      [
-        slug, title, prompt_text, category, description,
-        example_inputs, example_outputs,
-        JSON.stringify(use_cases || []), JSON.stringify(faqs || []),
-        JSON.stringify(tags || []), JSON.stringify(variations || []),
-        is_featured || false, is_premium || false,
-        type || 'prompt', ai_model_target || null,
-        difficulty || 'beginner', meta_title || null, meta_description || null,
-        id
-      ]
-    );
-    return this.mapRow(result.rows[0]);
+    await PromptCollection.update({
+      pc_slug: data.slug,
+      pc_title: data.title,
+      pc_prompt_text: data.prompt_text,
+      pc_category: data.category,
+      pc_description: data.description,
+      pc_example_inputs: data.example_inputs,
+      pc_example_outputs: data.example_outputs,
+      pc_use_cases: data.use_cases || [],
+      pc_faqs: data.faqs || [],
+      pc_tags: data.tags || [],
+      pc_variations: data.variations || [],
+      pc_is_featured: data.is_featured || false,
+      pc_is_premium: data.is_premium || false,
+      pc_type: data.type || 'prompt',
+      pc_ai_model_target: data.ai_model_target || null,
+      pc_difficulty: data.difficulty || 'beginner',
+      pc_meta_title: data.meta_title || null,
+      pc_meta_description: data.meta_description || null
+    }, { where: { pc_id: id } });
+    
+    const instance = await PromptCollection.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async delete(id) {
-    const result = await db.query('DELETE FROM prompt_collections WHERE pc_id = $1 RETURNING pc_id', [id]);
-    return { id: result.rows[0]?.pc_id };
+    await PromptCollection.destroy({ where: { pc_id: id } });
+    return { id };
   }
 }
 

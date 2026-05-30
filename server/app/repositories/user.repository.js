@@ -1,8 +1,9 @@
-const db = require('../config/database');
+const { User } = require('../models');
 
 class UserRepository {
-  mapRow(row) {
-    if (!row) return null;
+  mapRow(instance) {
+    if (!instance) return null;
+    const row = instance.dataValues || instance;
     return {
       id: row.id,
       name: row.name,
@@ -17,21 +18,23 @@ class UserRepository {
   }
 
   async findByEmail(email) {
-    const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-    return this.mapRow(result.rows[0]);
+    const instance = await User.findOne({ where: { email } });
+    return this.mapRow(instance);
   }
 
   async findById(id) {
-    const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-    return this.mapRow(result.rows[0]);
+    const instance = await User.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async create({ name, email, password, role }) {
-    const result = await db.query(
-      'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, email, password, role || 'user']
-    );
-    return this.mapRow(result.rows[0]);
+    const instance = await User.create({
+      name,
+      email,
+      password,
+      role: role || 'user'
+    });
+    return this.mapRow(instance);
   }
 }
 

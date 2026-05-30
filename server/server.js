@@ -5,7 +5,8 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 
 const config = require('./app/config/env');
-const db = require('./app/config/database');
+const { sequelize } = require('./app/config/database');
+const { User, Setting, AiModel, PromptCollection, BlogPost } = require('./app/models');
 const logger = require('./app/utils/logger');
 const errorHandler = require('./app/middlewares/error.middleware');
 
@@ -50,27 +51,27 @@ app.use(errorHandler);
 // Database Initialization (Schema + Seed)
 async function initializeDatabase() {
   try {
-    logger.info('Initializing database schema...');
+    logger.info('Initializing database schema via Sequelize Sync...');
     
     // 1. Run migrations
-    const schemaPath = path.join(__dirname, 'app', 'models', 'schema.sql');
-    const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-    await db.query(schemaSql);
-    logger.info('Schema migration complete.');
+    await sequelize.sync();
+    logger.info('Schema sync complete.');
 
     // 2. Check if users table is empty. If so, seed!
-    const userCheck = await db.query('SELECT count(*) FROM users');
-    const userCount = parseInt(userCheck.rows[0].count, 10);
+    const userCount = await User.count();
     
     if (userCount === 0) {
       logger.info('Database empty. Seeding default data...');
       
       // Seed User
       const passwordHash = await bcrypt.hash('admin123', 10);
-      await db.query(
-        'INSERT INTO users (name, email, password, role, email_verified_at) VALUES ($1, $2, $3, $4, NOW())',
-        ['Admin', 'admin@example.com', passwordHash, 'admin']
-      );
+      await User.create({
+        name: 'Admin',
+        email: 'admin@example.com',
+        password: passwordHash,
+        role: 'admin',
+        email_verified_at: new Date()
+      });
       logger.info('Seeded default user (admin@example.com / admin123).');
 
       // Seed Settings
@@ -103,10 +104,10 @@ async function initializeDatabase() {
       ];
 
       for (const [key, val] of settings) {
-        await db.query(
-          'INSERT INTO settings (set_key, set_value) VALUES ($1, $2) ON CONFLICT (set_key) DO NOTHING',
-          [key, val]
-        );
+        await Setting.findOrCreate({
+          where: { set_key: key },
+          defaults: { set_value: val }
+        });
       }
 
       // Seed AI Models
@@ -121,10 +122,12 @@ async function initializeDatabase() {
       ];
 
       for (const [name, provider, api_model_code, is_active] of models) {
-        await db.query(
-          'INSERT INTO ai_models (am_name, am_provider, am_api_model_code, am_is_active) VALUES ($1, $2, $3, $4)',
-          [name, provider, api_model_code, is_active]
-        );
+        await AiModel.create({
+          am_name: name,
+          am_provider: provider,
+          am_api_model_code: api_model_code,
+          am_is_active: is_active
+        });
       }
 
       // Seed Prompt Collections (Programmatic SEO & Categorized templates)
@@ -282,22 +285,22 @@ async function initializeDatabase() {
         }
       ];
 
-      for (const item of promptCollections) {
-        await db.query(
-          `INSERT INTO prompt_collections (
-            pc_slug, pc_title, pc_prompt_text, pc_category, 
-            pc_description, pc_example_inputs, pc_example_outputs, 
-            pc_use_cases, pc_faqs, pc_copy_count, pc_view_count, 
-            pc_is_featured, pc_is_premium
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
-          [
-            item.slug, item.title, item.prompt_text, item.category,
-            item.description, item.example_inputs, item.example_outputs,
-            JSON.stringify(item.use_cases), JSON.stringify(item.faqs),
-            item.copy_count, item.view_count, item.is_featured, item.is_premium
-          ]
-        );
-      }
+      const seedPrompts = promptCollections.map(item => ({
+        pc_slug: item.slug,
+        pc_title: item.title,
+        pc_prompt_text: item.prompt_text,
+        pc_category: item.category,
+        pc_description: item.description,
+        pc_example_inputs: item.example_inputs,
+        pc_example_outputs: item.example_outputs,
+        pc_use_cases: item.use_cases || [],
+        pc_faqs: item.faqs || [],
+        pc_copy_count: item.copy_count,
+        pc_view_count: item.view_count,
+        pc_is_featured: item.is_featured,
+        pc_is_premium: item.is_premium
+      }));
+      await PromptCollection.bulkCreate(seedPrompts);
 
       // Seed Blog Posts
       const blogPosts = [
@@ -330,12 +333,16 @@ async function initializeDatabase() {
         ]
       ];
 
-      for (const [title, content, excerpt, category, author, read_time, slug] of blogPosts) {
-        await db.query(
-          'INSERT INTO blog_posts (bp_title, bp_content, bp_excerpt, bp_category, bp_author, bp_read_time, bp_slug) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-          [title, content, excerpt, category, author, read_time, slug]
-        );
-      }
+      const seedBlogs = blogPosts.map(([title, content, excerpt, category, author, read_time, slug]) => ({
+        bp_title: title,
+        bp_content: content,
+        bp_excerpt: excerpt,
+        bp_category: category,
+        bp_author: author,
+        bp_read_time: read_time,
+        bp_slug: slug
+      }));
+      await BlogPost.bulkCreate(seedBlogs);
 
       logger.info('Database seeding complete.');
     } else {
@@ -343,8 +350,9 @@ async function initializeDatabase() {
     }
 
     // Ensure existing settings in DB are updated to clear out cyberpunk text
-    await db.query(
-      "UPDATE settings SET set_value = '© 2026 Revoxera. Built for Developers & Creators.' WHERE set_key = 'footer_copyright' AND set_value LIKE '%Neural Architecture%'"
+    await Setting.update(
+      { set_value: '© 2026 Revoxera. Built for Developers & Creators.' },
+      { where: { set_key: 'footer_copyright' } }
     );
   } catch (err) {
     logger.error('Failed to initialize database:', err);

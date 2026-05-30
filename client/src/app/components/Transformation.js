@@ -77,6 +77,7 @@ export default function Transformation() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                suppressHydrationWarning={true}
                 className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   isActive 
                     ? 'bg-white dark:bg-white/10 text-amber-550 dark:text-amber-400 shadow-sm border border-slate-200/40 dark:border-white/5'

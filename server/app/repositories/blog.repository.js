@@ -1,8 +1,9 @@
-const db = require('../config/database');
+const { BlogPost } = require('../models');
 
 class BlogRepository {
-  mapRow(row) {
-    if (!row) return null;
+  mapRow(instance) {
+    if (!instance) return null;
+    const row = instance.dataValues || instance;
     return {
       id: row.bp_id,
       title: row.bp_title,
@@ -19,39 +20,56 @@ class BlogRepository {
   }
 
   async findAll() {
-    const result = await db.query('SELECT * FROM blog_posts ORDER BY bp_published_at DESC, bp_id DESC');
-    return result.rows.map(this.mapRow);
+    const instances = await BlogPost.findAll({ order: [['bp_published_at', 'DESC'], ['bp_id', 'DESC']] });
+    return instances.map(i => this.mapRow(i));
   }
 
   async findById(id) {
-    const result = await db.query('SELECT * FROM blog_posts WHERE bp_id = $1', [id]);
-    return this.mapRow(result.rows[0]);
+    const instance = await BlogPost.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async findBySlug(slug) {
-    const result = await db.query('SELECT * FROM blog_posts WHERE bp_slug = $1', [slug]);
-    return this.mapRow(result.rows[0]);
+    const instance = await BlogPost.findOne({ where: { bp_slug: slug } });
+    return this.mapRow(instance);
   }
 
   async create({ title, content, excerpt, category, author, read_time, slug, image_url }) {
-    const result = await db.query(
-      'INSERT INTO blog_posts (bp_title, bp_content, bp_excerpt, bp_category, bp_author, bp_read_time, bp_slug, bp_image_url) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [title, content, excerpt, category, author, read_time, slug, image_url || null]
-    );
-    return this.mapRow(result.rows[0]);
+    const instance = await BlogPost.create({
+      bp_title: title,
+      bp_content: content,
+      bp_excerpt: excerpt,
+      bp_category: category,
+      bp_author: author,
+      bp_read_time: read_time,
+      bp_slug: slug,
+      bp_image_url: image_url || null
+    });
+    return this.mapRow(instance);
   }
 
   async update(id, { title, content, excerpt, category, author, read_time, slug, image_url }) {
-    const result = await db.query(
-      'UPDATE blog_posts SET bp_title = $1, bp_content = $2, bp_excerpt = $3, bp_category = $4, bp_author = $5, bp_read_time = $6, bp_slug = $7, bp_image_url = COALESCE($8, bp_image_url) WHERE bp_id = $9 RETURNING *',
-      [title, content, excerpt, category, author, read_time, slug, image_url || null, id]
-    );
-    return this.mapRow(result.rows[0]);
+    const updateData = {
+      bp_title: title,
+      bp_content: content,
+      bp_excerpt: excerpt,
+      bp_category: category,
+      bp_author: author,
+      bp_read_time: read_time,
+      bp_slug: slug,
+    };
+    if (image_url !== undefined) {
+      updateData.bp_image_url = image_url || null;
+    }
+
+    await BlogPost.update(updateData, { where: { bp_id: id } });
+    const instance = await BlogPost.findByPk(id);
+    return this.mapRow(instance);
   }
 
   async delete(id) {
-    const result = await db.query('DELETE FROM blog_posts WHERE bp_id = $1 RETURNING bp_id', [id]);
-    return { id: result.rows[0]?.bp_id };
+    await BlogPost.destroy({ where: { bp_id: id } });
+    return { id };
   }
 }
 
