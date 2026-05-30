@@ -1,32 +1,38 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { HelpCircle, Clock, AlertTriangle, Info, AlertCircle } from 'lucide-react';
+import { HelpCircle, Clock, AlertTriangle, Info, AlertCircle, RefreshCw } from 'lucide-react';
 
 const PROBLEMS = [
   {
     icon: HelpCircle,
-    color: 'text-amber-550 dark:text-amber-400',
+    color: 'text-amber-500',
     title: 'Too Vague',
     desc: 'Simple, one-sentence instructions produce basic, generic responses. AI needs structured guidelines, roles, and constraints to output high-quality professional results.'
   },
   {
     icon: Info,
-    color: 'text-orange-550 dark:text-orange-400',
+    color: 'text-orange-500',
     title: 'Missing Context',
     desc: 'Without explicit context, target audience details, and role assignments, the model is forced to guess your intent, leading to irrelevant or off-target outputs.'
   },
   {
     icon: AlertTriangle,
-    color: 'text-red-550 dark:text-red-400',
+    color: 'text-red-500',
     title: 'Inconsistent Outputs',
     desc: 'A prompt that works well today can deliver wildly different formatting or tone tomorrow. Stabilizing outputs requires rigorous structure that models can follow predictably.'
   },
   {
     icon: Clock,
-    color: 'text-violet-550 dark:text-violet-400',
+    color: 'text-violet-500',
     title: 'Time Wasted',
     desc: 'Spending hours in a trial-and-error loop trying to adjust prompt phrasing, burning through API credits, and manually fixing poor drafts cuts your productivity in half.'
+  },
+  {
+    icon: RefreshCw,
+    color: 'text-emerald-500',
+    title: 'Unpredictable AI Results',
+    desc: 'Sudden model updates can cause prompt behavior to shift unexpectedly. Structured boundaries prevent outputs from drifting and keep production integrations safe.'
   }
 ];
 
@@ -44,17 +50,17 @@ export default function Problem() {
             The Friction of Modern AI
           </span>
           <h2 
-            className="font-bold text-white mb-4"
-            style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+            className="font-bold text-white mb-2 font-display"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
           >
             Why Most <span className="gradient-text">AI Prompts Fail</span>
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed">
-            Struggling with AI responses isn't your fault—writing optimized, predictable instructions is a specialized science.
+          <p className="text-white/60 text-sm md:text-base font-medium tracking-wide uppercase mt-3 font-mono">
+            Better prompts create better outputs.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {PROBLEMS.map((prob, i) => {
             const Icon = prob.icon;
             return (
@@ -63,8 +69,8 @@ export default function Problem() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                className="card card-hover p-6 flex flex-col justify-between h-full bg-white/[0.01] border-white/6 hover:border-amber-500/25 relative"
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="card card-hover p-6 flex flex-col justify-between bg-white/[0.01] border-white/6 hover:border-amber-500/25 relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] min-w-[250px] max-w-[340px]"
               >
                 <div>
                   <div className={`w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/[0.03] flex items-center justify-center mb-6 border border-slate-200 dark:border-white/6 ${prob.color}`}>
@@ -73,7 +79,7 @@ export default function Problem() {
                   <h3 className="font-bold text-white text-lg mb-4 font-display" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
                     {prob.title}
                   </h3>
-                  <p className="text-white/45 text-sm leading-relaxed">
+                  <p className="text-white/45 text-sm leading-relaxed font-sans">
                     {prob.desc}
                   </p>
                 </div>

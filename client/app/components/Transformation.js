@@ -11,23 +11,24 @@ const TABS = [
     icon: Mail,
     before: 'Write marketing email',
     after: `Act as a conversion copywriter.
-Create email sequence targeting marketing directors.
-Focus on value proposition, pain point hook, and low-friction CTA.
-Target audience: B2B SaaS buyers.
-Tone: Professional, persuasive, empathetic.`,
-    outcome: 'Delivers cold emails with high-converting structure that boosts replies.',
+Create an email campaign targeting SaaS founders.
+Include pain points.
+Create CTA variations.`,
+    outcome: 'Delivers high-converting copywriting tailored directly to B2B targets.',
     color: 'amber'
   },
   {
     id: 'code',
     label: 'Coding',
     icon: Terminal,
-    before: 'Create coding prompts for scalable APIs',
-    after: `You are a senior software architect.
-Generate scalable API architecture.
-Explain tradeoffs.
-Include validation, testing, and performance considerations.`,
-    outcome: 'Generates robust, secure, and production-ready server boilerplate.',
+    before: 'Generate API code',
+    after: `You are a senior backend engineer.
+Create scalable REST API architecture.
+Include retries.
+Validation.
+Error handling.
+Testing.`,
+    outcome: 'Generates robust, secure, and production-ready server API configurations.',
     color: 'orange'
   },
   {
@@ -39,7 +40,7 @@ Include validation, testing, and performance considerations.`,
 Geometry, balance, clean lines, golden ratio grid proportion.
 Color palette: Amber and dark slate grey.
 Parameters: --ar 1:1 --v 6.0 --style raw`,
-    outcome: 'Delivers production-ready, clean brand vectors on first run.',
+    outcome: 'Delivers high-resolution vector assets without visual artifacts.',
     color: 'emerald'
   }
 ];
@@ -58,11 +59,11 @@ export default function Transformation() {
           </span>
           <h2 
             className="font-bold text-white mb-4 font-display"
-            style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
           >
-            From Simple Ideas <span className="gradient-text">To Better Results</span>
+            See The <span className="gradient-text">Difference Better Prompts Make</span>
           </h2>
-          <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed">
+          <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed font-sans">
             See how Revoxera replaces ambiguous phrasing with high-precision guidelines to direct AI behavior.
           </p>
         </div>
@@ -78,7 +79,7 @@ export default function Transformation() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   isActive 
-                    ? 'bg-white dark:bg-white/10 text-amber-500 dark:text-amber-400 shadow-sm border border-slate-200/40 dark:border-white/5'
+                    ? 'bg-white dark:bg-white/10 text-amber-550 dark:text-amber-400 shadow-sm border border-slate-200/40 dark:border-white/5'
                     : 'text-slate-400 dark:text-white/40 hover:text-slate-700 dark:hover:text-white/70'
                 }`}
               >
@@ -104,7 +105,7 @@ export default function Transformation() {
               </p>
             </div>
             
-            <div className="mt-6 flex items-start gap-2.5 text-xs text-slate-400 dark:text-white/30 border-t border-slate-100 dark:border-white/4 pt-4 leading-normal">
+            <div className="mt-6 flex items-start gap-2.5 text-xs text-slate-400 dark:text-white/30 border-t border-slate-100 dark:border-white/4 pt-4 leading-normal font-sans">
               <AlertDot />
               AI struggles: guesses context, outputs generic copy, requires multiple corrections.
             </div>
@@ -112,29 +113,29 @@ export default function Transformation() {
 
           {/* Transformation Arrow */}
           <div className="lg:col-span-2 flex items-center justify-center py-4 lg:py-0">
-            <div className="w-10 h-10 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] flex items-center justify-center text-amber-500 animate-pulse shadow-sm">
+            <div className="w-10 h-10 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] flex items-center justify-center text-amber-550 dark:text-amber-400 animate-pulse shadow-sm">
               <ArrowRight size={20} className="rotate-90 lg:rotate-0" />
             </div>
           </div>
 
           {/* After Container (Always Dark/High Contrast for visual impact) */}
-          <div className="lg:col-span-5 flex flex-col justify-between p-7 rounded-3xl relative min-h-[280px] shadow-xl" style={{ backgroundColor: '#0b0b14', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] to-transparent rounded-3xl pointer-events-none" />
+          <div className="lg:col-span-5 flex flex-col justify-between p-7 rounded-3xl relative min-h-[280px] shadow-xl" style={{ backgroundColor: '#0b0b14', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.02] to-transparent rounded-3xl pointer-events-none" />
             
             <div className="relative z-10">
-              <div className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 mb-4 flex items-center justify-between">
+              <div className="text-[10px] uppercase font-bold tracking-widest text-amber-400 mb-4 flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
                   Revoxera Optimized Prompt (Predictable)
                 </span>
-                <span className="px-1.5 py-0.5 rounded text-[8px] border border-emerald-500/35 bg-emerald-500/10 text-emerald-400 font-bold uppercase tracking-wide">Active</span>
+                <span className="px-1.5 py-0.5 rounded text-[8px] border border-amber-500/35 bg-amber-500/10 text-amber-400 font-bold uppercase tracking-wide">Active</span>
               </div>
               <pre className="text-xs font-mono bg-black/40 p-4 rounded-xl border border-white/5 leading-relaxed overflow-x-auto whitespace-pre-wrap max-h-[230px] scrollbar-none" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
                 {current.after}
               </pre>
             </div>
 
-            <div className="relative z-10 mt-6 flex items-center gap-2 text-xs rounded-xl p-3.5 leading-normal border" style={{ color: '#a7f3d0', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
+            <div className="relative z-10 mt-6 flex items-center gap-2 text-xs rounded-xl p-3.5 leading-normal border font-sans" style={{ color: '#fde68a', backgroundColor: 'rgba(245, 158, 11, 0.1)', borderColor: 'rgba(245, 158, 11, 0.2)' }}>
               <CornerDownRight size={14} className="flex-shrink-0" />
               <span><strong>Outcome:</strong> {current.outcome}</span>
             </div>

@@ -24,13 +24,13 @@ export default function FinalCta() {
               100% Free to Try
             </span>
             <h2
-              className="section-title font-bold text-white mb-5 font-display"
-              style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15 }}
+              className="section-title font-bold text-white mb-3 font-display"
+              style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15 }}
             >
               Generate Better Prompts In Seconds
             </h2>
-            <p className="text-base text-slate-500 dark:text-white/50 max-w-lg mx-auto mb-8 leading-relaxed">
-              Bypass the trial-and-error loop. Join developers, creators, and marketers who use Revoxera to get flawless AI outputs on the first run.
+            <p className="text-base text-slate-500 dark:text-white/50 max-w-lg mx-auto mb-8 leading-relaxed font-sans">
+              Professional prompts without professional prompt engineering.
             </p>
 
             {/* Direct primary CTA button */}
@@ -44,7 +44,7 @@ export default function FinalCta() {
               </Link>
             </div>
             
-            <p className="text-[11px] text-slate-400 dark:text-white/35">
+            <p className="text-[11px] text-slate-400 dark:text-white/35 font-sans">
               No registration or credit card required. Up to 50 generations free monthly.
             </p>
           </div>

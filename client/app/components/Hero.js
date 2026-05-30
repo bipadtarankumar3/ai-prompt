@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Zap, Sparkles, ArrowRight, Star, Cpu, Bookmark, History, Gauge } from 'lucide-react';
+import { Zap, ArrowRight, Check } from 'lucide-react';
 import Link from 'next/link';
 import PromptDemo from './PromptDemo';
 
@@ -35,23 +35,22 @@ export default function Hero() {
           {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.05 }}
-            className="font-bold leading-[1.1] tracking-tight text-white mb-6 text-center lg:text-left w-full"
-            style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 5.5vw, 4rem)' }}
+            className="font-bold leading-[1.1] tracking-tight text-white mb-6 text-center lg:text-left w-full font-display"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3.75rem)' }}
           >
-            Turn Rough Ideas Into{' '}
-            <span className="gradient-text inline-block">Expert-Level AI Prompts</span>
+            Stop Guessing What AI Wants. <span className="gradient-text inline-block">Get Better Results</span> On Your First Try.
           </motion.h1>
 
           {/* Subtext */}
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-base md:text-lg text-white/55 mb-8 leading-relaxed max-w-2xl lg:max-w-none text-center lg:text-left"
+            className="text-base md:text-lg text-white/55 mb-8 leading-relaxed max-w-2xl lg:max-w-none text-center lg:text-left font-sans"
           >
-            Generate optimized prompts for ChatGPT, Claude, Gemini, Midjourney, coding, marketing, content creation and more — without learning prompt engineering.
+            Turn rough ideas into optimized prompts for ChatGPT, Claude, Gemini, coding, content, marketing, design, and more — without learning prompt engineering.
           </motion.p>
 
           {/* CTAs */}
-          <div className="flex flex-col items-center lg:items-start w-full mb-10">
+          <div className="flex flex-col items-center lg:items-start w-full mb-8">
             <motion.div
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full max-w-md lg:max-w-none"
@@ -59,7 +58,7 @@ export default function Hero() {
               <Link href="/generator" id="hero-primary-cta"
                 className="btn-primary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl glow-md">
                 <Zap size={18} fill="currentColor" />
-                Generate Prompt
+                Generate My Prompt
               </Link>
               <a href="#transformation" id="hero-templates-cta"
                 className="btn-secondary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl">
@@ -75,31 +74,23 @@ export default function Hero() {
             </motion.p>
           </div>
 
-          {/* Trust Indicators */}
+          {/* Trust Row Checkmarks */}
           <motion.div
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left mb-12"
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3 w-full text-left mb-12 text-sm"
           >
             {[
-              { icon: Cpu, label: 'Multiple AI Providers Supported', desc: 'ChatGPT, Claude, Gemini, Midjourney' },
-              { icon: History, label: 'Prompt History', desc: 'Auto-saved runs in local workspace' },
-              { icon: Bookmark, label: 'Saved Prompts', desc: 'Quick templates for daily recurring runs' },
-              { icon: Sparkles, label: 'Prompt Optimization', desc: 'Translates vague statements to instructions' },
-              { icon: Gauge, label: 'Fast Generation', desc: 'Optimized prompts built in milliseconds' },
-            ].map((item, idx) => {
-              const ItemIcon = item.icon;
-              return (
-                <div key={idx} className="flex items-start gap-3.5 p-3.5 rounded-2xl border border-white/6 bg-white/[0.01] hover:border-amber-500/15 hover:bg-white/[0.02] transition-all duration-350">
-                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 flex-shrink-0">
-                    <ItemIcon size={16} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-white/95">{item.label}</h4>
-                    <p className="text-xs text-white/40 mt-0.5 leading-normal">{item.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
+              'Multi-model support',
+              'Prompt optimization',
+              'Save prompt history',
+              'Share prompts',
+              'Fast generation',
+            ].map((indicator, idx) => (
+              <div key={idx} className="flex items-center gap-1.5">
+                <span className="text-emerald-500 font-bold text-base flex-shrink-0">✓</span>
+                <span className="text-slate-300 font-medium text-xs md:text-sm">{indicator}</span>
+              </div>
+            ))}
           </motion.div>
         </div>
 
@@ -121,7 +112,7 @@ export default function Hero() {
       <div className="absolute bottom-8 left-0 right-0 overflow-hidden opacity-25 pointer-events-none">
         <div className="flex gap-4 animate-marquee whitespace-nowrap">
           {[...TAGS, ...TAGS].map((t, i) => (
-            <span key={i} className="flex-shrink-0 px-4 py-1.5 rounded-full border border-white/15 text-white/60 text-xs font-medium">
+            <span key={i} className="flex-shrink-0 px-4 py-1.5 rounded-full border border-white/15 text-white/60 text-xs font-medium font-mono">
               {t}
             </span>
           ))}

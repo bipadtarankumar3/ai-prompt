@@ -2,9 +2,20 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Sparkles, Copy, Check, Terminal, Mail, Image, ArrowRight } from 'lucide-react';
+import { Zap, Sparkles, Copy, Check, Terminal, Mail, Globe, ArrowRight } from 'lucide-react';
 
 const DEMOS = [
+  {
+    type: 'SEO Specialist',
+    icon: Globe,
+    rough: 'Create SEO content strategy',
+    optimized: `You are an expert SEO strategist.
+Create keyword clusters.
+Build a content funnel.
+Define KPIs.
+Generate a scalable content roadmap.`,
+    color: 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/5'
+  },
   {
     type: 'Developer',
     icon: Terminal,
@@ -13,26 +24,16 @@ const DEMOS = [
 Generate scalable API architecture.
 Explain tradeoffs.
 Include validation, testing, and performance considerations.`,
-    color: 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/5'
+    color: 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/5'
   },
   {
     type: 'Marketer',
     icon: Mail,
     rough: 'Write marketing email',
     optimized: `Act as a conversion copywriter.
-Create email sequence targeting marketing directors.
-Highlight time savings and higher output quality.
-Include clear Call to Action (CTA).`,
-    color: 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/5'
-  },
-  {
-    type: 'Creator',
-    icon: Image,
-    rough: 'Midjourney prompt for a futuristic city',
-    optimized: `A cinematic wide shot of a futuristic metropolis at dusk.
-Biophilic architecture, glowing neon line intersections, volumetric fog.
-Shot on 35mm film, wide-angle lens, cinematic composition.
-Parameters: --ar 16:9 --v 6.0`,
+Create an email campaign targeting SaaS founders.
+Include pain points.
+Create CTA variations.`,
     color: 'text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-500/20 bg-orange-50 dark:bg-orange-500/5'
   }
 ];
@@ -115,7 +116,7 @@ export default function PromptDemo() {
         {/* Input area */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">Your Rough Idea</span>
+            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">YOUR IDEA</span>
             <span className={`flex items-center gap-1.5 px-2 py-0.5 rounded border text-[10px] font-medium transition-all ${currentDemo.color}`}>
               <Icon size={12} />
               {currentDemo.type}
@@ -128,8 +129,8 @@ export default function PromptDemo() {
           </div>
         </div>
 
-        {/* Action Button Sim */}
-        <div className="flex justify-center">
+        {/* Action Button Sim / Arrow Indicator */}
+        <div className="flex flex-col items-center gap-1">
           <motion.div
             animate={step === 1 ? { scale: 0.95 } : { scale: 1 }}
             className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-xs border transition-all ${
@@ -140,15 +141,15 @@ export default function PromptDemo() {
           >
             <Sparkles size={13} className={step === 1 ? 'animate-spin' : ''} />
             {step === 0 && 'Awaiting Input...'}
-            {step === 1 && 'Optimizing Prompt...'}
-            {step === 2 && 'Prompt Optimized!'}
+            {step === 1 && 'OPTIMIZATION...'}
+            {step === 2 && 'OPTIMIZED!'}
           </motion.div>
         </div>
 
         {/* Output area */}
         <div className="flex flex-col gap-2 flex-1">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">Optimized Prompt</span>
+            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">GENERATED PROMPT</span>
             {step === 2 && (
               <button 
                 onClick={handleCopy}
