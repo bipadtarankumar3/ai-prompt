@@ -12,6 +12,7 @@ import SeoHeader from '../components/SeoHeader';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { clientApi } from '../utils/clientApi';
+import ReactMarkdown from 'react-markdown';
 
 const TONES = ['Professional', 'Creative', 'Funny', 'Expert', 'Minimal'];
 const STYLES = ['Markdown', 'BulletPoints', 'StepByStep', 'JSON'];
@@ -119,14 +120,14 @@ export default function ComparePage() {
       <SeoHeader pageKey="compare" />
       <Navbar />
 
-      <section className="mt-16 md:mt-20 py-24 px-4 container relative">
+      <section className="mt-16 md:mt-20 py-24 px-4 lg:px-8 xl:px-12 relative w-full overflow-hidden">
         <div className="absolute top-20 right-1/4 w-[450px] h-[350px] rounded-full bg-amber-600/5 blur-[120px] pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto relative space-y-12">
+        <div className="max-w-[1600px] w-full mx-auto relative space-y-12">
           {/* Back */}
           <Link
             href="/prompt-collections"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-white/50 hover:text-white bg-white/5 hover:bg-white/10 px-3.5 py-2 rounded-xl border border-white/5 transition-all mb-4 cursor-pointer select-none active:scale-95"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-500 dark:text-slate-900 dark:text-white/50 hover:text-slate-900 dark:hover:text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-white/5 transition-all mb-4 cursor-pointer select-none active:scale-95"
           >
             <ArrowLeft size={14} /> Back to Library
           </Link>
@@ -134,10 +135,10 @@ export default function ComparePage() {
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto select-none">
             <span className="section-label mb-3">Optimization Studio</span>
-            <h1 className="section-title mb-6 text-3xl md:text-5xl font-extrabold text-white">
+            <h1 className="section-title mb-6 text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
               Prompt <span className="gradient-text">Comparison Engine</span>
             </h1>
-            <p className="text-xs md:text-sm text-white/50 leading-relaxed">
+            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-900 dark:text-white/50 leading-relaxed">
               Input a simple prompt concept. Configure different models, tones, and formatting requirements side-by-side to compare prompt engineering improvements instantly.
             </p>
           </div>
@@ -146,13 +147,13 @@ export default function ComparePage() {
           <div className="glass-card p-6 md:p-8">
             <form onSubmit={handleCompare} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-white/40 uppercase tracking-widest block">Describe your Prompt Concept</label>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-900 dark:text-white/40 uppercase tracking-widest block">Describe your Prompt Concept</label>
                 <textarea
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   placeholder="e.g. A follow-up email marketing proposal for SaaS buyers..."
                   rows={3}
-                  className="w-full bg-white/5 border border-white/10 hover:border-white/15 focus:border-amber-500 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 outline-none transition-all"
+                  className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:border-white/15 focus:border-amber-500 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white placeholder-slate-500 outline-none transition-all"
                   required
                 />
               </div>
@@ -160,11 +161,11 @@ export default function ComparePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Category Selection */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-white/40 uppercase tracking-widest block">Main Category</label>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-900 dark:text-white/40 uppercase tracking-widest block">Main Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 hover:border-white/15 text-white rounded-xl p-3 text-xs focus:border-amber-500 outline-none cursor-pointer"
+                    className="w-full bg-white dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:border-white/15 text-slate-900 dark:text-white rounded-xl p-3 text-xs focus:border-amber-500 outline-none cursor-pointer"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -173,16 +174,16 @@ export default function ComparePage() {
                 </div>
 
                 {/* Configurations Side A */}
-                <div className="glass-card p-4 space-y-4 border border-white/5">
+                <div className="glass-card p-4 space-y-4 border border-slate-200 dark:border-white/5">
                   <h4 className="text-[10px] font-bold text-amber-500 uppercase tracking-widest flex items-center gap-1.5"><Brain size={12} /> Config Variation A</h4>
                   
                   <div className="space-y-3">
                     <div>
-                      <label className="text-[9px] text-white/40 block mb-1">Model Selection</label>
+                      <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Model Selection</label>
                       <select
                         value={modelA?.id || ''}
                         onChange={(e) => setModelA(activeModels.find(m => m.id.toString() === e.target.value))}
-                        className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                        className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                       >
                         {activeModels.map((m) => (
                           <option key={m.id} value={m.id}>{m.name}</option>
@@ -192,21 +193,21 @@ export default function ComparePage() {
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-[9px] text-white/40 block mb-1">Tone</label>
+                        <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Tone</label>
                         <select
                           value={toneA}
                           onChange={(e) => setToneA(e.target.value)}
-                          className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                          className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                         >
                           {TONES.map(t => <option key={t} value={t}>{t}</option>)}
                         </select>
                       </div>
                       <div>
-                        <label className="text-[9px] text-white/40 block mb-1">Style</label>
+                        <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Style</label>
                         <select
                           value={styleA}
                           onChange={(e) => setStyleA(e.target.value)}
-                          className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                          className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                         >
                           {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -216,16 +217,16 @@ export default function ComparePage() {
                 </div>
 
                 {/* Configurations Side B */}
-                <div className="glass-card p-4 space-y-4 border border-white/5">
+                <div className="glass-card p-4 space-y-4 border border-slate-200 dark:border-white/5">
                   <h4 className="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1.5"><Brain size={12} /> Config Variation B</h4>
                   
                   <div className="space-y-3">
                     <div>
-                      <label className="text-[9px] text-white/40 block mb-1">Model Selection</label>
+                      <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Model Selection</label>
                       <select
                         value={modelB?.id || ''}
                         onChange={(e) => setModelB(activeModels.find(m => m.id.toString() === e.target.value))}
-                        className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                        className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                       >
                         {activeModels.map((m) => (
                           <option key={m.id} value={m.id}>{m.name}</option>
@@ -235,21 +236,21 @@ export default function ComparePage() {
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-[9px] text-white/40 block mb-1">Tone</label>
+                        <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Tone</label>
                         <select
                           value={toneB}
                           onChange={(e) => setToneB(e.target.value)}
-                          className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                          className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                         >
                           {TONES.map(t => <option key={t} value={t}>{t}</option>)}
                         </select>
                       </div>
                       <div>
-                        <label className="text-[9px] text-white/40 block mb-1">Style</label>
+                        <label className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/40 block mb-1">Style</label>
                         <select
                           value={styleB}
                           onChange={(e) => setStyleB(e.target.value)}
-                          className="w-full bg-black/30 border border-white/5 hover:border-white/10 text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
+                          className="w-full bg-white dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg p-2 text-xs outline-none cursor-pointer"
                         >
                           {STYLES.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
@@ -288,33 +289,50 @@ export default function ComparePage() {
               <div>
                 <div className="flex items-center justify-between mb-4 select-none">
                   <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest flex items-center gap-1"><Cpu size={12} /> Variation A Output</span>
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest bg-white/5 border border-white/5 px-2 py-0.5 rounded">
+                  <span className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/30 font-bold uppercase tracking-widest bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 px-2 py-0.5 rounded">
                     {modelA ? modelA.name : 'LLM A'}
                   </span>
                 </div>
 
                 <div className="relative mb-6">
-                  <div className="flex items-center justify-between px-3.5 py-2 bg-black/35 border border-white/5 border-b-0 rounded-t-xl font-mono text-[9px] text-white/35 uppercase select-none">
+                  <div className="flex items-center justify-between px-3.5 py-2 bg-slate-100 dark:bg-black/35 border border-slate-200 dark:border-white/5 border-b-0 rounded-t-xl font-mono text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/35 uppercase select-none">
                     <span>Generated Template</span>
                     <Terminal size={10} />
                   </div>
-                  <div className="bg-black/25 dark:bg-black/45 border border-white/5 rounded-b-xl p-5 font-mono text-xs leading-relaxed text-slate-300 select-all min-h-[220px] max-h-[350px] overflow-y-auto whitespace-pre-wrap scrollbar-none">
-                    {resultA || (
-                      <span className="text-white/20 italic">Output results for Config A will display here after comparison...</span>
+                  <div className="bg-slate-50 dark:bg-black/25 dark:bg-black/45 border border-slate-200 dark:border-white/5 rounded-b-xl p-5 font-mono text-xs leading-relaxed text-slate-700 dark:text-slate-300 select-all min-h-[220px] max-h-[350px] overflow-y-auto scrollbar-none">
+                    {resultA ? (
+                      <div className="markdown-body space-y-3">
+                        <ReactMarkdown
+                          components={{
+                            h1: ({node, ...props}) => <h1 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                            h2: ({node, ...props}) => <h2 className="text-md font-bold mt-3 mb-2" {...props} />,
+                            h3: ({node, ...props}) => <h3 className="text-sm font-bold mt-2 mb-1" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc list-inside space-y-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal list-inside space-y-1" {...props} />,
+                            p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-bold text-amber-500" {...props} />,
+                            li: ({node, ...props}) => <li className="ml-2" {...props} />
+                          }}
+                        >
+                          {resultA}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <span className="text-slate-400 dark:text-slate-900 dark:text-white/20 italic">Output results for Config A will display here after comparison...</span>
                     )}
                   </div>
                 </div>
               </div>
 
               {resultA && (
-                <div className="flex items-center justify-between pt-4 border-t border-white/5 select-none">
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest font-mono">
+                <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/5 select-none">
+                  <span className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/30 font-bold uppercase tracking-widest font-mono">
                     Tone: {toneA} · Style: {styleA}
                   </span>
                   
                   <button
                     onClick={() => handleCopy(resultA, 'A')}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-xs font-semibold text-white cursor-pointer transition-all active:scale-95"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 hover:bg-white/10 text-xs font-semibold text-slate-900 dark:text-white cursor-pointer transition-all active:scale-95"
                   >
                     {copiedA ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
                     <span>Copy</span>
@@ -330,33 +348,50 @@ export default function ComparePage() {
               <div>
                 <div className="flex items-center justify-between mb-4 select-none">
                   <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1"><Cpu size={12} /> Variation B Output</span>
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest bg-white/5 border border-white/5 px-2 py-0.5 rounded">
+                  <span className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/30 font-bold uppercase tracking-widest bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 px-2 py-0.5 rounded">
                     {modelB ? modelB.name : 'LLM B'}
                   </span>
                 </div>
 
                 <div className="relative mb-6">
-                  <div className="flex items-center justify-between px-3.5 py-2 bg-black/35 border border-white/5 border-b-0 rounded-t-xl font-mono text-[9px] text-white/35 uppercase select-none">
+                  <div className="flex items-center justify-between px-3.5 py-2 bg-slate-100 dark:bg-black/35 border border-slate-200 dark:border-white/5 border-b-0 rounded-t-xl font-mono text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/35 uppercase select-none">
                     <span>Generated Template</span>
                     <Terminal size={10} />
                   </div>
-                  <div className="bg-black/25 dark:bg-black/45 border border-white/5 rounded-b-xl p-5 font-mono text-xs leading-relaxed text-slate-300 select-all min-h-[220px] max-h-[350px] overflow-y-auto whitespace-pre-wrap scrollbar-none">
-                    {resultB || (
-                      <span className="text-white/20 italic">Output results for Config B will display here after comparison...</span>
+                  <div className="bg-slate-50 dark:bg-black/25 dark:bg-black/45 border border-slate-200 dark:border-white/5 rounded-b-xl p-5 font-mono text-xs leading-relaxed text-slate-700 dark:text-slate-300 select-all min-h-[220px] max-h-[350px] overflow-y-auto scrollbar-none">
+                    {resultB ? (
+                      <div className="markdown-body space-y-3">
+                        <ReactMarkdown
+                          components={{
+                            h1: ({node, ...props}) => <h1 className="text-lg font-bold mt-4 mb-2" {...props} />,
+                            h2: ({node, ...props}) => <h2 className="text-md font-bold mt-3 mb-2" {...props} />,
+                            h3: ({node, ...props}) => <h3 className="text-sm font-bold mt-2 mb-1" {...props} />,
+                            ul: ({node, ...props}) => <ul className="list-disc list-inside space-y-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal list-inside space-y-1" {...props} />,
+                            p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-bold text-purple-400" {...props} />,
+                            li: ({node, ...props}) => <li className="ml-2" {...props} />
+                          }}
+                        >
+                          {resultB}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <span className="text-slate-400 dark:text-slate-900 dark:text-white/20 italic">Output results for Config B will display here after comparison...</span>
                     )}
                   </div>
                 </div>
               </div>
 
               {resultB && (
-                <div className="flex items-center justify-between pt-4 border-t border-white/5 select-none">
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest font-mono">
+                <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/5 select-none">
+                  <span className="text-[9px] text-slate-500 dark:text-slate-900 dark:text-white/30 font-bold uppercase tracking-widest font-mono">
                     Tone: {toneB} · Style: {styleB}
                   </span>
                   
                   <button
                     onClick={() => handleCopy(resultB, 'B')}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-xs font-semibold text-white cursor-pointer transition-all active:scale-95"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 hover:bg-white/10 text-xs font-semibold text-slate-900 dark:text-white cursor-pointer transition-all active:scale-95"
                   >
                     {copiedB ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
                     <span>Copy</span>
