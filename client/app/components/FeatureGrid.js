@@ -1,14 +1,15 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Zap, Sparkles, RefreshCw, Layers, History, Share2, Shield, Globe, Moon } from 'lucide-react';
+import { Zap, Sparkles, RefreshCw, Layers, History, Share2, Bookmark } from 'lucide-react';
 
 const FEATURES = [
-  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Structured Generation', desc: 'Convert rough, one-sentence ideas into comprehensive, detailed system prompts that guide LLM logic.' },
-  { Icon: Sparkles,  color: 'text-violet-400',  bg: 'bg-violet-400/10',  title: 'One-Click Optimization', desc: 'Paste your existing, low-performing prompts and watch Revoxera rebuild role parameters and output rules.' },
-  { Icon: Layers,    color: 'text-blue-400',    bg: 'bg-blue-400/10',    title: 'Multi-Model Tuning',    desc: 'Target the specific context windows and behavioral quirks of ChatGPT, Gemini, Claude, and Midjourney.' },
-  { Icon: Globe,     color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Battle-Tested Templates',desc: 'Unlock access to structured starter blueprints designed specifically for developers, writers, and artists.' },
-  { Icon: History,   color: 'text-pink-400',    bg: 'bg-pink-400/10',    title: 'Auto-Saved History',    desc: 'Never lose a high-performing script. Every generation is auto-saved locally for instant access.' },
-  { Icon: Share2,    color: 'text-cyan-400',    bg: 'bg-cyan-400/10',    title: 'Frictionless Export',   desc: 'Copy to clipboard, download plain text files, or generate one-click share links for your workspace team.' },
+  { Icon: Zap,       color: 'text-amber-400',   bg: 'bg-amber-400/10',   title: 'Prompt Generator', desc: 'Transform rough, one-sentence ideas into comprehensive, expert-level system prompts instantly.' },
+  { Icon: Sparkles,  color: 'text-violet-400',  bg: 'bg-violet-400/10',  title: 'Prompt Improver', desc: 'Automatically rebuild low-performing prompts by injection of role parameters and output guidelines.' },
+  { Icon: RefreshCw, color: 'text-orange-400',  bg: 'bg-orange-400/10',  title: 'Prompt Rewriter', desc: 'Instantly rewrite prompts to adjust style, tone, format, length, or model constraints.' },
+  { Icon: Layers,    color: 'text-blue-400',    bg: 'bg-blue-400/10',    title: 'Multi-Model Support', desc: 'Generate customized optimizations tailored specifically for ChatGPT, Claude, Gemini, and Midjourney.' },
+  { Icon: History,   color: 'text-pink-400',    bg: 'bg-pink-400/10',    title: 'Prompt History', desc: 'Never lose a run. Every prompt you generate is automatically saved in your local workspace history.' },
+  { Icon: Share2,    color: 'text-cyan-400',    bg: 'bg-cyan-400/10',    title: 'Share Prompts', desc: 'Export your optimized prompts via one-click copy, plain text files, or collaborative team share links.' },
+  { Icon: Bookmark,  color: 'text-green-400',   bg: 'bg-green-400/10',   title: 'Saved Collections', desc: 'Create private folders and custom template collections to store and organize your high-performing prompts.' },
 ];
 
 export default function FeatureGrid() {

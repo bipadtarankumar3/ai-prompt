@@ -27,27 +27,20 @@ export default function FinalCta() {
               className="section-title font-bold text-white mb-5 font-display"
               style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15 }}
             >
-              Stop Hacking Prompts.<br />
-              <span className="gradient-text inline-block">Start Getting Results.</span>
+              Generate Better Prompts In Seconds
             </h2>
             <p className="text-base text-slate-500 dark:text-white/50 max-w-lg mx-auto mb-8 leading-relaxed">
-              Join developers, creators, and marketers who use Revoxera to bypass trial-and-error and get flawless AI outputs on the first run.
+              Bypass the trial-and-error loop. Join developers, creators, and marketers who use Revoxera to get flawless AI outputs on the first run.
             </p>
 
-            {/* Simulated Input to Capture Intent */}
-            <div className="max-w-md mx-auto mb-5 relative flex items-center bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/8 rounded-2xl p-1.5 focus-within:border-amber-500/50 transition-all">
-              <input
-                type="text"
-                placeholder="Describe your prompt idea (e.g. cold sales email)..."
-                disabled
-                className="w-full bg-transparent border-none text-slate-800 dark:text-white/80 placeholder-slate-400 dark:placeholder-white/30 text-sm px-3.5 focus:outline-none cursor-pointer"
-              />
+            {/* Direct primary CTA button */}
+            <div className="flex justify-center mb-5">
               <Link
                 href="/generator"
-                className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs px-5 py-3 rounded-xl transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)] flex-shrink-0"
+                className="btn-primary justify-center px-8 py-4 text-base rounded-2xl glow-md flex items-center gap-2"
               >
-                <Sparkles size={13} />
-                Optimize
+                <Sparkles size={16} />
+                Start Generating
               </Link>
             </div>
             

@@ -6,57 +6,46 @@ import { Terminal, Mail, Image, ArrowRight, CornerDownRight, Sparkles } from 'lu
 
 const TABS = [
   {
-    id: 'code',
-    label: 'Coding',
-    icon: Terminal,
-    before: 'create a python function to scrape a website',
-    after: `Role: Expert Python Web Scraping Engineer
-Objective: Write a robust, asynchronous Python function using 'playwright' to scrape dynamic product listings.
-Parameters:
-- URL: Input search result pages.
-- Selectors: Target product title, price, and rating dynamically.
-Edge Cases to Handle:
-- Retries with exponential backoff on HTTP 429/503.
-- Rotating user-agents and proxy configurations.
-- Parsing variations in layout without crashing.
-Output Format: Return JSON objects with schema validation.`,
-    outcome: 'Produces error-free, self-healing scrapers on the first compile.',
-    color: 'amber'
-  },
-  {
     id: 'copy',
     label: 'Copywriting',
     icon: Mail,
-    before: 'write a product description for a water bottle',
-    after: `Role: Conversion-Focused SaaS E-commerce Copywriter
-Goal: Write a 150-word product description for a premium insulated water bottle.
-Target Audience: Outdoor enthusiasts and active urban professionals.
-Framework: Use the AIDA (Attention, Interest, Desire, Action) model.
-Key Details to Highlight:
-- 24-hour temperature retention.
-- Eco-friendly zero-plastic structure.
-- Lifetime leakproof guarantee.
-Tone: Adventurous, sleek, confident.`,
-    outcome: 'Delivers high-converting copywriting that aligns with brand tone.',
+    before: 'Write marketing email',
+    after: `Act as a conversion copywriter.
+Create email sequence targeting marketing directors.
+Focus on value proposition, pain point hook, and low-friction CTA.
+Target audience: B2B SaaS buyers.
+Tone: Professional, persuasive, empathetic.`,
+    outcome: 'Delivers cold emails with high-converting structure that boosts replies.',
+    color: 'amber'
+  },
+  {
+    id: 'code',
+    label: 'Coding',
+    icon: Terminal,
+    before: 'Create coding prompts for scalable APIs',
+    after: `You are a senior software architect.
+Generate scalable API architecture.
+Explain tradeoffs.
+Include validation, testing, and performance considerations.`,
+    outcome: 'Generates robust, secure, and production-ready server boilerplate.',
     color: 'orange'
   },
   {
     id: 'art',
     label: 'Creative Art',
     icon: Image,
-    before: 'futuristic helmet design',
-    after: `Subject: Close-up of a tactical cyberpunk motorcycle helmet.
-Design elements: Matte carbon-fiber texture, glowing amber visor display, HUD interface.
-Style: Realistic industrial product render, futuristic military aesthetic.
-Lighting: Dramatic high-contrast neon red studio lighting, dark backdrop, realistic reflections.
-Camera: Macro shot, 85mm portrait lens, shallow depth of field, sharp detail --ar 16:9 --v 6.0`,
-    outcome: 'Outputs jaw-dropping, production-ready graphics without texture artifacts.',
+    before: 'design a logo',
+    after: `A minimalist vector logo of a modern SaaS tech company.
+Geometry, balance, clean lines, golden ratio grid proportion.
+Color palette: Amber and dark slate grey.
+Parameters: --ar 1:1 --v 6.0 --style raw`,
+    outcome: 'Delivers production-ready, clean brand vectors on first run.',
     color: 'emerald'
   }
 ];
 
 export default function Transformation() {
-  const [activeTab, setActiveTab] = useState('code');
+  const [activeTab, setActiveTab] = useState('copy');
   const current = TABS.find((t) => t.id === activeTab);
 
   return (
@@ -71,7 +60,7 @@ export default function Transformation() {
             className="font-bold text-white mb-4 font-display"
             style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
           >
-            The Power of <span className="gradient-text">Structured Prompts</span>
+            From Simple Ideas <span className="gradient-text">To Better Results</span>
           </h2>
           <p className="text-white/50 max-w-xl mx-auto text-base leading-relaxed">
             See how Revoxera replaces ambiguous phrasing with high-precision guidelines to direct AI behavior.

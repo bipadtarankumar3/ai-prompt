@@ -60,7 +60,7 @@ export default function Footer() {
   const [logoImage, setLogoImage] = useState('/logo.png');
   const [logoText, setLogoText] = useState('REVOXERA');
   const [footerText, setFooterText] = useState('Precision-crafted developer tools designed to streamline your daily programming, formatting, and design workflows.');
-  const [copyrightText, setCopyrightText] = useState(`© ${new Date().getFullYear()} Revoxera. Neural Architecture Sync v4.8.`);
+  const [copyrightText, setCopyrightText] = useState(`© ${new Date().getFullYear()} Revoxera. AI Prompt Generator SaaS.`);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,10 +96,9 @@ export default function Footer() {
 
   return (
     <footer className="relative border-t border-white/5 pt-24 pb-12 px-6 bg-[#050508] overflow-hidden">
-      {/* Neural Background overlay image (highly toned down dark watermark style) */}
+      {/* Background overlay grid pattern */}
       <div
-        className="absolute inset-0 bg-cover bg-center mix-blend-screen opacity-[0.035] pointer-events-none"
-        style={{ backgroundImage: "url('/ai_neural_footer.png')" }}
+        className="absolute inset-0 bg-cover bg-center mix-blend-screen opacity-[0.015] pointer-events-none grid-bg"
       />
       {/* Radial overlay to blend background borders cleanly */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/95 via-transparent to-[#050508] pointer-events-none" />
@@ -155,19 +154,19 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Col 3: Hivemind Sync (3 cols) */}
+          {/* Col 3: Newsletter (3 cols) */}
           <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500">
               <Cpu className="w-3.5 h-3.5" />
-              Sync with Hivemind
+              Stay Updated
             </div>
             <p className="text-xs text-white/40 leading-relaxed">
-              Connect to our weekly neural newsletter for top performing prompt sequences, tokens, and model configurations.
+              Connect to our weekly newsletter for top performing prompts, guides, and model optimization tips.
             </p>
             <div className="space-y-2">
               <input
                 type="email"
-                placeholder="neural-address@domain.com"
+                placeholder="your-email@domain.com"
                 className="w-full text-xs bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-white placeholder-white/25 focus:outline-none focus:border-amber-500/50"
                 suppressHydrationWarning
               />
@@ -175,7 +174,7 @@ export default function Footer() {
                 className="w-full py-2.5 bg-[#0c0c14] text-white border border-white/10 rounded-xl text-xs font-bold hover:bg-[#161622] transition-colors duration-200 cursor-pointer"
                 suppressHydrationWarning
               >
-                Establish Protocol Sync
+                Subscribe
               </button>
             </div>
           </div>
@@ -233,7 +232,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-6 sm:justify-end">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              All Systems Operational
+              All Systems Online
             </span>
 
             <div className="flex items-center gap-2 text-[11px] font-medium text-white/20">

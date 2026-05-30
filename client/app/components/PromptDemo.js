@@ -8,41 +8,31 @@ const DEMOS = [
   {
     type: 'Developer',
     icon: Terminal,
-    rough: 'make a button component in react',
-    optimized: `Act as a senior front-end engineer. Write a highly reusable, accessible, and responsive button component in React 19 and Tailwind CSS v4.
-
-Requirements:
-- Props for variants (primary, secondary, danger, ghost), size (sm, md, lg), and full HTML button attributes.
-- Include full WAI-ARIA attributes (aria-disabled, roles, keyboard focus accessibility).
-- Styling using Tailwind's utility classes, supporting clean hover, active, and focus-visible states.
-- Support optional icon placement (start/end) using React nodes.`,
+    rough: 'Create coding prompts for scalable APIs',
+    optimized: `You are a senior software architect.
+Generate scalable API architecture.
+Explain tradeoffs.
+Include validation, testing, and performance considerations.`,
     color: 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/5'
   },
   {
     type: 'Marketer',
     icon: Mail,
-    rough: 'write a cold email to sell software',
-    optimized: `Act as a world-class SaaS B2B copywriter. Draft a highly personalized, high-converting cold outreach email targeting CTOs.
-
-Goal: Secure a 5-minute introductory demo for Revoxera AI.
-Structure:
-- Subject Line: Direct, curiosity-piquing (under 50 characters).
-- Hook: Acknowledge the exact pain point (hours wasted on bad LLM outputs).
-- Value Prop: Explain how structuring prompts once saves developers 10+ hours/week.
-- Call to Action: Low-friction, single-click response request.`,
+    rough: 'Write marketing email',
+    optimized: `Act as a conversion copywriter.
+Create email sequence targeting marketing directors.
+Highlight time savings and higher output quality.
+Include clear Call to Action (CTA).`,
     color: 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/5'
   },
   {
     type: 'Creator',
     icon: Image,
-    rough: 'midjourney prompt for a futuristic city',
-    optimized: `A cinematic wide shot of a futuristic cyber-organic metropolis at dusk.
-
-Details:
-- High-fashion architecture with vertical biophilic gardens, glowing orange neon lines intersecting teal glass skyscrapers.
-- Volumetric fog catches warm golden hour light, reflecting off wet dark asphalt.
-- Shot on 35mm film, 24mm wide-angle lens, cinematic composition, Unreal Engine 5 render details.
-- Parameters: --ar 16:9 --v 6.0 --stylize 250`,
+    rough: 'Midjourney prompt for a futuristic city',
+    optimized: `A cinematic wide shot of a futuristic metropolis at dusk.
+Biophilic architecture, glowing neon line intersections, volumetric fog.
+Shot on 35mm film, wide-angle lens, cinematic composition.
+Parameters: --ar 16:9 --v 6.0`,
     color: 'text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-500/20 bg-orange-50 dark:bg-orange-500/5'
   }
 ];
@@ -111,6 +101,15 @@ export default function PromptDemo() {
         <div className="w-12" />
       </div>
 
+      {/* Visual Progress Flow Labels */}
+      <div className="flex items-center justify-between px-5 py-2 border-b border-slate-200 dark:border-white/6 bg-slate-50/50 dark:bg-[#09090f]/50 text-[10px] font-bold tracking-wider text-slate-450 dark:text-white/40 font-mono uppercase">
+        <span className={step >= 0 ? 'text-amber-600 dark:text-amber-400 font-extrabold' : ''}>Input</span>
+        <ArrowRight size={10} className="text-slate-300 dark:text-white/20" />
+        <span className={step >= 1 ? 'text-orange-600 dark:text-orange-400 font-extrabold animate-pulse' : ''}>Optimization</span>
+        <ArrowRight size={10} className="text-slate-300 dark:text-white/20" />
+        <span className={step >= 2 ? 'text-emerald-600 dark:text-emerald-400 font-extrabold' : ''}>Professional Prompt</span>
+      </div>
+
       <div className="p-5 flex flex-col gap-4.5 min-h-[380px] justify-between">
         
         {/* Input area */}
@@ -149,7 +148,7 @@ export default function PromptDemo() {
         {/* Output area */}
         <div className="flex flex-col gap-2 flex-1">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">Revoxera Output</span>
+            <span className="font-semibold uppercase tracking-wider text-slate-400 dark:text-white/40">Optimized Prompt</span>
             {step === 2 && (
               <button 
                 onClick={handleCopy}
@@ -170,7 +169,7 @@ export default function PromptDemo() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="whitespace-pre-wrap text-left font-sans text-[12px] leading-relaxed text-slate-800 dark:text-white/80"
+                  className="whitespace-pre-wrap text-left font-mono text-[12px] leading-relaxed text-slate-800 dark:text-white/80"
                 >
                   {currentDemo.optimized}
                 </motion.pre>
@@ -194,7 +193,7 @@ export default function PromptDemo() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.5 }}
                 >
-                  System idle. Enter brief prompt to optimize.
+                  System ready. Translating rough ideas to prompts.
                 </motion.div>
               )}
             </AnimatePresence>

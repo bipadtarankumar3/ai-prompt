@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Zap, Sparkles, ArrowRight, Star } from 'lucide-react';
+import { Zap, Sparkles, ArrowRight, Star, Cpu, Bookmark, History, Gauge } from 'lucide-react';
 import Link from 'next/link';
 import PromptDemo from './PromptDemo';
 
@@ -27,8 +27,8 @@ export default function Hero() {
             className="flex justify-center lg:justify-start mb-6"
           >
             <span className="badge badge-purple px-4 py-1.5 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Powered by Gemini 1.5 &amp; Hugging Face
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+              Professional AI Prompt Engineering Platform
             </span>
           </motion.div>
 
@@ -38,9 +38,8 @@ export default function Hero() {
             className="font-bold leading-[1.1] tracking-tight text-white mb-6 text-center lg:text-left w-full"
             style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(2rem, 5.5vw, 4rem)' }}
           >
-            Stop guessing what the AI wants. Get{' '}
-            <span className="gradient-text inline-block">production-ready results</span>
-            {' '}on your first try.
+            Turn Rough Ideas Into{' '}
+            <span className="gradient-text inline-block">Expert-Level AI Prompts</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -48,11 +47,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
             className="text-base md:text-lg text-white/55 mb-8 leading-relaxed max-w-2xl lg:max-w-none text-center lg:text-left"
           >
-            Staring at a blank chat window or wasting hours tweaking prompts shouldn't be your workflow. Revoxera translates your raw goals into precise instructions that guide LLMs to deliver clean code, high-converting copy, and jaw-dropping visuals on the first run. No guesswork, no wasted credits.
+            Generate optimized prompts for ChatGPT, Claude, Gemini, Midjourney, coding, marketing, content creation and more — without learning prompt engineering.
           </motion.p>
 
           {/* CTAs */}
-          <div className="flex flex-col items-center lg:items-start w-full mb-12">
+          <div className="flex flex-col items-center lg:items-start w-full mb-10">
             <motion.div
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full max-w-md lg:max-w-none"
@@ -60,38 +59,47 @@ export default function Hero() {
               <Link href="/generator" id="hero-primary-cta"
                 className="btn-primary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl glow-md">
                 <Zap size={18} fill="currentColor" />
-                Generate Flawless Prompts
+                Generate Prompt
               </Link>
-              <Link href="/templates" id="hero-templates-cta"
+              <a href="#transformation" id="hero-templates-cta"
                 className="btn-secondary justify-center w-full sm:w-auto px-8 py-4 text-base rounded-2xl">
-                Explore Templates
+                See Examples
                 <ArrowRight size={16} />
-              </Link>
+              </a>
             </motion.div>
             <motion.p
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xs text-white/40 mt-3 text-center lg:text-left"
             >
-              No credit card required. Start generating in 10 seconds.
+              No credit card required. Start optimizing in 10 seconds.
             </motion.p>
           </div>
 
-          {/* Stats */}
+          {/* Trust Indicators */}
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 items-center justify-center lg:justify-start gap-6 sm:gap-12 w-full mb-12"
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left mb-12"
           >
             {[
-              { v: '50K+', l: 'Prompts Built' },
-              { v: '99%', l: 'Success Rate' },
-              { v: '4.9/5', l: 'Average Rating' },
-              { v: '10K+', l: 'Active Users' },
-            ].map(s => (
-              <div key={s.l} className="text-center lg:text-left">
-                <div className="gradient-text font-bold text-2xl" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{s.v}</div>
-                <div className="text-white/40 text-xs mt-0.5">{s.l}</div>
-              </div>
-            ))}
+              { icon: Cpu, label: 'Multiple AI Providers Supported', desc: 'ChatGPT, Claude, Gemini, Midjourney' },
+              { icon: History, label: 'Prompt History', desc: 'Auto-saved runs in local workspace' },
+              { icon: Bookmark, label: 'Saved Prompts', desc: 'Quick templates for daily recurring runs' },
+              { icon: Sparkles, label: 'Prompt Optimization', desc: 'Translates vague statements to instructions' },
+              { icon: Gauge, label: 'Fast Generation', desc: 'Optimized prompts built in milliseconds' },
+            ].map((item, idx) => {
+              const ItemIcon = item.icon;
+              return (
+                <div key={idx} className="flex items-start gap-3.5 p-3.5 rounded-2xl border border-white/6 bg-white/[0.01] hover:border-amber-500/15 hover:bg-white/[0.02] transition-all duration-350">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 flex-shrink-0">
+                    <ItemIcon size={16} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white/95">{item.label}</h4>
+                    <p className="text-xs text-white/40 mt-0.5 leading-normal">{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </motion.div>
         </div>
 
