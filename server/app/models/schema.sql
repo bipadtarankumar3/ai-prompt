@@ -1,8 +1,13 @@
--- Drop existing tables cascading to refresh schema
-DROP TABLE IF EXISTS users, admins, settings, ai_models, prompt_collections, blog_posts, saved_prompts, user_limits, api_keys, analytics_events CASCADE;
+-- =====================================================================
+-- REVOXERA AI — DATABASE SCHEMA (v2 — Non-Destructive Migration)
+-- =====================================================================
+-- Pattern: CREATE TABLE IF NOT EXISTS (idempotent, preserves data)
+--          ALTER TABLE ... ADD COLUMN IF NOT EXISTS (safe for prod)
+-- DO NOT add DROP TABLE for tables containing production data.
+-- =====================================================================
 
--- Users table (no prefix)
-CREATE TABLE users (
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -14,14 +19,14 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Settings table (set_ prefix)
-CREATE TABLE settings (
+-- Settings table
+CREATE TABLE IF NOT EXISTS settings (
     set_key VARCHAR(50) PRIMARY KEY,
     set_value TEXT NOT NULL
 );
 
--- AI Models table (am_ prefix)
-CREATE TABLE ai_models (
+-- AI Models table
+CREATE TABLE IF NOT EXISTS ai_models (
     am_id SERIAL PRIMARY KEY,
     am_name VARCHAR(100) NOT NULL,
     am_provider VARCHAR(50) NOT NULL,
@@ -30,8 +35,8 @@ CREATE TABLE ai_models (
     am_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Prompt Collections table (pc_ prefix)
-CREATE TABLE prompt_collections (
+-- Prompt Collections table
+CREATE TABLE IF NOT EXISTS prompt_collections (
     pc_id SERIAL PRIMARY KEY,
     pc_slug VARCHAR(255) UNIQUE NOT NULL,
     pc_title VARCHAR(255) NOT NULL,
@@ -49,8 +54,28 @@ CREATE TABLE prompt_collections (
     pc_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Blog Posts table (bp_ prefix)
-CREATE TABLE blog_posts (
+-- =====================================================================
+-- NON-DESTRUCTIVE MIGRATIONS: prompt_collections SEO columns (v2)
+-- These are safe to run on existing production databases
+-- =====================================================================
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_meta_title VARCHAR(70) DEFAULT NULL;
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_meta_description VARCHAR(165) DEFAULT NULL;
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_tags JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_variations JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_type VARCHAR(20) DEFAULT 'prompt';
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_ai_model_target VARCHAR(50) DEFAULT NULL;
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_difficulty VARCHAR(20) DEFAULT 'beginner';
+ALTER TABLE prompt_collections ADD COLUMN IF NOT EXISTS pc_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- Performance indexes
+CREATE INDEX IF NOT EXISTS idx_pc_type ON prompt_collections(pc_type);
+CREATE INDEX IF NOT EXISTS idx_pc_category ON prompt_collections(pc_category);
+CREATE INDEX IF NOT EXISTS idx_pc_tags_gin ON prompt_collections USING GIN(pc_tags);
+CREATE INDEX IF NOT EXISTS idx_pc_featured_copies ON prompt_collections(pc_is_featured, pc_copy_count DESC);
+CREATE INDEX IF NOT EXISTS idx_pc_slug ON prompt_collections(pc_slug);
+
+-- Blog Posts table
+CREATE TABLE IF NOT EXISTS blog_posts (
     bp_id SERIAL PRIMARY KEY,
     bp_title VARCHAR(255) NOT NULL,
     bp_content TEXT NOT NULL,
@@ -64,8 +89,8 @@ CREATE TABLE blog_posts (
     bp_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Saved Prompts table (sp_ prefix)
-CREATE TABLE saved_prompts (
+-- Saved Prompts table
+CREATE TABLE IF NOT EXISTS saved_prompts (
     sp_id SERIAL PRIMARY KEY,
     sp_user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     sp_prompt_id INTEGER REFERENCES prompt_collections(pc_id) ON DELETE CASCADE,
@@ -73,8 +98,8 @@ CREATE TABLE saved_prompts (
     UNIQUE (sp_user_id, sp_prompt_id)
 );
 
--- User Limits table (ul_ prefix)
-CREATE TABLE user_limits (
+-- User Limits table
+CREATE TABLE IF NOT EXISTS user_limits (
     ul_id SERIAL PRIMARY KEY,
     ul_user_id BIGINT UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     ul_limit_count INTEGER DEFAULT 20,
@@ -82,8 +107,8 @@ CREATE TABLE user_limits (
     ul_reset_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP + INTERVAL '1 day'
 );
 
--- API Keys table (ak_ prefix)
-CREATE TABLE api_keys (
+-- API Keys table
+CREATE TABLE IF NOT EXISTS api_keys (
     ak_id SERIAL PRIMARY KEY,
     ak_user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     ak_key VARCHAR(255) UNIQUE NOT NULL,
@@ -91,8 +116,8 @@ CREATE TABLE api_keys (
     ak_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Analytics Events table (ae_ prefix)
-CREATE TABLE analytics_events (
+-- Analytics Events table
+CREATE TABLE IF NOT EXISTS analytics_events (
     ae_id BIGSERIAL PRIMARY KEY,
     ae_event_type VARCHAR(50) NOT NULL,
     ae_target_id VARCHAR(255) DEFAULT NULL,
@@ -100,3 +125,30 @@ CREATE TABLE analytics_events (
     ae_metadata JSONB DEFAULT '{}'::jsonb,
     ae_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- =====================================================================
+-- NEW SEO TABLES (v2)
+-- =====================================================================
+
+-- Tags index table — powers /tags/[tag-slug] SEO pages
+CREATE TABLE IF NOT EXISTS prompt_tags (
+    pt_id SERIAL PRIMARY KEY,
+    pt_slug VARCHAR(100) UNIQUE NOT NULL,
+    pt_name VARCHAR(100) NOT NULL,
+    pt_count INTEGER DEFAULT 0,
+    pt_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Per-prompt daily analytics — granular insight for admin dashboard
+CREATE TABLE IF NOT EXISTS prompt_analytics (
+    pa_id BIGSERIAL PRIMARY KEY,
+    pa_prompt_id INTEGER REFERENCES prompt_collections(pc_id) ON DELETE CASCADE,
+    pa_date DATE NOT NULL,
+    pa_views INTEGER DEFAULT 0,
+    pa_copies INTEGER DEFAULT 0,
+    pa_shares INTEGER DEFAULT 0,
+    pa_runs INTEGER DEFAULT 0,
+    UNIQUE (pa_prompt_id, pa_date)
+);
+
+CREATE INDEX IF NOT EXISTS idx_pa_prompt_date ON prompt_analytics(pa_prompt_id, pa_date DESC);

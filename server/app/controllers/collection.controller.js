@@ -51,6 +51,92 @@ class CollectionController {
     }
   }
 
+  async getSimilar(req, res, next) {
+    try {
+      const { id } = req.params;
+      const tags = req.query.tags ? req.query.tags.split(',') : [];
+      const limit = parseInt(req.query.limit || '4', 10);
+      const collections = await collectionService.getSimilarCollections(id, tags, limit);
+      return success(res, collections, 'Similar collections fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getByCategory(req, res, next) {
+    try {
+      const { category } = req.params;
+      const page = parseInt(req.query.page || '1', 10);
+      const limit = parseInt(req.query.limit || '12', 10);
+      const sort = req.query.sort || 'popular';
+      const filter = req.query.filter || 'all';
+      const result = await collectionService.getCollectionsByCategory(category, { page, limit, sort, filter });
+      return success(res, result, 'Category collections fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getFeaturedByCategory(req, res, next) {
+    try {
+      const { category } = req.params;
+      const limit = parseInt(req.query.limit || '4', 10);
+      const collections = await collectionService.getFeaturedByCategory(category, limit);
+      return success(res, collections, 'Featured collections fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getRecentByCategory(req, res, next) {
+    try {
+      const { category } = req.params;
+      const limit = parseInt(req.query.limit || '4', 10);
+      const collections = await collectionService.getRecentByCategory(category, limit);
+      return success(res, collections, 'Recent collections fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getByType(req, res, next) {
+    try {
+      const { type } = req.params;
+      const page = parseInt(req.query.page || '1', 10);
+      const limit = parseInt(req.query.limit || '12', 10);
+      const result = await collectionService.getCollectionsByType(type, { page, limit });
+      return success(res, result, 'Collections by type fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getByTag(req, res, next) {
+    try {
+      const { tag } = req.params;
+      const page = parseInt(req.query.page || '1', 10);
+      const limit = parseInt(req.query.limit || '12', 10);
+      const result = await collectionService.getCollectionsByTag(tag, { page, limit });
+      return success(res, result, 'Collections by tag fetched successfully');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getForSitemap(req, res, next) {
+    try {
+      const page = parseInt(req.query.page || '1', 10);
+      const limit = parseInt(req.query.limit || '1000', 10);
+      const [slugs, total] = await Promise.all([
+        collectionService.getCollectionsForSitemap(page, limit),
+        collectionService.getTotalCount(),
+      ]);
+      return success(res, { slugs, total, page, limit }, 'Sitemap data fetched');
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async incrementCopy(req, res, next) {
     try {
       const { id } = req.params;

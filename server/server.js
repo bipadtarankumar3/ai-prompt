@@ -18,6 +18,7 @@ const settingsRoutes = require('./app/routes/settings.routes');
 const generateRoutes = require('./app/routes/generate.routes');
 const analyticsRoutes = require('./app/routes/analytics.routes');
 const monetizationRoutes = require('./app/routes/monetization.routes');
+const contentRoutes = require('./app/routes/content.routes');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/generate', generateRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/monetization', monetizationRoutes);
+app.use('/api/content', contentRoutes);
 
 // Error middleware
 app.use(errorHandler);

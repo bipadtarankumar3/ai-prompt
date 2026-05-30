@@ -25,6 +25,38 @@ class CollectionService {
     return collectionRepository.findRelated(id, category, limit);
   }
 
+  async getSimilarCollections(id, tags, limit) {
+    return collectionRepository.findSimilar(id, tags, limit);
+  }
+
+  async getCollectionsByCategory(category, options) {
+    return collectionRepository.findByCategory(category, options);
+  }
+
+  async getFeaturedByCategory(category, limit) {
+    return collectionRepository.findFeaturedByCategory(category, limit);
+  }
+
+  async getRecentByCategory(category, limit) {
+    return collectionRepository.findRecentByCategory(category, limit);
+  }
+
+  async getCollectionsByType(type, options) {
+    return collectionRepository.findByType(type, options);
+  }
+
+  async getCollectionsByTag(tagSlug, options) {
+    return collectionRepository.findByTag(tagSlug, options);
+  }
+
+  async getCollectionsForSitemap(page, limit) {
+    return collectionRepository.findForSitemap(page, limit);
+  }
+
+  async getTotalCount() {
+    return collectionRepository.getTotalCount();
+  }
+
   async incrementCopyCount(id) {
     return collectionRepository.incrementCopy(id);
   }
