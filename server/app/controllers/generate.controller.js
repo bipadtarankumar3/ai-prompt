@@ -41,7 +41,7 @@ class GenerateController {
         return error(res, 'Rate limit exceeded. Please wait a minute before trying again.', 429);
       }
 
-      const { userInput, category, tone, mode, provider, modelCode, chatHistory } = req.body;
+            const { userInput, category, tone, mode, provider, modelCode, length, outputStyle, chatHistory } = req.body;
 
       // 3. Validation
       if (!userInput || typeof userInput !== 'string' || userInput.trim().length < 3) {
@@ -76,6 +76,8 @@ class GenerateController {
         mode,
         provider,
         modelCode,
+        length,
+        outputStyle,
         chatHistory: slicedHistory
       });
 

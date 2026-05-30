@@ -37,6 +37,38 @@ export const clientApi = {
     body: JSON.stringify(payload),
   }),
   fetchCollections: () => request('/api/prompt-collections'),
+  fetchPromptBySlug: (slug) => request(`/api/prompt-collections/slug/${slug}`),
+  incrementPromptCopy: (id) => request(`/api/prompt-collections/${id}/copy`, { method: 'POST' }),
+  incrementPromptView: (id) => request(`/api/prompt-collections/${id}/view`, { method: 'POST' }),
+  fetchTrendingPrompts: () => request('/api/prompt-collections/trending'),
+  fetchRelatedPrompts: (id, category, limit = 3) => request(`/api/prompt-collections/related/${id}?category=${encodeURIComponent(category)}&limit=${limit}`),
+  
+  // Analytics
+  trackAnalyticsEvent: (eventType, targetId = null, metadata = {}) => request('/api/analytics/event', {
+    method: 'POST',
+    body: JSON.stringify({ eventType, targetId, metadata }),
+  }),
+
+  // Accounts & Monetization (requires User Token)
+  fetchSavedPrompts: (token) => request('/api/monetization/saved', {
+    headers: { Authorization: `Bearer ${token}` }
+  }),
+  toggleSavePrompt: (token, promptId) => request('/api/monetization/saved/toggle', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ promptId })
+  }),
+  fetchUserLimits: (token) => request('/api/monetization/limits', {
+    headers: { Authorization: `Bearer ${token}` }
+  }),
+  fetchApiKeys: (token) => request('/api/monetization/keys', {
+    headers: { Authorization: `Bearer ${token}` }
+  }),
+  generateApiKey: (token) => request('/api/monetization/keys/generate', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` }
+  }),
+
   fetchBlogs: () => request('/api/blog-posts'),
   fetchBlogBySlug: (slug) => request(`/api/blog-posts/slug/${slug}`),
 

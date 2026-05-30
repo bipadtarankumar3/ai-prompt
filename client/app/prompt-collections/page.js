@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Search, Copy, Check, ExternalLink, LayoutGrid, Loader, Terminal } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Link from 'next/link';
 import { clientApi } from '../utils/clientApi';
 import toast from 'react-hot-toast';
 import SeoHeader from '../components/SeoHeader';
@@ -155,9 +156,11 @@ export default function PromptCollectionsPage() {
                     <span className="text-[10px] text-white/30 font-medium">Prompt ID: #{item.id}</span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
-                    {item.title}
-                  </h3>
+                  <Link href={`/prompt/${item.slug || item.id}`}>
+                    <h3 className="text-sm font-bold text-white mb-3 group-hover:text-amber-300 transition-colors cursor-pointer hover:underline">
+                      {item.title}
+                    </h3>
+                  </Link>
 
                   {/* Prompt box */}
                   <div className="bg-black/30 dark:bg-black/40 border border-white/5 rounded-xl p-3.5 flex-1 mb-5 font-mono text-[11px] leading-relaxed text-slate-350 select-all line-clamp-4 relative group/code overflow-hidden">

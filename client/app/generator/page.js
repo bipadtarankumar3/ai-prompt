@@ -30,6 +30,17 @@ const TONES = [
   { id: 'Funny', emoji: '😄' }, { id: 'Expert', emoji: '🎓' },
   { id: 'Minimal', emoji: '✨' },
 ];
+const LENGTHS = [
+  { id: 'Short', emoji: '⚡', label: 'Short' },
+  { id: 'Balanced', emoji: '⚖️', label: 'Balanced' },
+  { id: 'Detailed', emoji: '📄', label: 'Detailed' },
+];
+const STYLES = [
+  { id: 'Markdown', emoji: '📝', label: 'Markdown' },
+  { id: 'BulletPoints', emoji: '📌', label: 'Bullet Points' },
+  { id: 'StepByStep', emoji: '🔢', label: 'Step by Step' },
+  { id: 'JSON', emoji: '🧮', label: 'JSON Layout' },
+];
 const MODES = [
   { id: 'generate', label: 'Generate', Icon: Zap },
   { id: 'improve', label: 'Improve', Icon: Sparkles },
@@ -144,6 +155,8 @@ function GeneratorSection() {
   const [mode, setMode] = useState('generate');
   const [category, setCategory] = useState('ChatGPT');
   const [tone, setTone] = useState('Professional');
+  const [length, setLength] = useState('Balanced');
+  const [outputStyle, setOutputStyle] = useState('Markdown');
   const [provider, setProvider] = useState('gemini');
   const [hfModel, setHfModel] = useState('Qwen/Qwen2.5-7B-Instruct');
 
@@ -243,6 +256,8 @@ function GeneratorSection() {
     if (entry.category) setCategory(entry.category);
     if (entry.tone) setTone(entry.tone);
     if (entry.mode) setMode(entry.mode);
+    if (entry.length) setLength(entry.length);
+    if (entry.outputStyle) setOutputStyle(entry.outputStyle);
     setMobileSidebar(false);
     toast.success('Loaded from history');
   };
@@ -326,6 +341,8 @@ function GeneratorSection() {
           mode: isRefine ? 'generate' : mode,
           provider: selectedModel ? selectedModel.provider : provider,
           modelCode: selectedModel ? selectedModel.api_model_code : (provider === 'huggingface' ? hfModel : (provider === 'gemini' ? 'gemini-2.5-flash' : 'gpt-4o-mini')),
+          length,
+          outputStyle,
           chatHistory: isRefine ? thread : [],
         }),
       });
@@ -360,6 +377,8 @@ function GeneratorSection() {
             category,
             tone,
             mode,
+            length,
+            outputStyle,
             provider: data.provider,
             result: data.result,
             tokensUsed: data.tokensUsed,
@@ -1033,10 +1052,12 @@ function GeneratorSection() {
               <div className="flex items-end justify-between px-3 pb-3 pt-1.5 gap-2">
 
                 {/* Selector pills */}
-                <div className="flex items-center gap-1 sm:gap-1.5 flex-nowrap flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5 flex-1 min-w-0">
                   <CustomSelector value={mode} options={MODES} icon={Sliders} onChange={setMode} />
                   <CustomSelector value={category} options={CATEGORIES} onChange={setCategory} />
                   <CustomSelector value={tone} options={TONES} onChange={setTone} />
+                  <CustomSelector value={length} options={LENGTHS} onChange={setLength} />
+                  <CustomSelector value={outputStyle} options={STYLES} onChange={setOutputStyle} />
                 </div>
 
                 {/* Right side: char count + send button */}

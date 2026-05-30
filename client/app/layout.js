@@ -6,6 +6,8 @@ import FloatingChatButton from './components/FloatingChatButton';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import AnalyticsTracker from './components/AnalyticsTracker';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -168,12 +170,6 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="canonical" href="https://aiprompt.revoxera.com" />
-        {/* Microsoft Clarity */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wz4r6yhgco");`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
@@ -192,6 +188,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <AnalyticsTracker />
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wz4r6yhgco");`}
+        </Script>
         <BackgroundProvider>
           <ThemeProvider
             attribute="class"

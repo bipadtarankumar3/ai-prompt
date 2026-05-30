@@ -16,6 +16,8 @@ const collectionRoutes = require('./app/routes/collection.routes');
 const blogRoutes = require('./app/routes/blog.routes');
 const settingsRoutes = require('./app/routes/settings.routes');
 const generateRoutes = require('./app/routes/generate.routes');
+const analyticsRoutes = require('./app/routes/analytics.routes');
+const monetizationRoutes = require('./app/routes/monetization.routes');
 
 const app = express();
 
@@ -37,6 +39,8 @@ app.use('/api/prompt-collections', collectionRoutes);
 app.use('/api/blog-posts', blogRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/generate', generateRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/monetization', monetizationRoutes);
 
 // Error middleware
 app.use(errorHandler);
@@ -121,19 +125,175 @@ async function initializeDatabase() {
         );
       }
 
-      // Seed Prompt Collections
+      // Seed Prompt Collections (Programmatic SEO & Categorized templates)
       const promptCollections = [
-        ['Advanced Code Refactoring', 'You are an expert software engineer. Refactor the following code to be clean, modular, and optimized for performance. Provide explanations of your improvements:\n\n[INSERT CODE HERE]', 'Coding'],
-        ['SEO Blog Outline Generator', 'You are a professional SEO content strategist. Create a comprehensive blog outline for the keyword "[KEYWORD]" targeting the audience "[AUDIENCE]". Include headers (H1, H2, H3), search intent classification, and suggested LSI keywords for each section.', 'SEO'],
-        ['Email Campaign Copywriter', 'You are a SaaS marketing copywriter. Write a 3-part email nurture sequence for users who signed up for a trial of our tool but did not subscribe yet. Keep the tone helpful, persuasive, and highlight value propositions.', 'Marketing'],
-        ['Midjourney Cinematic Lighting Prompt', 'Close-up portrait of a futuristic cyberpunk traveler in neon-lit rain-slicked Tokyo streets, 8k resolution, cinematic lighting, shot on 35mm lens, photorealistic, intricate details --ar 16:9 --style raw', 'Design'],
-        ['Clean CSS Flexbox Layout', 'Create a highly modern clean HTML/CSS CSS Flexbox layout for a pricing table with 3 cards (Basic, Pro, Enterprise). Make it look like a premium SaaS dashboard with elegant dark background and purple glows.', 'Coding']
+        {
+          slug: 'chatgpt-prompt-for-email-writing',
+          title: 'ChatGPT Prompt for Professional Email Writing',
+          prompt_text: 'Write a professional email from a [SENDER_TITLE] to [RECIPIENT_TITLE] addressing the topic of [TOPIC]. The email should maintain a [TONE] tone. Outline clear action items and specify any next steps. Keep the length under [LENGTH] sentences.',
+          category: 'ChatGPT',
+          description: 'An optimized email drafting template engineered to format professional communication. Generates action-oriented text suitable for client relations, cold sales, internal memos, or business collaboration.',
+          example_inputs: 'Sender: Senior Product Manager\nRecipient: Marketing Lead\nTopic: Launch delay of feature X\nTone: Professional but collaborative\nLength: 5 sentences',
+          example_outputs: 'Subject: Update on Feature X Launch & Next Steps\n\nHi Sarah,\n\nI want to share a brief update regarding our Feature X release schedule. Due to additional validation requirements, we are adjusting our launch date by two weeks. This will ensure we deliver the polished experience our users expect.\n\nCould we reschedule our sync to next Tuesday? Let me know if that works.\n\nBest,\nDavid',
+          use_cases: ['Cold outbound outreach campaigns', 'Customer support communications', 'Internal team delay notifications', 'Executive update drafting'],
+          faqs: [
+            { question: 'How can I adjust the tone of the email?', answer: 'You can alter the [TONE] parameter to options like Persuasive, Direct, Urgent, or Empathetic to match your needs.' },
+            { question: 'Does this template work for cold emailing?', answer: 'Yes, setting the recipient details and topic to highlight value propositions works exceptionally well.' }
+          ],
+          copy_count: 1420,
+          view_count: 5310,
+          is_featured: true,
+          is_premium: false
+        },
+        {
+          slug: 'sql-query-generator-prompt',
+          title: 'Natural Language SQL Query Generator',
+          prompt_text: 'Act as an expert SQL query builder. Translate the following natural language request into a clean, optimized SQL query for a database running [DB_DIALECT].\n\nDatabase Schema:\n[SCHEMA_DETAILS]\n\nRequest:\n[USER_REQUEST]\n\nOutput only the SQL code wrapped in sql markdown blocks with a brief explanation of how it joins tables.',
+          category: 'Coding',
+          description: 'Translate English instructions into high-performance SQL queries. Supports complex joins, aggregate subqueries, windows functions, and syntax for PostgreSQL, MySQL, MS SQL, and BigQuery.',
+          example_inputs: 'Request: Find top 5 users who spent the most in 2025\nDialect: PostgreSQL\nSchema: users (id, name), orders (id, user_id, amount, created_at)',
+          example_outputs: '```sql\nSELECT u.id, u.name, SUM(o.amount) AS total_spent\nFROM users u\nJOIN orders o ON u.id = o.user_id\nWHERE o.created_at >= \'2025-01-01\' AND o.created_at <= \'2025-12-31\'\nGROUP BY u.id, u.name\nORDER BY total_spent DESC\nLIMIT 5;\n```',
+          use_cases: ['Data analytics dashboard query crafting', 'Fast reporting table extraction', 'Syntax translation between database dialects', 'Developer onboarding query templates'],
+          faqs: [
+            { question: 'Which databases are supported by this generator prompt?', answer: 'This prompt works for any relational SQL database, including PostgreSQL, MySQL, SQLite, Oracle, and MS SQL Server.' },
+            { question: 'Can it handle schema references?', answer: 'Yes. Simply paste your table columns in the [SCHEMA_DETAILS] block to get accurate queries.' }
+          ],
+          copy_count: 980,
+          view_count: 3200,
+          is_featured: true,
+          is_premium: false
+        },
+        {
+          slug: 'youtube-script-prompt',
+          title: 'YouTube Script Writer & Hook Outline',
+          prompt_text: 'Write a complete engaging YouTube script for a video titled "[TITLE]".\nTarget Audience: [AUDIENCE]\nTone: [TONE]\n\nInclude a 30-second scroll-stopping hook, three main learning points with visual guidance instructions, a natural mid-video engagement call, and a strong outro directing viewers to watch a related video.',
+          category: 'Video',
+          description: 'Generate high-retention video script outlines designed to hook viewers in the first 30 seconds and increase average watch time.',
+          example_inputs: 'Title: Top 5 AI tools of 2026\nAudience: Tech enthusiasts\nTone: Energetic & informative',
+          example_outputs: '[Visual: Fast-paced montage of AI tools]\nHook: 90% of people are using AI wrong. In this video, we review the top 5 tools that will actually save you 10+ hours a week in 2026. No filler, let\'s jump in!',
+          use_cases: ['Educational video outlining', 'Short-form TikTok / Reels script ideas', 'Voiceover scripts for tutorial videos', 'Marketing explainer video production'],
+          faqs: [
+            { question: 'How long should the resulting script be?', answer: 'The prompt is optimized to produce outlines and scripts between 5 to 15 minutes in length.' }
+          ],
+          copy_count: 730,
+          view_count: 2450,
+          is_featured: false,
+          is_premium: false
+        },
+        {
+          slug: 'claude-advanced-system-prompt',
+          title: 'Claude 3.5 System Prompt for Coding Agents',
+          prompt_text: 'You are Claude, a senior full-stack AI engineer. You write dry, optimized, and fully-typed TypeScript code. Adhere strictly to these parameters:\n- Keep methods short and single-purpose\n- Implement error handling on every level\n- Output clean file structures in XML tags <file path="..."></file>\n- Avoid placeholders at all costs.',
+          category: 'Claude',
+          description: 'Configure Anthropic Claude 3.5 Sonnet to behave as a senior developer agent, ensuring it outputs production-ready TypeScript code with XML tag structural boundaries.',
+          example_inputs: 'Request: Build a lightweight caching class.',
+          example_outputs: '<file path="cache.ts">\nclass Cache<T> {\n  private store = new Map<string, { val: T; exp: number }>();\n  ...\n}\n</file>',
+          use_cases: ['AI coder subagent configuration', 'Autonomous code editors pipeline setup', 'Strict programming formatting overrides'],
+          faqs: [
+            { question: 'Will this system instruction prevent code truncation?', answer: 'Yes. Enforcing XML tagging encourages the model to close code blocks completely.' }
+          ],
+          copy_count: 1120,
+          view_count: 4100,
+          is_featured: true,
+          is_premium: true
+        },
+        {
+          slug: 'gemini-data-analyst-agent',
+          title: 'Gemini Agent for JSON Data Analytics',
+          prompt_text: 'Analyze the following JSON structured report. Highlight statistically significant outliers, anomalies, and positive trends in [METRIC] over the timeframe. Return a clean markdown report containing a 3-sentence summary, a visual table of key metrics, and bulleted recommendations.\n\nJSON Report:\n[JSON_DATA]',
+          category: 'Gemini',
+          description: 'Instruct Google Gemini models to act as an automated data analyst, parsing large JSON schemas and building readable reports.',
+          example_inputs: 'Metric: Active user churn\nJSON_DATA: [{"month": "Jan", "churn": 2.1}, {"month": "Feb", "churn": 4.8}]',
+          example_outputs: '# Data Analysis Report\n- **Churn Spike**: Churn rose significantly in Feb (+128%).\n- **Recommendation**: Audit pricing change implemented in late Jan.',
+          use_cases: ['Automatic log file audit', 'Financial reporting summarization', 'Database performance analysis reporting'],
+          faqs: [
+            { question: 'Does this template support nested JSON structures?', answer: 'Yes. Gemini models have very large contexts and easily parse heavily nested JSON configurations.' }
+          ],
+          copy_count: 560,
+          view_count: 1900,
+          is_featured: false,
+          is_premium: false
+        },
+        {
+          slug: 'seo-meta-tag-optimizer',
+          title: 'SEO Meta Description & Title Optimizer',
+          prompt_text: 'Generate 5 high-CTR combinations of Title tags and Meta descriptions for the primary keyword "[KEYWORD]" and target page intent "[INTENT]". Keep Title tags between 50-60 characters and Meta descriptions between 150-160 characters. Highlight emotional triggers, keywords, and secondary call-to-actions in each choice.',
+          category: 'SEO',
+          description: 'Instantly generate search-optimized, high click-through-rate meta tags matching Google guidelines.',
+          example_inputs: 'Keyword: best wireless headphones\nIntent: Commercial comparison',
+          example_outputs: 'Title 1: Top 5 Best Wireless Headphones of 2026 (Reviewed)\nMeta 1: Looking for the best wireless headphones? Check out our comparison of sound, battery, and price. Find your perfect pair today!',
+          use_cases: ['Blog post programmatic tag writing', 'E-commerce product SEO scale optimization', 'Landing pages metadata A/B testing'],
+          faqs: [
+            { question: 'What is the optimal character length for search tags?', answer: 'Search engines typically display the first 50-60 characters of titles and 150-160 characters of meta descriptions.' }
+          ],
+          copy_count: 1340,
+          view_count: 3600,
+          is_featured: true,
+          is_premium: false
+        },
+        {
+          slug: 'facebook-ad-copywriter',
+          title: 'High-Converting Facebook Ad Copywriter',
+          prompt_text: 'Write 3 Facebook ad copy variations targeting [AUDIENCE] interested in [PRODUCT_NAME].\nVariation 1: Hook-Story-Offer (long-form)\nVariation 2: Short & Punchy benefit list\nVariation 3: Question-Agitate-Solve framework\n\nInclude suggested emojis, visual overlay text ideas, and clear call-to-action details.',
+          category: 'Marketing',
+          description: 'A structured copywriting framework engineered to write high-engagement social media ad copy targeting specific user personas.',
+          example_inputs: 'Product: Revoxera Prompt Builder\nAudience: Busy startup founders\nOffer: Try for free today',
+          example_outputs: '🔥 Startup founders: Stop wasting hours typing prompts that miss. \n\nIntroducing Revoxera AI - generate professional instructions instantly. Try free today!',
+          use_cases: ['Paid traffic ad creation', 'E-commerce copy testing', 'Conversion rate optimization (CRO) testing'],
+          faqs: [],
+          copy_count: 850,
+          view_count: 2150,
+          is_featured: false,
+          is_premium: false
+        },
+        {
+          slug: 'elevator-pitch-generator',
+          title: 'Executive Elevator Pitch Outline Builder',
+          prompt_text: 'Build an executive 30-second elevator pitch using the following startup metrics:\n- Industry: [INDUSTRY]\n- Problem: [PROBLEM]\n- Solution: [SOLUTION]\n- Market Size: [MARKET_SIZE]\n\nKeep the pitch under 120 words. Format it in a way that is conversational, punchy, and highlights the clear financial opportunity.',
+          category: 'Business',
+          description: 'Generate concise, investor-ready business pitches that articulate your value proposition quickly and elegantly.',
+          example_inputs: 'Industry: Biotech\nProblem: Clinical trial matching takes months\nSolution: AI matches patients in hours\nMarket: $15B annually',
+          example_outputs: 'Clinical trials are the bottleneck of medicine, costing billions. We built an AI matching database that cuts onboarding from months to hours. Targeting a $15B market, we are ready to scale.',
+          use_cases: ['Founder pitch preparation', 'Networking event speech writing', 'Executive summaries introduction writing'],
+          faqs: [],
+          copy_count: 420,
+          view_count: 1250,
+          is_featured: false,
+          is_premium: false
+        },
+        {
+          slug: 'midjourney-v6-photorealistic-portrait',
+          title: 'Midjourney v6 Photorealistic Portrait Studio',
+          prompt_text: 'A professional close-up studio portrait of a [SUBJECT], soft Rembrandt lighting, shot on 85mm f/1.2 lens, neutral grey background, photorealistic texture, sharp focus on eyes, 8k resolution, award-winning photography --ar 3:4 --style raw --v 6.0',
+          category: 'Image',
+          description: 'A premium photorealistic studio portrait prompt formula configured for Midjourney v6 parameters and aspect ratios.',
+          example_inputs: 'Subject: Elderly smiling ceramic artist',
+          example_outputs: 'A professional close-up studio portrait of a Elderly smiling ceramic artist, soft Rembrandt lighting, shot on 85mm f/1.2 lens... --ar 3:4 --style raw --v 6.0',
+          use_cases: ['AI portrait headshot creation', 'Social media stock asset development', 'Creative graphic design studio generation'],
+          faqs: [
+            { question: 'What is the purpose of the "--style raw" parameter?', answer: 'It reduces Midjourney v6\'s default stylistic bias, producing more natural, photographic textures.' }
+          ],
+          copy_count: 1980,
+          view_count: 6700,
+          is_featured: true,
+          is_premium: false
+        }
       ];
 
-      for (const [title, prompt_text, category] of promptCollections) {
+      for (const item of promptCollections) {
         await db.query(
-          'INSERT INTO prompt_collections (pc_title, pc_prompt_text, pc_category) VALUES ($1, $2, $3)',
-          [title, prompt_text, category]
+          `INSERT INTO prompt_collections (
+            pc_slug, pc_title, pc_prompt_text, pc_category, 
+            pc_description, pc_example_inputs, pc_example_outputs, 
+            pc_use_cases, pc_faqs, pc_copy_count, pc_view_count, 
+            pc_is_featured, pc_is_premium
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+          [
+            item.slug, item.title, item.prompt_text, item.category,
+            item.description, item.example_inputs, item.example_outputs,
+            JSON.stringify(item.use_cases), JSON.stringify(item.faqs),
+            item.copy_count, item.view_count, item.is_featured, item.is_premium
+          ]
         );
       }
 

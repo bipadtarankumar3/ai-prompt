@@ -9,20 +9,20 @@ import { useBackground } from './BackgroundProvider';
 
 const LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles },
-  { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid },
-  { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen },
+  { label: 'Compare', href: '/compare', icon: Compass },
+  { label: 'Collections', href: '/prompt-collections', icon: LayoutGrid },
+  { label: 'Dashboard', href: '/dashboard', icon: Lock },
   { label: 'Blog', href: '/blog', icon: FileText },
   { label: 'About Us', href: '/about', icon: Info },
-  { label: 'Contact', href: '/contact', icon: Lock },
 ];
 
 const MOBILE_LINKS = [
   { label: 'Generator', href: '/generator', icon: Sparkles, desc: 'AI-powered prompt creation', color: 'text-amber-500 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/10' },
+  { label: 'Compare Optimizer', href: '/compare', icon: Compass, desc: 'Side-by-side prompt tuning', color: 'text-blue-500 dark:text-blue-400', bg: 'bg-blue-500/10 dark:bg-blue-500/10' },
   { label: 'Prompt Collections', href: '/prompt-collections', icon: LayoutGrid, desc: 'Explore ready-to-use prompts', color: 'text-orange-500 dark:text-orange-400', bg: 'bg-orange-500/10 dark:bg-orange-500/10' },
-  { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen, desc: 'Master prompt engineering principles', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
-  { label: 'Blog', href: '/blog', icon: FileText, desc: 'Read articles and guides', color: 'text-cyan-500 dark:text-cyan-400', bg: 'bg-cyan-500/10 dark:bg-cyan-500/10' },
-  { label: 'About Us', href: '/about', icon: Info, desc: 'Learn about our mission', color: 'text-violet-500 dark:text-violet-400', bg: 'bg-violet-500/10 dark:bg-violet-500/10' },
-  { label: 'Contact Us', href: '/contact', icon: Lock, desc: 'Get in touch with support', color: 'text-pink-500 dark:text-pink-400', bg: 'bg-pink-500/10 dark:bg-pink-500/10' },
+  { label: 'Developer Dashboard', href: '/dashboard', icon: Lock, desc: 'Saved prompts & API keys', color: 'text-emerald-500 dark:text-emerald-400', bg: 'bg-emerald-500/10 dark:bg-emerald-500/10' },
+  { label: 'Guides', href: '/guides/prompt-engineering-basics', icon: BookOpen, desc: 'Master prompt engineering principles', color: 'text-cyan-500 dark:text-cyan-400', bg: 'bg-cyan-500/10 dark:bg-cyan-500/10' },
+  { label: 'Blog', href: '/blog', icon: FileText, desc: 'Read articles and guides', color: 'text-purple-500 dark:text-purple-400', bg: 'bg-purple-500/10 dark:bg-purple-500/10' },
 ];
 
 export default function Navbar() {

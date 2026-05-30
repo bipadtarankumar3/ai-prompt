@@ -4,13 +4,15 @@ class AIService {
   /**
    * Main router for generating prompt using selected provider and model code.
    */
-  async generate({ userInput, category, tone, mode, provider, modelCode, chatHistory = [] }) {
+  async generate({ userInput, category, tone, mode, provider, modelCode, length, outputStyle, chatHistory = [] }) {
     // 1. Build messages
     const messages = this.buildMessages({
       userInput: userInput.trim(),
       category: category || 'General',
       tone: tone || 'Professional',
       mode: mode || 'generate',
+      length,
+      outputStyle,
       chatHistory,
     });
 
@@ -29,11 +31,19 @@ class AIService {
   /**
    * Build system + user messages for the AI based on the generation mode.
    */
-  buildMessages({ userInput, category, tone, mode, chatHistory = [] }) {
+  buildMessages({ userInput, category, tone, mode, length, outputStyle, chatHistory = [] }) {
+    let constraints = '';
+    if (length) {
+      constraints += `\n- Length Constraint: Make the output prompt itself formatted to represent a ${length} configuration (e.g. if 'Short', output a brief 1-paragraph prompt; if 'Detailed', output a comprehensive prompt with detailed role, constraints, and examples).`;
+    }
+    if (outputStyle) {
+      constraints += `\n- Formatting Constraint: Structure the generated prompt to instruct the target AI to output in '${outputStyle}' format (e.g. markdown headers, bullet lists, JSON template, etc.).`;
+    }
+
     const systemBase = `You are Revoxera AI, an expert AI prompt engineer. 
 You craft highly optimized, detailed prompts for various AI tools and use cases.
 Always return ONLY the improved/generated/refined prompt — no preamble, no explanation, no quotation marks around it.
-Use clear structure, specific details, and best practices for the ${category} category.`;
+Use clear structure, specific details, and best practices for the ${category} category.${constraints}`;
 
     if (chatHistory && chatHistory.length > 0) {
       const messages = [{ role: 'system', content: systemBase }];

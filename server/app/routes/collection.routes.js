@@ -3,8 +3,13 @@ const router = express.Router();
 const collectionController = require('../controllers/collection.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
-// Public route to list collections
+// Public routes
 router.get('/', collectionController.getAll);
+router.get('/trending', collectionController.getTrending);
+router.get('/slug/:slug', collectionController.getBySlug);
+router.get('/related/:id', collectionController.getRelated);
+router.post('/:id/copy', collectionController.incrementCopy);
+router.post('/:id/view', collectionController.incrementView);
 
 // Admin-only CRUD routes
 router.post('/admin', authMiddleware, collectionController.create);
